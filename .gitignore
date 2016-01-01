@@ -30,3 +30,14 @@
 
 # Debug files
 *.dSYM/
+
+Aqua-controller-APP/.gradle
+Aqua-controller-APP/local.properties
+Aqua-controller-APP/.idea/workspace.xml
+Aqua-controller-APP/.idea/libraries
+Aqua-controller-APP/.DS_Store
+Aqua-controller-APP/build
+Aqua-controller-APP/captures
+
+*.class
+
