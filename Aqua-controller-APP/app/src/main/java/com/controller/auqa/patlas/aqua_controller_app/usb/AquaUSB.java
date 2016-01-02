@@ -18,9 +18,11 @@ import java.util.Iterator;
 /**
  * Created by PatLas on 2016-01-02.
  */
+
+
 public class AquaUSB
 {
-    public static int BUFFER_SIZE = 4;
+    public static int BUFFER_SIZE = 64;
     private Context context = null;
     private UsbInterface usbInterface = null;
 
@@ -116,7 +118,7 @@ public class AquaUSB
                 if (connection.requestWait() == request)
                 {
                     //String result = new String(buffer.array());
-                    Log.i("GELEN DATA : ", new String(buffer.array()));
+                    //Log.i("GELEN DATA : ", new String(buffer.array()));
                     return buffer;
                 }
             }

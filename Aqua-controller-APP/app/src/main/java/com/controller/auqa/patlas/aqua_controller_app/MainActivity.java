@@ -22,8 +22,10 @@ import com.controller.auqa.patlas.aqua_controller_app.usb.AquaUSB;
 import com.controller.auqa.patlas.aqua_controller_app.usb.UsbReadRunnable;
 
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import de.greenrobot.event.EventBus;
 import de.greenrobot.event.Subscribe;
@@ -56,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean mVisible;
 
     private EventBus bus = EventBus.getDefault();
+    public LinkedBlockingQueue<ArrayList<String>> receiver = new LinkedBlockingQueue<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -75,12 +78,15 @@ public class MainActivity extends AppCompatActivity {
         {
             device = aqUsb.findDevice(this, 1155, 22352);
             communication = aqUsb.openConnection(device, 0);
-            rxThread = new Thread(new UsbReadRunnable(communication, aqUsb));
+            UsbReadRunnable usbReadRunnable = new UsbReadRunnable(communication, receiver, aqUsb);
+            rxThread = new Thread(usbReadRunnable);
         } catch (Exception ex)
         {
             Log.e("EXCEPTION", ex.getMessage());
             return;
         }
+
+
 
         rxThread.start();
 
@@ -89,7 +95,9 @@ public class MainActivity extends AppCompatActivity {
     @Subscribe
     public void onEventMainThread(String event)
     {
-
+        ArrayList<String> x;
+        x = receiver.poll();
+        Log.i("EVENT", ""+x.size()+""+x.get(0)+""+x.get(1));
         runOnUiThread(new Runnable()
         {
             @Override

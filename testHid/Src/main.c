@@ -84,7 +84,7 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-uint8_t testBuff[] = "test";
+uint8_t testBuff[64] = {0,9,0,0,0,0,0,0,0,'p','a','t','l','a','s',',','5','\n'};
   while (1)
   {
   /* USER CODE END WHILE */
@@ -92,9 +92,9 @@ uint8_t testBuff[] = "test";
 		if(HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0) == GPIO_PIN_SET)
 		{
 			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_SET);
-			HAL_Delay(1000);
+			HAL_Delay(200);
 			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_RESET);
-			USBD_CUSTOM_HID_SendReport(hUsbDevice_0, testBuff, 4);
+			USBD_CUSTOM_HID_SendReport(hUsbDevice_0, testBuff, 64);
 		}
 		
 	}  /* USER CODE END 3 */
