@@ -18,6 +18,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
+import com.controller.auqa.patlas.aqua_controller_app.usb.AquaUSB;
+import com.controller.auqa.patlas.aqua_controller_app.usb.UsbReadRunnable;
+
 import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -83,61 +86,79 @@ public class MainActivity extends AppCompatActivity {
 //        UsbRequest ureq = new UsbRequest();
 //        ureq.initialize(connection, endpoint);
 
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                TextView tv = (TextView) findViewById(R.id.textView);
+        AquaUSB aqUsb = new AquaUSB(this);
+        UsbDevice device;
+        UsbDeviceConnection communication;
+        Thread rxThread;
 
-                UsbManager manager = (UsbManager) getSystemService(Context.USB_SERVICE);
-                HashMap<String, UsbDevice> deviceList = manager.getDeviceList();
-                Iterator<UsbDevice> deviceIterator = deviceList.values().iterator();
-                UsbDevice device = null;
-                while(deviceIterator.hasNext()){
-                    device = deviceIterator.next();
-                    tv.append(device.getDeviceName()+ " PID: " + device.getProductId() + " VID: "+ device.getVendorId());
-                    if( device.getProductId() == 22352)
-                        break;
-                }
+        try
+        {
+            device = aqUsb.findDevice(this, 1155, 22352);
+            communication = aqUsb.openConnection(device, 0);
+            rxThread = new Thread(new UsbReadRunnable(communication, aqUsb));
+        } catch (Exception ex)
+        {
+            Log.e("EXCEPTION", ex.getMessage());
+            return;
+        }
 
-                //ByteBuffer buffer = ByteBuffer.allocate(10);
-                int TIMEOUT = 0;
-                boolean forceClaim = true;
+        rxThread.start();
 
 
 
-                UsbInterface intf = device.getInterface(0);
-                UsbDeviceConnection connection = manager.openDevice(device);
-                UsbEndpoint endpoint = null;
-                connection.claimInterface(device.getInterface(0), true);
+//
+//        Thread t = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                TextView tv = (TextView) findViewById(R.id.textView);
 
-                for (int i = 0; i < intf.getEndpointCount(); i++) {
-                    if (intf.getEndpoint(i).getDirection() == UsbConstants.USB_DIR_IN) {
-                        endpoint = intf.getEndpoint(i);
-                        break;
-                    }
-                }
-                UsbRequest request = new UsbRequest(); // create an URB
-                boolean initilzed = request.initialize(connection, endpoint);
-
-                if (!initilzed) {
-                    Log.e("USB CONNECTION FAILED", "Request initialization failed for reading");
-                    return;
-                }
-                int bufferMaxLength = endpoint.getMaxPacketSize();
-                ByteBuffer buffer = ByteBuffer.allocate(bufferMaxLength);
-                while (true) {
+//                UsbManager manager = (UsbManager) getSystemService(Context.USB_SERVICE);
+//                HashMap<String, UsbDevice> deviceList = manager.getDeviceList();
+//                Iterator<UsbDevice> deviceIterator = deviceList.values().iterator();
+//                UsbDevice device = null;
+//                while(deviceIterator.hasNext()){
+//                    device = deviceIterator.next();
+//                    tv.append(device.getDeviceName()+ " PID: " + device.getProductId() + " VID: "+ device.getVendorId());
+//                    if( device.getProductId() == 22352)
+//                        break;
+//                }
 
 
 
+//
+//                UsbInterface intf = device.getInterface(0);
+//                UsbDeviceConnection connection = manager.openDevice(device);
+//                UsbEndpoint endpoint = null;
+//                connection.claimInterface(device.getInterface(0), true);
 
-                    if (request.queue(buffer, bufferMaxLength) == true) {
-                        if (connection.requestWait() == request) {
-                            String result = new String(buffer.array());
-                            Log.i("GELEN DATA : ", result);
-
-                        }
-                    }
-                }
+//                for (int i = 0; i < intf.getEndpointCount(); i++) {
+//                    if (intf.getEndpoint(i).getDirection() == UsbConstants.USB_DIR_IN) {
+//                        endpoint = intf.getEndpoint(i);
+//                        break;
+//                    }
+//                }
+//                UsbRequest request = new UsbRequest(); // create an URB
+//                boolean initilzed = request.initialize(connection, endpoint);
+//
+//                if (!initilzed) {
+//                    Log.e("USB CONNECTION FAILED", "Request initialization failed for reading");
+//                    return;
+//                }
+//                int bufferMaxLength = endpoint.getMaxPacketSize();
+//                ByteBuffer buffer = ByteBuffer.allocate(bufferMaxLength);
+//                while (true) {
+//
+//
+//
+//
+//                    if (request.queue(buffer, bufferMaxLength) == true) {
+//                        if (connection.requestWait() == request) {
+//                            String result = new String(buffer.array());
+//                            Log.i("GELEN DATA : ", result);
+//
+//                        }
+//                    }
+//                }
 
 
 
@@ -159,12 +180,12 @@ public class MainActivity extends AppCompatActivity {
 //                    }catch (InterruptedException ie){}
 //                    Log.e("TAG","tiktak");
 //                }
-
-            }
-
-        });
-
-        t.start();
+//
+//            }
+//
+//        });
+//
+//        t.start();
 //        while(true) {
 //            if (ureq.queue(buffer, 10)) {
 //                connection.requestWait();
