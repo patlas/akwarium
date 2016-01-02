@@ -20,7 +20,7 @@ import java.util.Iterator;
  */
 public class AquaUSB
 {
-    public static int BUFFER_SIZE = 64;
+    public static int BUFFER_SIZE = 4;
     private Context context = null;
     private UsbInterface usbInterface = null;
 

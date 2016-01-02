@@ -6,6 +6,8 @@ import android.util.Log;
 
 import java.nio.ByteBuffer;
 
+import de.greenrobot.event.EventBus;
+
 /**
  * Created by PatLas on 2016-01-02.
  */
@@ -15,6 +17,8 @@ public class UsbReadRunnable implements Runnable
     UsbRequest request;
     AquaUSB aquaUSB;
     ByteBuffer buffer = ByteBuffer.allocate(AquaUSB.BUFFER_SIZE);
+
+    private EventBus bus = EventBus.getDefault();
 
     public UsbReadRunnable(UsbDeviceConnection connection, AquaUSB aquaUsb) //TODO - add read queue
     {
@@ -39,6 +43,7 @@ public class UsbReadRunnable implements Runnable
             if (aquaUSB.readRawData(connection, request, buffer, AquaUSB.BUFFER_SIZE) != null)
             {
                 //data received
+                bus.post(new String(buffer.array()));
                 Log.i("RECEIVED", (new String(buffer.array())));
             }
         }
