@@ -3,8 +3,8 @@
  * Auto generated Run-Time-Environment Component Configuration File
  *      *** Do not modify ! ***
  *
- * Project: 'testHid' 
- * Target:  'testHid Configuration' 
+ * Project: 'hid_dev' 
+ * Target:  'Files' 
  */
 
 #ifndef RTE_COMPONENTS_H
