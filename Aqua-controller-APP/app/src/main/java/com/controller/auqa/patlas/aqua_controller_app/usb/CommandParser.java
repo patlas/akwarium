@@ -34,7 +34,7 @@ public class CommandParser
         return command;
     }
 
-    public static TLVstruct CmdToTLV(String command, ArrayList<Object> args)
+    public static byte[] CmdToTLV(String command, ArrayList<Object> args)
     {
         StringBuilder strBuilder = new StringBuilder();
         TLVstruct tlv = new TLVstruct();
@@ -49,9 +49,26 @@ public class CommandParser
 
         strBuilder.append("\n");
         String data = strBuilder.toString();
-        tlv.buildTLVdataHeader(true, data.getBytes(),(long)data.length());
 
-        return tlv;
+        return tlv.buildTLVdataHeader(true, data.getBytes(),(long)data.length());
+    }
+
+    public static byte[] CmdToTLV(ArrayList<Object> args)
+    {
+        StringBuilder strBuilder = new StringBuilder();
+        TLVstruct tlv = new TLVstruct();
+
+        for (Object obj : args)
+        {
+            strBuilder.append(obj.toString());
+            strBuilder.append(",");
+        }
+
+        strBuilder.deleteCharAt(strBuilder.length()-1);
+        strBuilder.append("\n");
+        String data = strBuilder.toString();
+
+        return tlv.buildTLVdataHeader(true, data.getBytes(),(long)data.length());
     }
 
 }

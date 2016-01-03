@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.controller.auqa.patlas.aqua_controller_app.usb.AquaUSB;
 import com.controller.auqa.patlas.aqua_controller_app.usb.UsbReadRunnable;
+import com.controller.auqa.patlas.aqua_controller_app.usb.UsbWriteRunnable;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -59,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
 
     private EventBus bus = EventBus.getDefault();
     public LinkedBlockingQueue<ArrayList<String>> receiver = new LinkedBlockingQueue<>();
+    public LinkedBlockingQueue<ArrayList<Object>> transmiter = new LinkedBlockingQueue<>();
+    private UsbWriteRunnable usbWriteRunnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -72,14 +75,20 @@ public class MainActivity extends AppCompatActivity {
         AquaUSB aqUsb = new AquaUSB(this);
         UsbDevice device;
         UsbDeviceConnection communication;
+
+
         Thread rxThread;
+        Thread txThread;
+
 
         try
         {
             device = aqUsb.findDevice(this, 1155, 22352);
             communication = aqUsb.openConnection(device, 0);
             UsbReadRunnable usbReadRunnable = new UsbReadRunnable(communication, receiver, aqUsb);
+            usbWriteRunnable = new UsbWriteRunnable(communication, transmiter, aqUsb);
             rxThread = new Thread(usbReadRunnable);
+            txThread = new Thread(usbWriteRunnable);
         } catch (Exception ex)
         {
             Log.e("EXCEPTION", ex.getMessage());
@@ -89,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         rxThread.start();
+        txThread.start();
 
     }
 
@@ -97,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
     {
         ArrayList<String> x;
         x = receiver.poll();
-        Log.i("EVENT", ""+x.size()+""+x.get(0)+""+x.get(1));
+        Log.i("EVENT", "" + x.size() + "" + x.get(0) /*+ "" + x.get(1)*/);
         runOnUiThread(new Runnable()
         {
             @Override
@@ -107,6 +117,10 @@ public class MainActivity extends AppCompatActivity {
                 tv.append("teststst");
             }
         });
+
+        ArrayList<Object> data = new ArrayList<>();
+        data.add(3);
+        usbWriteRunnable.WriteUSB("temperatura", data);
 
     }
 

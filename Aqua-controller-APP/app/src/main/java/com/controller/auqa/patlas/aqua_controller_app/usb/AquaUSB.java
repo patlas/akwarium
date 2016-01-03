@@ -110,6 +110,30 @@ public class AquaUSB
         return request;
     }
 
+    public UsbRequest prepareWrite(UsbDeviceConnection connection) throws Exception
+    {
+        UsbEndpoint endpoint;
+        UsbRequest request;
+
+        try
+        {
+            endpoint = obtainEndpoints().get("epOUT");
+            request = new UsbRequest();
+        } catch(Exception ex)
+        {
+            throw new Exception(ex.getMessage());
+        }
+
+        boolean initilzed = request.initialize(connection, endpoint);
+
+        if (!initilzed)
+        {
+            throw new Exception("Could not initialize epOUT request.");
+        }
+
+        return request;
+    }
+
 
     public ByteBuffer readRawData(UsbDeviceConnection connection, UsbRequest request, ByteBuffer buffer, int bufsize)
     {
@@ -123,6 +147,20 @@ public class AquaUSB
                 }
             }
         return null;
+    }
+
+    public boolean writeRawData(UsbDeviceConnection connection, UsbRequest request, ByteBuffer buffer, int bufsize)
+    {
+        if (request.queue(buffer, bufsize) == true)
+        {
+            if (connection.requestWait() == request)
+            {
+                //String result = new String(buffer.array());
+                //Log.i("GELEN DATA : ", new String(buffer.array()));
+                return true;
+            }
+        }
+        return false;
     }
 
 }
