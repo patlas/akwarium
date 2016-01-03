@@ -21,10 +21,13 @@ import android.widget.TextView;
 import com.controller.auqa.patlas.aqua_controller_app.usb.AquaUSB;
 import com.controller.auqa.patlas.aqua_controller_app.usb.UsbReadRunnable;
 import com.controller.auqa.patlas.aqua_controller_app.usb.UsbWriteRunnable;
+import com.controller.auqa.patlas.aqua_controller_app.utils.Command;
+import com.controller.auqa.patlas.aqua_controller_app.utils.CommandList;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -100,21 +103,42 @@ public class MainActivity extends AppCompatActivity {
         rxThread.start();
         txThread.start();
 
+
+        CommandList commandList = CommandList.getInstance();
+        commandList.addCommand("patlas", new Command()
+        {
+            @Override
+            public void execute(ArrayList<String> objects)
+            {
+                TextView tv = (TextView) findViewById(R.id.textView);
+                tv.append("registered command 1\nargs: ");
+                for (byte index = 1; index < objects.size(); index++) {
+                    tv.append(objects.get(index)+", ");
+                }
+            }
+        });
+
     }
 
     @Subscribe
     public void onEventMainThread(String event)
     {
-        ArrayList<String> x;
-        x = receiver.poll();
-        Log.i("EVENT", "" + x.size() + "" + x.get(0) /*+ "" + x.get(1)*/);
+
+
         runOnUiThread(new Runnable()
         {
             @Override
             public void run()
             {
+                ArrayList<String> x;
+                x = receiver.poll();
+                Log.i("EVENT", "" + x.size() + "" + x.get(0) /*+ "" + x.get(1)*/);
+                CommandList cl = CommandList.getInstance();
+
                 TextView tv = (TextView) findViewById(R.id.textView);
-                tv.append("teststst");
+                tv.append("TEST\n");
+
+                cl.executeCommand(x.get(0), x);
             }
         });
 
