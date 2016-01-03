@@ -31,6 +31,7 @@
 # Debug files
 *.dSYM/
 
+# Android
 Aqua-controller-APP/.gradle
 Aqua-controller-APP/local.properties
 Aqua-controller-APP/.idea/workspace.xml
@@ -40,4 +41,8 @@ Aqua-controller-APP/build
 Aqua-controller-APP/captures
 
 *.class
+
+# Keil uC
+
+hardware/hid_dev/MDK-ARM/hid_dev_Config
 
