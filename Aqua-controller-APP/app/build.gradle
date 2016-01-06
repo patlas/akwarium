@@ -7,7 +7,7 @@ android {
     defaultConfig {
         applicationId "com.controller.auqa.patlas.aqua_controller_app"
         minSdkVersion 16
-        targetSdkVersion 23
+        targetSdkVersion 17
         versionCode 1
         versionName "1.0"
     }

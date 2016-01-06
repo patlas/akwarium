@@ -1,6 +1,7 @@
 package com.controller.auqa.patlas.aqua_controller_app;
 
 import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.content.Context;
 import android.hardware.usb.UsbConstants;
 import android.hardware.usb.UsbDevice;
@@ -9,10 +10,10 @@ import android.hardware.usb.UsbEndpoint;
 import android.hardware.usb.UsbInterface;
 import android.hardware.usb.UsbManager;
 import android.hardware.usb.UsbRequest;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -38,7 +39,8 @@ import de.greenrobot.event.Subscribe;
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+{
     /**
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
@@ -62,14 +64,23 @@ public class MainActivity extends AppCompatActivity {
     private boolean mVisible;
 
     private EventBus bus = EventBus.getDefault();
-    public LinkedBlockingQueue<ArrayList<String>> receiver = new LinkedBlockingQueue<>();
-    public LinkedBlockingQueue<ArrayList<Object>> transmiter = new LinkedBlockingQueue<>();
+    public LinkedBlockingQueue<ArrayList<String>> receiver = new LinkedBlockingQueue<ArrayList<String>>();
+    public LinkedBlockingQueue<ArrayList<Object>> transmiter = new LinkedBlockingQueue<ArrayList<Object>>();
     private UsbWriteRunnable usbWriteRunnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
+        View decorView = getWindow().getDecorView();
+// Hide the status bar.
+        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
+// Remember that you should never show the action bar if the
+// status bar is hidden, so hide that too if necessary.
+        ActionBar actionBar = getActionBar();
+       // actionBar.hide();
 
         setContentView(R.layout.activity_main);
 
@@ -142,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ArrayList<Object> data = new ArrayList<>();
+        ArrayList<Object> data = new ArrayList<Object>();
         data.add(3);
         usbWriteRunnable.WriteUSB("temperatura", data);
 

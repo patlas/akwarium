@@ -1,6 +1,7 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:background="#0099cc" tools:context=".MainActivity">
+    android:layout_height="match_parent" android:background="#0099cc" tools:context=".MainActivity"
+              android:orientation="horizontal">
 
     <!-- The primary full-screen view. This can be replaced with whatever view
          is needed to present your content, e.g. VideoView, SurfaceView,
@@ -9,9 +10,116 @@
     <!-- This FrameLayout insets its children based on system windows using
          android:fitsSystemWindows. -->
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="284dp"
-        android:id="@+id/textView"
-        android:layout_gravity="left|top" />
-</FrameLayout>
+
+    <Space
+        android:layout_width="10px"
+        android:layout_height="match_parent"/>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="350px"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="238px"
+            android:background="@drawable/bg_temp_black">
+
+        </RelativeLayout>
+
+        <Space
+            android:layout_width="fill_parent"
+            android:layout_height="4px"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="238px"
+            android:background="@drawable/bg_ph_black">
+
+            <TextView
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:text="New Text"
+                android:id="@+id/textView"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:background="#f50000"
+                android:gravity="center_vertical|center|center_horizontal"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <Space
+        android:layout_width="15px"
+        android:layout_height="match_parent"
+        />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="135px"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="238px"
+            android:background="@drawable/bg_led21">
+        </RelativeLayout>
+
+        <Space
+            android:layout_width="fill_parent"
+            android:layout_height="4px"/>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="238px"
+            android:background="@drawable/bg_led22">
+        </RelativeLayout>
+    </LinearLayout>
+
+    <Space
+        android:layout_width="5px"
+        android:layout_height="match_parent"/>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="135px"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="238px"
+            android:background="@drawable/bg_moc1"/>
+
+        <Space
+            android:layout_width="fill_parent"
+            android:layout_height="4px"/>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="238px"
+            android:background="@drawable/bg_moc3"/>
+    </LinearLayout>
+
+    <Space
+        android:layout_width="5px"
+        android:layout_height="match_parent"/>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="135px"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="238px"
+            android:background="@drawable/bg_moc2"/>
+
+        <Space
+            android:layout_width="fill_parent"
+            android:layout_height="4px"/>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="238px"
+            android:background="@drawable/bg_moc4"/>
+    </LinearLayout>
+</LinearLayout>
