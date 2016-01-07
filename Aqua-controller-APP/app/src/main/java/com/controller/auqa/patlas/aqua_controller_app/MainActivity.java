@@ -3,6 +3,7 @@ package com.controller.auqa.patlas.aqua_controller_app;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.hardware.usb.UsbConstants;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbDeviceConnection;
@@ -106,6 +107,7 @@ public class MainActivity extends AppCompatActivity
         {
             Log.e("EXCEPTION", ex.getMessage());
             tv_connectInfo.setText(ui_strings.get("disconnected"));
+            tv_connectInfo.setTextColor(getResources().getColor(R.color.colorDisconnected));
             //return;
         }
 
@@ -296,12 +298,13 @@ public class MainActivity extends AppCompatActivity
         out3Layout.setLayoutParams(lp);
         out4Layout.setLayoutParams(lp);
 
-        int status_bar_height = getStatusBarHeight();
-        int tv_size =  metrics.widthPixels - (int)(3*setting_width+main_width+5*4) + status_bar_height;
-        tvLinearLayout.setLayoutParams(new LinearLayout.LayoutParams(tv_size, (int)(icon_height*2+8)));
+//        int status_bar_height = getStatusBarHeight();
+//        int tv_size =  metrics.widthPixels - (int)(3*setting_width+main_width+5*4) + status_bar_height;
+//        tvLinearLayout.setLayoutParams(new LinearLayout.LayoutParams(tv_size, (int)(icon_height*2+8)));
 
         text_size = text_size*scale;
         tv_connectInfo.setTextSize(text_size);
+        tv_connectInfo.setTypeface(null, Typeface.BOLD);
     }
 
 }

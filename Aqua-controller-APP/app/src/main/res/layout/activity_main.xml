@@ -1,23 +1,21 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:background="#0099cc" tools:context=".MainActivity"
               android:orientation="horizontal"
     >
 
 
-    <Space
-        android:layout_width="5px"
-        android:layout_height="match_parent"/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="4px">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="@dimen/icon_main_info_width"
         android:layout_height="match_parent"
         android:id="@+id/mainLinearLayout">
-
-        <Space
-            android:layout_width="fill_parent"
-            android:layout_height="4px"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -57,9 +55,6 @@
                 android:layout_centerHorizontal="true"/>
         </RelativeLayout>
 
-        <Space
-            android:layout_width="fill_parent"
-            android:layout_height="4px"/>
     </LinearLayout>
 
     <Space
@@ -72,10 +67,6 @@
         android:layout_width="@dimen/icon_setting_width"
         android:layout_height="match_parent"
         android:id="@+id/ledLinearLayout">
-
-        <Space
-            android:layout_width="fill_parent"
-            android:layout_height="4px"/>
 
         <RelativeLayout
             android:layout_width="fill_parent"
@@ -95,9 +86,6 @@
             android:id="@+id/led2Layout">
         </RelativeLayout>
 
-        <Space
-            android:layout_width="fill_parent"
-            android:layout_height="4px"/>
     </LinearLayout>
 
     <Space
@@ -109,10 +97,6 @@
         android:layout_width="@dimen/icon_setting_width"
         android:layout_height="match_parent"
         android:id="@+id/out13LinearLayout">
-
-        <Space
-            android:layout_width="fill_parent"
-            android:layout_height="4px"/>
 
         <RelativeLayout
             android:layout_width="fill_parent"
@@ -130,9 +114,6 @@
             android:background="@drawable/bg_moc3"
             android:id="@+id/out3Layout"/>
 
-        <Space
-            android:layout_width="fill_parent"
-            android:layout_height="4px"/>
     </LinearLayout>
 
     <Space
@@ -144,10 +125,6 @@
         android:layout_width="@dimen/icon_setting_width"
         android:layout_height="match_parent"
         android:id="@+id/out24LinearLayout">
-
-        <Space
-            android:layout_width="fill_parent"
-            android:layout_height="4px"/>
 
         <RelativeLayout
             android:layout_width="fill_parent"
@@ -165,9 +142,6 @@
             android:background="@drawable/bg_moc4"
             android:id="@+id/out4Layout"/>
 
-        <Space
-            android:layout_width="fill_parent"
-            android:layout_height="4px"/>
     </LinearLayout>
 
     <Space
@@ -180,10 +154,6 @@
         android:layout_height="match_parent"
         android:id="@+id/tvLinearLayout">
 
-        <Space
-            android:layout_width="fill_parent"
-            android:layout_height="4px"/>
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -195,9 +165,7 @@
             android:textSize="5px"
             android:background="#000"/>
 
-        <Space
-            android:layout_width="fill_parent"
-            android:layout_height="4px"/>
     </LinearLayout>
 
-</LinearLayout>
+    </LinearLayout>
+</FrameLayout>
