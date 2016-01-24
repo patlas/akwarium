@@ -1,0 +1,209 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+             android:layout_height="match_parent" android:background="#ffe4e1" tools:context=".MainActivity"
+             android:orientation="vertical"
+    >
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="222px"
+        android:id="@+id/temp_top_layout">
+
+        <LinearLayout
+            android:layout_width="200px"
+            android:layout_height="match_parent"
+            android:background="@drawable/temp_img"
+            >
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="300px"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="TEMPERATURE"
+                    android:id="@+id/textView2"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:textColor="#520000"
+                    android:textStyle="bold"
+                    android:paddingTop="5px"
+                    android:gravity="center"
+                    android:singleLine="false"
+                    android:textSize="40px"
+                    android:paddingBottom="10px"/>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="150px"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="WATER:"
+                            android:id="@+id/tv_water_temp"
+                            android:layout_below="@+id/textView2"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:textColor="#000"
+                            android:textStyle="bold"
+                            android:paddingTop="15px"
+                            android:gravity="right"
+                            android:textSize="30px"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="AIR:"
+                            android:id="@+id/tv_air_temp"
+                            android:textStyle="bold"
+                            android:textColor="#000"
+                            android:paddingTop="20px"
+                            android:gravity="center|right"
+                            android:textSize="30px"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="22.3°C"
+                            android:id="@+id/temp_water"
+                            android:layout_below="@+id/textView2"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:textColor="#000"
+                            android:textStyle="bold"
+                            android:paddingTop="15px"
+                            android:gravity="center"
+                            android:textSize="30px"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="25.1°C"
+                            android:id="@+id/temp_air"
+                            android:textStyle="bold"
+                            android:textColor="#000"
+                            android:paddingTop="20px"
+                            android:gravity="center"
+                            android:textSize="30px"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:weightSum="1">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="TERMOSTAT"
+                    android:id="@+id/textView5"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:textColor="#520000"
+                    android:textStyle="bold"
+                    android:paddingTop="5px"
+                    android:gravity="center"
+                    android:textSize="40px"
+                    android:paddingBottom="10px"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="22.3°C"
+                    android:id="@+id/temp_term"
+                    android:layout_below="@+id/textView2"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textStyle="bold"
+                    android:paddingTop="5px"
+                    android:gravity="center"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="60px"/>
+
+                <Switch
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/temp_termon"
+                    android:showText="false"
+                    android:gravity="center"
+                    android:singleLine="false"
+                    android:splitTrack="false"
+                    android:layout_gravity="center"
+                    android:paddingTop="15px"
+                    android:paddingBottom="30px"
+                    android:checked="false"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="right"
+        android:id="@+id/temp_bottom_layout">
+
+        <RelativeLayout
+            android:layout_width="200px"
+            android:layout_height="match_parent"
+            android:background="@drawable/ph_img"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="OTHER"
+                android:id="@+id/textView3"
+                android:textColor="#520000"
+                android:textStyle="bold"
+                android:paddingTop="5px"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>
