@@ -13,8 +13,13 @@ import android.view.View;
 import android.widget.NumberPicker;
 import android.widget.Toast;
 
+import com.controller.auqa.patlas.aqua_controller_app.utils.UserSettings;
+
+import de.greenrobot.event.EventBus;
+
 public class TempActivity extends AppCompatActivity
 {
+    private EventBus setting_bus = EventBus.getDefault();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -22,10 +27,6 @@ public class TempActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_temp);
 
-        NumberPicker temp_picker = (NumberPicker) findViewById(R.id.termo_val);
-        temp_picker.setMinValue(18);
-        temp_picker.setMaxValue(30);
-        temp_picker.setValue(22);
 
         int val = 0;
 
@@ -36,16 +37,30 @@ public class TempActivity extends AppCompatActivity
         picker_builder.setTitle(R.string.termo_dialog);
         picker_builder.setView(npView);
         picker_builder.setCancelable(true);
-        picker_builder.setPositiveButton("Done", new DialogInterface.OnClickListener()
-        {
+
+        NumberPicker temp_picker = (NumberPicker) npView.findViewById(R.id.termo_val);
+        NumberPicker tenth_picker = (NumberPicker) npView.findViewById(R.id.termo_val2);
+
+        temp_picker.setMinValue(18);
+        temp_picker.setMaxValue(30);
+        temp_picker.setValue(22);
+
+        tenth_picker.setMinValue(0);
+        tenth_picker.setMaxValue(9);
+        tenth_picker.setValue(0);
+
+        picker_builder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which)
-            {
+            public void onClick(DialogInterface dialog, int which) {
+
+//                HARDCODED
+                UserSettings.getInstance().save("temp", 8);
                 dialog.cancel();
             }
         });
 
         AlertDialog ad = picker_builder.create();
+        ad.getWindow().setLayout(100, 100);
         ad.show();
 //
 //        Context context = getApplicationContext();

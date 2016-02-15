@@ -3,6 +3,7 @@ package com.controller.auqa.patlas.aqua_controller_app;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.hardware.usb.UsbConstants;
 import android.hardware.usb.UsbDevice;
@@ -30,6 +31,7 @@ import com.controller.auqa.patlas.aqua_controller_app.usb.UsbReadRunnable;
 import com.controller.auqa.patlas.aqua_controller_app.usb.UsbWriteRunnable;
 import com.controller.auqa.patlas.aqua_controller_app.utils.Command;
 import com.controller.auqa.patlas.aqua_controller_app.utils.CommandList;
+import com.controller.auqa.patlas.aqua_controller_app.utils.UserSettings;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -58,12 +60,23 @@ public class MainActivity extends AppCompatActivity
 
     public TextView tv_connectInfo = null;
     private Hashtable<String, String> ui_strings= new Hashtable<String, String>();
+    private float set_temp = 0;
+    private float set_ph = 0;
 
     @Override
     public void onResume()
     {
         super.onResume();
         hideTopBar();
+
+        Object val = UserSettings.getInstance().get("temp");
+        if(val != null) {
+            ((TextView) findViewById(R.id.textView6)).append("" + (int) val);
+
+            Log.e("RESUME", "" + val);
+        }
+        else
+            Log.e("RESUME", "NULL");
     }
 
     @Override
@@ -111,19 +124,6 @@ public class MainActivity extends AppCompatActivity
             //return;
         }
 
-        RelativeLayout tempLayout = (RelativeLayout) findViewById(R.id.tempLayout);
-        tempLayout.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                //hideNaviBar();
-                Log.i("FSDF", "adf");
-                Log.i("Navi bar size: ", ""+getStatusBarHeight());
-            }
-        });
-
-
 
 
         CommandList commandList = CommandList.getInstance();
@@ -142,19 +142,25 @@ public class MainActivity extends AppCompatActivity
         });
 
 
+        RelativeLayout temp = (RelativeLayout) findViewById(R.id.tempLayout);
+        temp.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View w){
+                Intent temp_act =  new Intent(MainActivity.this, TempActivity.class);
+                startActivity(temp_act);
+            }
+
+        });
+
 
     }
 
     @Subscribe
     public void onEventMainThread(String event)
     {
-
-
-        runOnUiThread(new Runnable()
-        {
+        runOnUiThread(new Runnable() {
             @Override
-            public void run()
-            {
+            public void run() {
                 ArrayList<String> x;
                 x = receiver.poll();
                 Log.i("EVENT", "" + x.size() + "" + x.get(0) /*+ "" + x.get(1)*/);
@@ -171,6 +177,19 @@ public class MainActivity extends AppCompatActivity
         data.add(3);
         usbWriteRunnable.WriteUSB("temperatura", data);
 
+    }
+
+    @Subscribe
+    public void onEventMainThread(UserSettings settings)
+    {
+        runOnUiThread(new UIrunnable(settings)
+        {
+            @Override
+            public void run()
+            {
+
+            }
+        });
     }
 
 
@@ -305,6 +324,19 @@ public class MainActivity extends AppCompatActivity
         text_size = text_size*scale;
         tv_connectInfo.setTextSize(text_size);
         tv_connectInfo.setTypeface(null, Typeface.BOLD);
+    }
+
+}
+
+
+
+
+abstract class UIrunnable implements Runnable
+{
+    public Object data;
+    public UIrunnable(Object obj)
+    {
+        data = obj;
     }
 
 }

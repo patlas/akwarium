@@ -1,7 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<NumberPicker xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:id="@+id/termo_val">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="80px"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical|center">
 
-</NumberPicker>
+    <NumberPicker xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:layout_width="35px"
+                  android:layout_height="130px"
+                  android:id="@+id/termo_val">
+
+    </NumberPicker>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="."
+        android:id="@+id/textView4"
+        android:gravity="bottom"
+        android:textStyle="bold"
+        android:textSize="30px" />
+
+    <NumberPicker xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="35px"
+        android:layout_height="130px"
+        android:id="@+id/termo_val2">
+
+        </NumberPicker>
+</LinearLayout>
