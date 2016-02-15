@@ -8,9 +8,13 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.NumberPicker;
+import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.controller.auqa.patlas.aqua_controller_app.utils.UserSettings;
@@ -38,8 +42,8 @@ public class TempActivity extends AppCompatActivity
         picker_builder.setView(npView);
         picker_builder.setCancelable(true);
 
-        NumberPicker temp_picker = (NumberPicker) npView.findViewById(R.id.termo_val);
-        NumberPicker tenth_picker = (NumberPicker) npView.findViewById(R.id.termo_val2);
+        final NumberPicker temp_picker = (NumberPicker) npView.findViewById(R.id.termo_val);
+        final NumberPicker tenth_picker = (NumberPicker) npView.findViewById(R.id.termo_val2);
 
         temp_picker.setMinValue(18);
         temp_picker.setMaxValue(30);
@@ -53,8 +57,9 @@ public class TempActivity extends AppCompatActivity
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-//                HARDCODED
-                UserSettings.getInstance().save("temp", 8);
+                float temp = temp_picker.getValue()+(float)(tenth_picker.getValue()/10.0);
+                ((TextView) findViewById(R.id.temp_term)).setText(""+temp+"°C");
+                UserSettings.getInstance().save("s_temp", temp);
                 dialog.cancel();
             }
         });
@@ -71,6 +76,25 @@ public class TempActivity extends AppCompatActivity
 //
 //        Toast toast = Toast.makeText(context, ""+val, duration);
 //        toast.show();
+
+
+        Switch termo_on = (Switch)findViewById(R.id.temp_termon);
+        TextView termo_tv = (TextView) findViewById(R.id.temp_term);
+
+        termo_on.setChecked((boolean)UserSettings.getInstance().get("termo"));
+        termo_tv.setText("" + UserSettings.getInstance().get("s_temp") + "°C");
+        Log.e("SDFSFSDF", "" + UserSettings.getInstance().get("s_temp"));
+
+        termo_on.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    UserSettings.getInstance().save("termo", true);
+                } else {
+                    UserSettings.getInstance().save("termo", false);
+                }
+            }
+        });
 
 
     }

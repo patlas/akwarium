@@ -27,10 +27,31 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Large Text"
-                android:id="@+id/textView6"
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true" />
+                android:text="27.3°"
+                android:id="@+id/m_temp"
+                android:textSize="75px"
+                android:singleLine="true"
+                android:textStyle="bold"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:paddingTop="35px"
+                android:paddingRight="20px" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="22.3°C"
+                android:id="@+id/s_temp"
+                android:singleLine="true"
+                android:textStyle="bold"
+                android:textSize="30px"
+                android:textColor="@color/colorConnected"
+                android:paddingLeft="5px"
+                android:layout_below="@+id/m_temp"
+                android:layout_alignLeft="@+id/m_temp"
+                android:layout_alignStart="@+id/m_temp" />
         </RelativeLayout>
 
         <Space

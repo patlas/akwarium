@@ -69,20 +69,35 @@ public class MainActivity extends AppCompatActivity
         super.onResume();
         hideTopBar();
 
-        Object val = UserSettings.getInstance().get("temp");
-        if(val != null) {
-            ((TextView) findViewById(R.id.textView6)).append("" + (int) val);
+        UserSettings userSettings = UserSettings.getInstance();
 
-            Log.e("RESUME", "" + val);
+        Object temp = userSettings.get("s_temp");
+        Object termo = userSettings.get("termo");
+        if(temp != null && (boolean)termo == true) {
+
+//            long iPart = (long)temp;
+//            long fPart = (long)((int)temp*10);
+
+            TextView stemp_tv = ((TextView) findViewById(R.id.s_temp));
+            stemp_tv.setTextColor(getResources().getColor(R.color.colorConnected));
+
+            stemp_tv.setText(""+temp+"°C");
+            Log.e("RESUME_sTEMP", "" + temp);
         }
-        else
+        else{
             Log.e("RESUME", "NULL");
+            ((TextView)findViewById(R.id.s_temp)).setTextColor(0x00);
+        }
+
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
+        UserSettings.getInstance().save("termo", false);
+        UserSettings.getInstance().save("s_temp", 22); // TODO - nie dziala tylko float inne ok!!!!
 
         ui_strings.put("connected", "C\nO\nN\nN\nE\nC\nT\nE\nD");
         ui_strings.put("disconnected","D\nI\nS\nC\nO\nN\nN\nE\nC\nT\nE\nD");
