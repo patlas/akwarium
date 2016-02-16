@@ -24,7 +24,7 @@
 
             <LinearLayout
                 android:orientation="vertical"
-                android:layout_width="300px"
+                android:layout_width="500px"
                 android:layout_height="match_parent">
 
                 <TextView
@@ -39,10 +39,11 @@
                     android:textColor="#520000"
                     android:textStyle="bold"
                     android:paddingTop="5px"
-                    android:gravity="center"
                     android:singleLine="false"
-                    android:textSize="40px"
-                    android:paddingBottom="10px"/>
+                    android:textSize="44px"
+                    android:paddingBottom="10px"
+                    android:paddingLeft="30px"
+                    android:gravity="left" />
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -51,7 +52,7 @@
 
                     <LinearLayout
                         android:orientation="vertical"
-                        android:layout_width="150px"
+                        android:layout_width="200px"
                         android:layout_height="match_parent">
 
                         <TextView
@@ -67,7 +68,8 @@
                             android:textStyle="bold"
                             android:paddingTop="15px"
                             android:gravity="right"
-                            android:textSize="30px"/>
+                            android:textSize="30px"
+                            android:paddingRight="10px" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -79,7 +81,8 @@
                             android:textColor="#000"
                             android:paddingTop="20px"
                             android:gravity="center|right"
-                            android:textSize="30px"/>
+                            android:textSize="30px"
+                            android:paddingRight="10px" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -99,8 +102,9 @@
                             android:textColor="#000"
                             android:textStyle="bold"
                             android:paddingTop="15px"
-                            android:gravity="center"
-                            android:textSize="30px"/>
+                            android:gravity="left|center"
+                            android:textSize="30px"
+                            android:paddingLeft="15px" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -111,8 +115,9 @@
                             android:textStyle="bold"
                             android:textColor="#000"
                             android:paddingTop="20px"
-                            android:gravity="center"
-                            android:textSize="30px"/>
+                            android:gravity="left|center"
+                            android:textSize="30px"
+                            android:paddingLeft="15px" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -121,7 +126,8 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:weightSum="1">
+                android:weightSum="1"
+                android:id="@+id/termo_layout">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -135,9 +141,10 @@
                     android:textColor="#520000"
                     android:textStyle="bold"
                     android:paddingTop="5px"
-                    android:gravity="center"
-                    android:textSize="40px"
-                    android:paddingBottom="10px"/>
+                    android:textSize="44px"
+                    android:paddingBottom="10px"
+                    android:gravity="left"
+                    android:paddingLeft="25px" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -198,7 +205,8 @@
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="500px"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:id="@+id/ph_layout">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -212,10 +220,11 @@
                         android:layout_alignParentTop="true"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true"
-                        android:paddingLeft="25px"
                         android:paddingBottom="10px"
                         android:textSize="44px"
-                        android:textIsSelectable="false" />
+                        android:textIsSelectable="false"
+                        android:gravity="left|center"
+                        android:paddingLeft="30px" />
 
                     <LinearLayout
                         android:orientation="horizontal"
@@ -290,7 +299,7 @@
                                 android:layout_height="wrap_content"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
                                 android:text="7.3"
-                                android:id="@+id/textView7"
+                                android:id="@+id/water_ph"
                                 android:layout_below="@+id/textView2"
                                 android:layout_alignParentLeft="true"
                                 android:layout_alignParentStart="true"
@@ -307,7 +316,7 @@
                                 android:layout_height="wrap_content"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
                                 android:text="7.0"
-                                android:id="@+id/textView9"
+                                android:id="@+id/set_ph"
                                 android:layout_below="@+id/textView2"
                                 android:layout_alignParentLeft="true"
                                 android:layout_alignParentStart="true"
@@ -356,7 +365,8 @@
                         android:layout_alignParentStart="true"
                         android:paddingLeft="25px"
                         android:paddingBottom="10px"
-                        android:textSize="44px" />
+                        android:textSize="44px"
+                        android:gravity="left" />
 
                     <FrameLayout
                         android:layout_width="250px"

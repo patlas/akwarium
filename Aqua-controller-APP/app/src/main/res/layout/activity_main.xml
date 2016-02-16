@@ -65,23 +65,50 @@
             android:id="@+id/phLayout">
 
             <TextView
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:text="New Text"
-                android:id="@+id/textView"
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true"
-                android:background="#f50000"
-                android:gravity="center_vertical|center|center_horizontal"/>
-
-            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="New Button"
-                android:id="@+id/button"
-                android:clickable="true"
-                android:layout_alignBottom="@+id/textView"
-                android:layout_centerHorizontal="true"/>
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="7.6"
+                android:id="@+id/textView"
+                android:textSize="75px"
+                android:singleLine="true"
+                android:textStyle="bold"
+                android:paddingTop="35px"
+                android:paddingRight="50px"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="7.0"
+                android:id="@+id/textView12"
+                android:singleLine="true"
+                android:textStyle="bold"
+                android:textSize="30px"
+                android:textColor="@color/colorConnected"
+                android:paddingLeft="5px"
+                android:layout_below="@+id/textView"
+                android:layout_alignLeft="@+id/textView"
+                android:layout_alignStart="@+id/textView" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="AUTO CO2"
+                android:id="@+id/textView13"
+                android:singleLine="true"
+                android:textStyle="bold"
+                android:textSize="30px"
+                android:textColor="#0099cc"
+                android:paddingLeft="5px"
+                android:layout_below="@+id/textView12"
+                android:layout_alignLeft="@+id/textView12"
+                android:layout_alignStart="@+id/textView12"
+                android:paddingTop="15px" />
         </RelativeLayout>
 
     </LinearLayout>

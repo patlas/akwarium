@@ -5,4 +5,5 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="title_activity_temp">TempActivity</string>
     <string name="termo_dialog">SET TERMOSTAT TEMP VALUE [°C]:</string>
+    <string name="ph_dialog">SET DESIRED pH VALUE:</string>
 </resources>
