@@ -1,0 +1,602 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+             android:layout_height="match_parent" android:background="#fff" tools:context=".MainActivity"
+             android:orientation="vertical"
+    >
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/settings_main_horizontal_layout_height"
+        android:id="@+id/out_top_layout">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="@dimen/out_quater_size"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/out_title_bar_height"
+                android:layout_marginTop="10px">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="@dimen/out_title_bar_img"
+                    android:layout_height="@dimen/out_title_bar_img"
+                    android:background="@drawable/out_red"
+                    android:layout_marginLeft="@dimen/out_title_bar_img_margin"></LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="POWER OUT #1"
+                    android:id="@+id/textView"
+                    android:textColor="#000"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"
+                    android:gravity="fill_vertical"
+                    android:paddingLeft="@dimen/out_title_text_padding"
+                    android:textSize="@dimen/out_title_text_font_size" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/out_title_settings_bar" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/editText2"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/out_title_settings_bar_font_size"
+                    android:textColor="#000"
+                    android:text="Enable"
+                    android:gravity="center" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/editText"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/out_title_settings_bar_font_size"
+                    android:textColor="#000"
+                    android:text="Start time"
+                    android:gravity="center" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/editText3"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/out_title_settings_bar_font_size"
+                    android:textColor="#000"
+                    android:text="Stop time"
+                    android:gravity="center" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/out_settings_bar" >
+
+                <CheckBox
+                    android:layout_width="70px"
+                    android:layout_height="match_parent"
+                    android:id="@+id/out11_checkbox1"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:visibility="visible"
+                    android:button="@drawable/checkbox_drawable"
+                    android:enabled="true"
+                    android:layout_marginLeft="45px"
+                    android:checked="false" />
+
+                <TextView
+                    android:layout_width="140px"
+                    android:layout_height="match_parent"
+                    android:text="11:15"
+                    android:id="@+id/out11_start1"
+                    android:textColor="#000"
+                    android:gravity="center"
+                    android:textSize="@dimen/out_settings_text_size" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="11:15"
+                    android:id="@+id/out11_stop1"
+                    android:textColor="#000"
+                    android:gravity="center"
+                    android:textSize="@dimen/out_settings_text_size" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/out_settings_bar" >
+
+                <CheckBox
+                    android:layout_width="70px"
+                    android:layout_height="match_parent"
+                    android:id="@+id/out11_checkbox2"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:visibility="visible"
+                    android:button="@drawable/checkbox_drawable"
+                    android:enabled="true"
+                    android:layout_marginLeft="45px" />
+
+                <TextView
+                    android:layout_width="140px"
+                    android:layout_height="match_parent"
+                    android:text="11:15"
+                    android:id="@+id/textView13"
+                    android:textColor="#000"
+                    android:gravity="center"
+                    android:textSize="@dimen/out_settings_text_size" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="11:15"
+                    android:id="@+id/out11_stop2"
+                    android:textColor="#000"
+                    android:gravity="center"
+                    android:textSize="@dimen/out_settings_text_size" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="@dimen/out_quater_size"
+            android:layout_height="match_parent" >
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/out_title_bar_height"
+                android:layout_marginTop="10px">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="@dimen/out_title_bar_img"
+                    android:layout_height="@dimen/out_title_bar_img"
+                    android:background="@drawable/out_purple"
+                    android:layout_marginLeft="@dimen/out_title_bar_img_margin" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="POWER OUT #2"
+                    android:id="@+id/textView7"
+                    android:textColor="#000"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"
+                    android:gravity="fill_vertical"
+                    android:paddingLeft="@dimen/out_title_text_padding"
+                    android:textSize="@dimen/out_title_text_font_size" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/out_title_settings_bar" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/textView14"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/out_title_settings_bar_font_size"
+                    android:textColor="#000"
+                    android:text="Enable"
+                    android:gravity="center" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/textView15"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/out_title_settings_bar_font_size"
+                    android:textColor="#000"
+                    android:text="Start time"
+                    android:gravity="center" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/textView16"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/out_title_settings_bar_font_size"
+                    android:textColor="#000"
+                    android:text="Stop time"
+                    android:gravity="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/out_settings_bar" >
+
+                <CheckBox
+                    android:layout_width="70px"
+                    android:layout_height="match_parent"
+                    android:id="@+id/out12_checkbox1"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:visibility="visible"
+                    android:button="@drawable/checkbox_drawable"
+                    android:enabled="true"
+                    android:layout_marginLeft="45px"
+                    android:checked="false" />
+
+                <TextView
+                    android:layout_width="140px"
+                    android:layout_height="match_parent"
+                    android:text="11:15"
+                    android:id="@+id/out12_start1"
+                    android:textColor="#000"
+                    android:gravity="center"
+                    android:textSize="@dimen/out_settings_text_size" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="11:15"
+                    android:id="@+id/out12_stop1"
+                    android:textColor="#000"
+                    android:gravity="center"
+                    android:textSize="@dimen/out_settings_text_size" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/out_settings_bar" >
+
+                <CheckBox
+                    android:layout_width="70px"
+                    android:layout_height="match_parent"
+                    android:id="@+id/out12_checkbox2"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:visibility="visible"
+                    android:button="@drawable/checkbox_drawable"
+                    android:enabled="true"
+                    android:layout_marginLeft="45px" />
+
+                <TextView
+                    android:layout_width="140px"
+                    android:layout_height="match_parent"
+                    android:text="11:15"
+                    android:id="@+id/out12_start2"
+                    android:textColor="#000"
+                    android:gravity="center"
+                    android:textSize="@dimen/out_settings_text_size" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="11:15"
+                    android:id="@+id/out12_stop2"
+                    android:textColor="#000"
+                    android:gravity="center"
+                    android:textSize="@dimen/out_settings_text_size" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="right"
+        android:id="@+id/out_bottom_layout">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="@dimen/out_quater_size"
+            android:layout_height="match_parent" >
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/out_title_bar_height" >
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="@dimen/out_title_bar_img"
+                    android:layout_height="@dimen/out_title_bar_img"
+                    android:background="@drawable/out_dgreen"
+                    android:layout_marginLeft="@dimen/out_title_bar_img_margin" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="POWER OUT #3"
+                    android:id="@+id/textView9"
+                    android:textColor="#000"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"
+                    android:gravity="fill_vertical"
+                    android:paddingLeft="@dimen/out_title_text_padding"
+                    android:textSize="@dimen/out_title_text_font_size" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/out_title_settings_bar" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/textView17"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/out_title_settings_bar_font_size"
+                    android:textColor="#000"
+                    android:text="Enable"
+                    android:gravity="center" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/textView18"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/out_title_settings_bar_font_size"
+                    android:textColor="#000"
+                    android:text="Start time"
+                    android:gravity="center" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/textView19"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/out_title_settings_bar_font_size"
+                    android:textColor="#000"
+                    android:text="Stop time"
+                    android:gravity="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/out_settings_bar" >
+
+                <CheckBox
+                    android:layout_width="70px"
+                    android:layout_height="match_parent"
+                    android:id="@+id/out13_checkbox1"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:visibility="visible"
+                    android:button="@drawable/checkbox_drawable"
+                    android:enabled="true"
+                    android:layout_marginLeft="45px"
+                    android:checked="false" />
+
+                <TextView
+                    android:layout_width="140px"
+                    android:layout_height="match_parent"
+                    android:text="11:15"
+                    android:id="@+id/out13_start1"
+                    android:textColor="#000"
+                    android:gravity="center"
+                    android:textSize="@dimen/out_settings_text_size" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="11:15"
+                    android:id="@+id/out13_stop1"
+                    android:textColor="#000"
+                    android:gravity="center"
+                    android:textSize="@dimen/out_settings_text_size" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/out_settings_bar" >
+
+                <CheckBox
+                    android:layout_width="70px"
+                    android:layout_height="match_parent"
+                    android:id="@+id/out13_checkbox2"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:visibility="visible"
+                    android:button="@drawable/checkbox_drawable"
+                    android:enabled="true"
+                    android:layout_marginLeft="45px" />
+
+                <TextView
+                    android:layout_width="140px"
+                    android:layout_height="match_parent"
+                    android:text="11:15"
+                    android:id="@+id/out13_start2"
+                    android:textColor="#000"
+                    android:gravity="center"
+                    android:textSize="@dimen/out_settings_text_size" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="11:15"
+                    android:id="@+id/out13_stop2"
+                    android:textColor="#000"
+                    android:gravity="center"
+                    android:textSize="@dimen/out_settings_text_size" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="@dimen/out_quater_size"
+            android:layout_height="match_parent" >
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/out_title_bar_height" >
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="@dimen/out_title_bar_img"
+                    android:layout_height="@dimen/out_title_bar_img"
+                    android:background="@drawable/out_blue"
+                    android:layout_marginLeft="@dimen/out_title_bar_img_margin" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="POWER OUT #4"
+                    android:id="@+id/textView12"
+                    android:textColor="#000"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"
+                    android:gravity="fill_vertical"
+                    android:paddingLeft="@dimen/out_title_text_padding"
+                    android:textSize="@dimen/out_title_text_font_size" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/out_title_settings_bar" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/textView24"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/out_title_settings_bar_font_size"
+                    android:textColor="#000"
+                    android:text="Enable"
+                    android:gravity="center" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/textView25"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/out_title_settings_bar_font_size"
+                    android:textColor="#000"
+                    android:text="Start time"
+                    android:gravity="center" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/textView26"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/out_title_settings_bar_font_size"
+                    android:textColor="#000"
+                    android:text="Stop time"
+                    android:gravity="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/out_settings_bar" >
+
+                <CheckBox
+                    android:layout_width="70px"
+                    android:layout_height="match_parent"
+                    android:id="@+id/out14_checkbox1"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:visibility="visible"
+                    android:button="@drawable/checkbox_drawable"
+                    android:enabled="true"
+                    android:layout_marginLeft="45px"
+                    android:checked="false" />
+
+                <TextView
+                    android:layout_width="140px"
+                    android:layout_height="match_parent"
+                    android:text="11:15"
+                    android:id="@+id/out14_start1"
+                    android:textColor="#000"
+                    android:gravity="center"
+                    android:textSize="@dimen/out_settings_text_size" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="11:15"
+                    android:id="@+id/out14_stop1"
+                    android:textColor="#000"
+                    android:gravity="center"
+                    android:textSize="@dimen/out_settings_text_size" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/out_settings_bar" >
+
+                <CheckBox
+                    android:layout_width="70px"
+                    android:layout_height="match_parent"
+                    android:id="@+id/out14_checkbox2"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:visibility="visible"
+                    android:button="@drawable/checkbox_drawable"
+                    android:enabled="true"
+                    android:layout_marginLeft="45px" />
+
+                <TextView
+                    android:layout_width="140px"
+                    android:layout_height="match_parent"
+                    android:text="11:15"
+                    android:id="@+id/out14_start2"
+                    android:textColor="#000"
+                    android:gravity="center"
+                    android:textSize="@dimen/out_settings_text_size" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="11:15"
+                    android:id="@+id/out14_stop2"
+                    android:textColor="#000"
+                    android:gravity="center"
+                    android:textSize="@dimen/out_settings_text_size" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

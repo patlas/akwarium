@@ -29,13 +29,13 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="27.3°"
                 android:id="@+id/m_temp"
-                android:textSize="75px"
+                android:textSize="@dimen/main_info_text_size"
                 android:singleLine="true"
                 android:textStyle="bold"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:paddingTop="35px"
+                android:paddingTop="@dimen/main_info_text_padding"
                 android:paddingRight="20px" />
 
             <TextView
@@ -46,7 +46,7 @@
                 android:id="@+id/s_temp"
                 android:singleLine="true"
                 android:textStyle="bold"
-                android:textSize="30px"
+                android:textSize="@dimen/set_info_text_size"
                 android:textColor="@color/colorConnected"
                 android:paddingLeft="5px"
                 android:layout_below="@+id/m_temp"
@@ -56,7 +56,7 @@
 
         <Space
             android:layout_width="fill_parent"
-            android:layout_height="4px"/>
+            android:layout_height="@dimen/horizontal_spacer"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -69,11 +69,11 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="7.6"
-                android:id="@+id/textView"
-                android:textSize="75px"
+                android:id="@+id/ph"
+                android:textSize="@dimen/main_info_text_size"
                 android:singleLine="true"
                 android:textStyle="bold"
-                android:paddingTop="35px"
+                android:paddingTop="@dimen/main_info_text_padding"
                 android:paddingRight="50px"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
@@ -84,37 +84,37 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="7.0"
-                android:id="@+id/textView12"
+                android:id="@+id/set_ph"
                 android:singleLine="true"
                 android:textStyle="bold"
-                android:textSize="30px"
+                android:textSize="@dimen/set_info_text_size"
                 android:textColor="@color/colorConnected"
                 android:paddingLeft="5px"
-                android:layout_below="@+id/textView"
-                android:layout_alignLeft="@+id/textView"
-                android:layout_alignStart="@+id/textView" />
+                android:layout_below="@+id/ph"
+                android:layout_alignLeft="@+id/ph"
+                android:layout_alignStart="@+id/ph" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="AUTO CO2"
-                android:id="@+id/textView13"
+                android:id="@+id/auto_co2"
                 android:singleLine="true"
                 android:textStyle="bold"
-                android:textSize="30px"
-                android:textColor="#0099cc"
+                android:textSize="@dimen/co2_info_text_size"
+                android:textColor="@color/co2_color"
                 android:paddingLeft="5px"
-                android:layout_below="@+id/textView12"
-                android:layout_alignLeft="@+id/textView12"
-                android:layout_alignStart="@+id/textView12"
-                android:paddingTop="15px" />
+                android:layout_below="@+id/set_ph"
+                android:layout_alignLeft="@+id/set_ph"
+                android:layout_alignStart="@+id/set_ph"
+                android:paddingTop="10px" />
         </RelativeLayout>
 
     </LinearLayout>
 
     <Space
-        android:layout_width="5px"
+        android:layout_width="@dimen/vertical_spacer"
         android:layout_height="match_parent"
         />
 
@@ -145,7 +145,7 @@
     </LinearLayout>
 
     <Space
-        android:layout_width="5px"
+        android:layout_width="@dimen/vertical_spacer"
         android:layout_height="match_parent"/>
 
     <LinearLayout
@@ -162,7 +162,7 @@
 
         <Space
             android:layout_width="fill_parent"
-            android:layout_height="4px"/>
+            android:layout_height="@dimen/horizontal_spacer"/>
 
         <RelativeLayout
             android:layout_width="fill_parent"
@@ -173,7 +173,7 @@
     </LinearLayout>
 
     <Space
-        android:layout_width="5px"
+        android:layout_width="@dimen/vertical_spacer"
         android:layout_height="match_parent"/>
 
     <LinearLayout
@@ -190,7 +190,7 @@
 
         <Space
             android:layout_width="fill_parent"
-            android:layout_height="4px"/>
+            android:layout_height="@dimen/horizontal_spacer"/>
 
         <RelativeLayout
             android:layout_width="fill_parent"
@@ -201,7 +201,7 @@
     </LinearLayout>
 
     <Space
-        android:layout_width="5px"
+        android:layout_width="@dimen/vertical_spacer"
         android:layout_height="match_parent"/>
 
     <LinearLayout
@@ -213,13 +213,14 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="New Text"
+            android:text="D\nI\nS\nC\nO\nN\nN\nE\nC\nT\nE\nD"
             android:id="@+id/tv_connectInfo"
             android:layout_gravity="center"
             android:gravity="center"
             android:textColor="#0099cc"
-            android:textSize="5px"
-            android:background="#000"/>
+            android:textSize="@dimen/connect_info_text_size"
+            android:background="#000"
+            android:textStyle="bold" />
 
     </LinearLayout>
 

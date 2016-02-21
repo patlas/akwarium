@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <dimen name="icon_height">238px</dimen>
-    <dimen name="icon_main_info_width">350px</dimen>
-    <dimen name="icon_setting_width">135px</dimen>
-    <dimen name="text_size">35px</dimen>
-</resources>

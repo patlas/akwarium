@@ -28,11 +28,19 @@ public class TempActivity extends AppCompatActivity
     private EventBus setting_bus = EventBus.getDefault();
 
     @Override
+    public void onResume() {
+        super.onResume();
+        hideTopBar();
+    }
+
+
+    @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_temp);
 
+        hideTopBar();
 
         int val = 0;
 
@@ -63,6 +71,7 @@ public class TempActivity extends AppCompatActivity
                 float temp = temp_picker.getValue() + (float) (tenth_picker.getValue() / 10.0);
                 ((TextView) findViewById(R.id.temp_term)).setText("" + temp + "°C");
                 UserSettings.getInstance().save("s_temp", temp);
+                hideTopBar();
                 dialog.cancel();
             }
         });
@@ -97,6 +106,7 @@ public class TempActivity extends AppCompatActivity
                 float ph = ph_picker.getValue() + (float) (ph_tenth_picker.getValue() / 10.0);
                 ((TextView) findViewById(R.id.set_ph)).setText("" + ph);
                 UserSettings.getInstance().save("s_ph", ph);
+                hideTopBar();
                 dialog.cancel();
             }
         });
@@ -155,4 +165,10 @@ public class TempActivity extends AppCompatActivity
         });
     }
 
+
+    public void hideTopBar()
+    {
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
+    }
 }

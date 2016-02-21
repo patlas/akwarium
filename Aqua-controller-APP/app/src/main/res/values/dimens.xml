@@ -3,4 +3,38 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="icon_height">216px</dimen>
+    <dimen name="icon_main_info_width">318px</dimen>
+    <dimen name="icon_setting_width">123px</dimen>
+    <dimen name="text_size">35px</dimen>
+    <dimen name="main_info_text_size">65px</dimen>
+    <dimen name="set_info_text_size">30px</dimen>
+    <dimen name="co2_info_text_size">25px</dimen>
+    <dimen name="main_info_text_padding">20px</dimen>
+    <dimen name="connect_info_text_size">25px</dimen>
+    
+    <dimen name="vertical_spacer">4px</dimen>
+    <dimen name="horizontal_spacer">4px</dimen>
+
+    <dimen name="settings_icons_width">150px</dimen>
+    <dimen name="settings_main_horizontal_layout_height">216px</dimen>
+    <dimen name="settings_inner_main_layout_width">325px</dimen>
+    <dimen name="settings_titles_size">35px</dimen>
+    <dimen name="settings_info_text_size">25px</dimen>
+    <dimen name="settings_info_text_padding">10px</dimen>
+    <dimen name="settings_save_dimension">150px</dimen>
+
+    <dimen name="out_quater_size">400px</dimen>
+    <dimen name="out_title_bar_height">60px</dimen>
+    <dimen name="out_title_bar_img">60px</dimen>
+    <dimen name="out_title_text_padding">15px</dimen>
+    <dimen name="out_title_text_font_size">30px</dimen>
+    <dimen name="out_title_bar_img_margin">15px</dimen>
+    <dimen name="out_title_settings_bar">50px</dimen>
+    <dimen name="out_title_settings_bar_font_size">20px</dimen>
+
+    <dimen name="out_settings_bar">40px</dimen>
+    <dimen name="out_settings_text_size">15px</dimen>
+    
 </resources>

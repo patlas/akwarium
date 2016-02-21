@@ -1,30 +1,18 @@
 package com.controller.auqa.patlas.aqua_controller_app;
 
-import android.annotation.SuppressLint;
-import android.app.ActionBar;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.hardware.usb.UsbConstants;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbDeviceConnection;
-import android.hardware.usb.UsbEndpoint;
-import android.hardware.usb.UsbInterface;
-import android.hardware.usb.UsbManager;
-import android.hardware.usb.UsbRequest;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.controller.auqa.patlas.aqua_controller_app.usb.AquaUSB;
 import com.controller.auqa.patlas.aqua_controller_app.usb.UsbReadRunnable;
@@ -33,11 +21,8 @@ import com.controller.auqa.patlas.aqua_controller_app.utils.Command;
 import com.controller.auqa.patlas.aqua_controller_app.utils.CommandList;
 import com.controller.auqa.patlas.aqua_controller_app.utils.UserSettings;
 
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import de.greenrobot.event.EventBus;
@@ -73,20 +58,32 @@ public class MainActivity extends AppCompatActivity
 
         Object temp = userSettings.get("s_temp");
         Object termo = userSettings.get("termo");
-        if(temp != null && (boolean)termo == true) {
+        Object auto_co2 = userSettings.get("auto_co2");
+        Object set_ph = userSettings.get("s_ph");
 
-//            long iPart = (long)temp;
-//            long fPart = (long)((int)temp*10);
-
+        if((boolean)termo == true) {
             TextView stemp_tv = ((TextView) findViewById(R.id.s_temp));
             stemp_tv.setTextColor(getResources().getColor(R.color.colorConnected));
-
             stemp_tv.setText(""+temp+"°C");
             Log.e("RESUME_sTEMP", "" + temp);
         }
         else{
             Log.e("RESUME", "NULL");
             ((TextView)findViewById(R.id.s_temp)).setTextColor(0x00);
+        }
+
+        if((boolean)auto_co2 == true) {
+            TextView sph_tv = ((TextView) findViewById(R.id.set_ph));
+            TextView auto = (TextView) findViewById(R.id.auto_co2);
+            sph_tv.setTextColor(getResources().getColor(R.color.colorConnected));
+            sph_tv.setText("" + set_ph);
+            auto.setTextColor(getResources().getColor(R.color.co2_color));
+            Log.e("RESUME_sPH", "" + set_ph);
+        }
+        else{
+            Log.e("RESUME", "NULL");
+            ((TextView)findViewById(R.id.set_ph)).setTextColor(0x00);
+            ((TextView)findViewById(R.id.auto_co2)).setTextColor(0x00);
         }
 
     }
@@ -98,17 +95,17 @@ public class MainActivity extends AppCompatActivity
 
         UserSettings.getInstance().save("termo", false);
         UserSettings.getInstance().save("auto_co2", false);
-        UserSettings.getInstance().save("s_temp", 22.0); // TODO - nie dziala tylko float inne ok!!!!
-        UserSettings.getInstance().save("s_ph", 7.0);
+        UserSettings.getInstance().save("s_temp", 22); // TODO - nie dziala tylko float inne ok!!!!
+        UserSettings.getInstance().save("s_ph", 7);
 
         ui_strings.put("connected", "C\nO\nN\nN\nE\nC\nT\nE\nD");
-        ui_strings.put("disconnected","D\nI\nS\nC\nO\nN\nN\nE\nC\nT\nE\nD");
+        ui_strings.put("disconnected", "D\nI\nS\nC\nO\nN\nN\nE\nC\nT\nE\nD");
         //hideNaviBar();
         hideTopBar();
         //autoHider();
         setContentView(R.layout.activity_main);
 
-        rescaleLayout();
+//        rescaleLayout();
 
         tv_connectInfo = (TextView) findViewById(R.id.tv_connectInfo);
 
@@ -149,7 +146,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void execute(ArrayList<String> objects)
             {
-                TextView tv = (TextView) findViewById(R.id.textView);
+                TextView tv = (TextView) findViewById(R.id.ph);
                 tv.append("registered command 1\nargs: ");
                 for (byte index = 1; index < objects.size(); index++)
                 {
@@ -159,16 +156,25 @@ public class MainActivity extends AppCompatActivity
         });
 
 
-        RelativeLayout temp = (RelativeLayout) findViewById(R.id.tempLayout);
-        temp.setOnClickListener(new View.OnClickListener(){
+        LinearLayout settingsLayout = (LinearLayout) findViewById(R.id.mainLinearLayout);
+        settingsLayout.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View w){
-                Intent temp_act =  new Intent(MainActivity.this, TempActivity.class);
+            public void onClick(View w) {
+                Intent temp_act = new Intent(MainActivity.this, TempActivity.class);
                 startActivity(temp_act);
             }
 
         });
 
+        LinearLayout powerLayout = (LinearLayout) findViewById(R.id.out13LinearLayout);
+        powerLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View w) {
+                Intent out_act = new Intent(MainActivity.this, PowerActivity.class);
+                startActivity(out_act);
+            }
+
+        });
 
     }
 
@@ -183,7 +189,7 @@ public class MainActivity extends AppCompatActivity
                 Log.i("EVENT", "" + x.size() + "" + x.get(0) /*+ "" + x.get(1)*/);
                 CommandList cl = CommandList.getInstance();
 
-                TextView tv = (TextView) findViewById(R.id.textView);
+                TextView tv = (TextView) findViewById(R.id.ph);
                 tv.append("TEST\n");
 
                 cl.executeCommand(x.get(0), x);
@@ -322,6 +328,7 @@ public class MainActivity extends AppCompatActivity
 
 
         icon_height = icon_height*scale;
+        Log.e("ICON_HEIGHT", "" + icon_height);
         tempLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int)(icon_height)));
 
         phLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int)(icon_height)));
