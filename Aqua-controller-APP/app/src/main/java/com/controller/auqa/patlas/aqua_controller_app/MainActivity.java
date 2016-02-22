@@ -126,6 +126,8 @@ public class MainActivity extends AppCompatActivity
             communication = aqUsb.openConnection(device, 0);
             UsbReadRunnable usbReadRunnable = new UsbReadRunnable(communication, receiver, aqUsb);
             usbWriteRunnable = new UsbWriteRunnable(communication, transmiter, aqUsb);
+            UserSettings.getInstance().save("UsbWriteRunnable", usbWriteRunnable);
+            UserSettings.getInstance().save("ReceiverQueue", receiver);
             rxThread = new Thread(usbReadRunnable);
             txThread = new Thread(usbWriteRunnable);
             rxThread.start();

@@ -1,9 +1,13 @@
 package com.controller.auqa.patlas.aqua_controller_app;
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ListActivity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
@@ -20,6 +25,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.controller.auqa.patlas.aqua_controller_app.utils.UserSettings;
+
+import java.util.ArrayList;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import de.greenrobot.event.EventBus;
 
@@ -113,7 +121,55 @@ public class TempActivity extends AppCompatActivity
 
         final AlertDialog ad_ph = picker_builder_ph.create();
         ad_ph.getWindow().setLayout(100, 100);
+//////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+//      DIALOG FOR PH CALIBRATION
+        LayoutInflater inflater_calib = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View npView_calib = inflater_calib.inflate(R.layout.calibration_dialog, null );
+
+        AlertDialog.Builder calib_builder = new AlertDialog.Builder(this);
+        calib_builder.setTitle(R.string.calib_dialog);
+        calib_builder.setView(npView_calib);
+        calib_builder.setCancelable(true);
+
+        final NumberPicker calib_picker = (NumberPicker) npView_calib.findViewById(R.id.calib_picker);
+        calib_picker.setMinValue(4);
+        calib_picker.setMaxValue(11);
+        calib_picker.setValue(6);
+
+
+        calib_builder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                int calib_ph = calib_picker.getValue();
+//                wysłać informacje do uC o kalibracji, wyswietlid dialog czekajacy na info z usb o koncu kalibracji
+
+                ArrayList<String> x;
+//                not poll but only check if proper one?? maby bool will be proper one
+                LinkedBlockingQueue<ArrayList<String>>  receiver = (LinkedBlockingQueue<ArrayList<String>>) UserSettings.getInstance().get("ReceiverQueue");
+
+//                x = receiver.poll();
+                hideTopBar();
+
+//                start async task
+                ProgressDialog progress_dialog;
+                progress_dialog = new ProgressDialog(TempActivity.this);
+                progress_dialog.setTitle("Probe calibration...");
+                progress_dialog.setMessage("Please wait until pH probe calibration will be done.");
+
+                progress_dialog.show();
+                CalibrationAsyncTask task = new CalibrationAsyncTask(progress_dialog);
+                task.execute(receiver);
+                dialog.dismiss();
+            }
+        });
+
+        final AlertDialog ad_calib = calib_builder.create();
+        ad_calib.getWindow().setLayout(100, 100);
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 
         Switch termo_on = (Switch)findViewById(R.id.temp_termon);
         TextView termo_tv = (TextView) findViewById(R.id.temp_term);
@@ -150,6 +206,30 @@ public class TempActivity extends AppCompatActivity
             }
         });
 
+        Button calib_btn_low = (Button) findViewById(R.id.calib_btn_low);
+        calib_btn_low.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View w) {
+                // low sol calibration liquid
+                TextView calib_tv = (TextView) npView_calib.findViewById(R.id.calib_info_tv);
+                calib_tv.setText(getString(R.string.low_sol_info));
+                ad_calib.show();
+            }
+
+        });
+
+        Button calib_btn_high = (Button) findViewById(R.id.calib_btn_high);
+        calib_btn_high.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View w) {
+                // low sol calibration liquid
+                TextView calib_tv = (TextView) npView_calib.findViewById(R.id.calib_info_tv);
+                calib_tv.setText(getString(R.string.high_sol_info));
+                ad_calib.show();
+            }
+
+        });
+
         termo_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View w) {
@@ -170,5 +250,40 @@ public class TempActivity extends AppCompatActivity
     {
         View decorView = getWindow().getDecorView();
         decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
+    }
+}
+
+class CalibrationAsyncTask extends AsyncTask<LinkedBlockingQueue<ArrayList<String>>, Void, Boolean>{
+
+    ProgressDialog progress_dialog = null;
+
+    public CalibrationAsyncTask(ProgressDialog pd){
+        progress_dialog = pd;
+
+
+    }
+
+    protected Boolean doInBackground(LinkedBlockingQueue<ArrayList<String>> ... receiver) {
+
+//        progress_dialog.show();
+        ArrayList<String> x;
+        while(true) {
+         // check if read from usb that calibration done instead of sleep(2000)
+
+            //x = receiver[0].poll();
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException ie){}
+
+            int a = 2;
+            break;
+        }
+        return true;
+    }
+
+
+    protected void onPostExecute(Boolean ret) {
+//        hide progress
+        progress_dialog.dismiss();
     }
 }

@@ -6,5 +6,14 @@
     <string name="title_activity_temp">TempActivity</string>
     <string name="termo_dialog">SET TERMOSTAT TEMP VALUE [°C]:</string>
     <string name="ph_dialog">SET DESIRED pH VALUE:</string>
+    <string name="calib_dialog">PROBE CALIBRATION</string>
     <string name="title_activity_out">PowerActivity</string>
+    <string name="low_sol_info"><b>To properly calibrate pH probe follow instruction below: </b>\n\n
+                                1. Please insert pH probe to low sol calibration buffer liquid \n
+                                2. Select proper value of low sol calibration buffer liquid \n
+                                3. Press done</string>
+    <string name="high_sol_info"><b>To properly calibrate pH probe follow instruction below: </b>\n\n
+                                1. Please insert pH probe to high sol calibration buffer liquid \n
+                                2. Select proper value of low sol calibration buffer liquid \n
+                                3. Press done</string>
 </resources>

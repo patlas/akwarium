@@ -353,7 +353,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="STORE SETTINGS"
+                        android:text="CALIBRATION"
                         android:id="@+id/textView11"
                         android:textColor="#520000"
                         android:textStyle="bold"
@@ -365,11 +365,32 @@
                         android:textSize="@dimen/settings_titles_size"
                         android:gravity="center" />
 
-                    <FrameLayout
-                        android:layout_width="@dimen/settings_save_dimension"
-                        android:layout_height="@dimen/settings_save_dimension"
-                        android:background="@drawable/save2"
-                        android:layout_gravity="center"></FrameLayout>
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal">
+
+                        <Button
+                            android:layout_width="130px"
+                            android:layout_height="match_parent"
+                            android:text="START"
+                            android:id="@+id/calib_btn_low"
+                            android:background="@color/colorPrimaryDark"
+                            android:layout_gravity="left"
+                            android:layout_marginLeft="20px"
+                            android:layout_marginBottom="20px" />
+
+                        <Button
+                            android:layout_width="130px"
+                            android:layout_height="match_parent"
+                            android:text="START"
+                            android:id="@+id/calib_btn_high"
+                            android:background="@color/colorPrimaryDark"
+                            android:layout_gravity="right"
+                            android:layout_marginLeft="20px"
+                            android:layout_marginBottom="20px" />
+                    </LinearLayout>
 
                 </LinearLayout>
             </LinearLayout>
