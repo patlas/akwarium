@@ -24,6 +24,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.controller.auqa.patlas.aqua_controller_app.utils.FloatPicker;
 import com.controller.auqa.patlas.aqua_controller_app.utils.UserSettings;
 
 import java.util.ArrayList;
@@ -133,16 +134,22 @@ public class TempActivity extends AppCompatActivity
         calib_builder.setCancelable(true);
 
         final NumberPicker calib_picker = (NumberPicker) npView_calib.findViewById(R.id.calib_picker);
-        calib_picker.setMinValue(4);
-        calib_picker.setMaxValue(11);
-        calib_picker.setValue(6);
+        final FloatPicker fp = new FloatPicker(4.0, 10.9, 0.1);
+        fp.fillStringArray();
+        String picker_vales[] = fp.getStringArray();
+
+        calib_picker.setMinValue(0);
+        calib_picker.setMaxValue(picker_vales.length - 1);
+        calib_picker.setValue(picker_vales.length / 2);
+        calib_picker.setDisplayedValues(picker_vales);
 
 
         calib_builder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                int calib_ph = calib_picker.getValue();
+                float calib_ph = Float.parseFloat(fp.getStringArray()[calib_picker.getValue()]);
+                UserSettings.getInstance().save("calib_ph", calib_ph);
 //                wysłać informacje do uC o kalibracji, wyswietlid dialog czekajacy na info z usb o koncu kalibracji
 
                 ArrayList<String> x;

@@ -373,23 +373,30 @@
 
                         <Button
                             android:layout_width="130px"
-                            android:layout_height="match_parent"
-                            android:text="START"
+                            android:layout_height="130px"
+                            android:text="LOW\npH"
                             android:id="@+id/calib_btn_low"
-                            android:background="@color/colorPrimaryDark"
+                            android:background="#a90000"
                             android:layout_gravity="left"
                             android:layout_marginLeft="20px"
-                            android:layout_marginBottom="20px" />
+                            android:layout_marginBottom="20px"
+                            android:singleLine="false"
+                            android:textStyle="bold"
+                            android:textSize="@dimen/settings_button_text"
+                            android:capitalize="none" />
 
                         <Button
                             android:layout_width="130px"
-                            android:layout_height="match_parent"
-                            android:text="START"
+                            android:layout_height="130px"
+                            android:text="HIGH\npH"
                             android:id="@+id/calib_btn_high"
                             android:background="@color/colorPrimaryDark"
                             android:layout_gravity="right"
                             android:layout_marginLeft="20px"
-                            android:layout_marginBottom="20px" />
+                            android:layout_marginBottom="20px"
+                            android:textStyle="bold"
+                            android:textSize="@dimen/settings_button_text"
+                            android:capitalize="none" />
                     </LinearLayout>
 
                 </LinearLayout>

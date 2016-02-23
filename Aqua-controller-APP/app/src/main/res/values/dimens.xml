@@ -27,6 +27,8 @@
     <dimen name="settings_info_text_size">25px</dimen>
     <dimen name="settings_info_text_padding">10px</dimen>
     <dimen name="settings_save_dimension">150px</dimen>
+    <dimen name="settings_button_text">20px</dimen>
+    <dimen name="settings_dialog_text">15px</dimen>
 
     <dimen name="out_quater_size">400px</dimen>
     <dimen name="out_title_bar_height">60px</dimen>

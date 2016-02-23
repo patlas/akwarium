@@ -13,6 +13,7 @@ import android.widget.NumberPicker;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.controller.auqa.patlas.aqua_controller_app.utils.OutDialog;
 import com.controller.auqa.patlas.aqua_controller_app.utils.UserSettings;
 
 import de.greenrobot.event.EventBus;
@@ -33,6 +34,74 @@ public class PowerActivity extends AppCompatActivity
         setContentView(R.layout.activity_out);
 
         hideTopBar();
+
+        LinearLayout out1_tim1 = (LinearLayout) findViewById(R.id.out1_time1);
+        LinearLayout out1_tim2 = (LinearLayout) findViewById(R.id.out1_time2);
+
+        LinearLayout out2_tim1 = (LinearLayout) findViewById(R.id.out2_time1);
+        LinearLayout out2_tim2 = (LinearLayout) findViewById(R.id.out2_time2);
+
+        LinearLayout out3_tim1 = (LinearLayout) findViewById(R.id.out3_time1);
+        LinearLayout out3_tim2 = (LinearLayout) findViewById(R.id.out3_time2);
+
+        LinearLayout out4_tim1 = (LinearLayout) findViewById(R.id.out4_time1);
+        LinearLayout out4_tim2 = (LinearLayout) findViewById(R.id.out4_time2);
+
+        out1_tim1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new OutDialog(PowerActivity.this).show();
+            }
+        });
+
+        out1_tim2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new OutDialog(PowerActivity.this).show();
+            }
+        });
+
+        out2_tim1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new OutDialog(PowerActivity.this).show();
+            }
+        });
+
+        out2_tim2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new OutDialog(PowerActivity.this).show();
+            }
+        });
+
+        out3_tim1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new OutDialog(PowerActivity.this).show();
+            }
+        });
+
+        out3_tim2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new OutDialog(PowerActivity.this).show();
+            }
+        });
+
+        out4_tim1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new OutDialog(PowerActivity.this).show();
+            }
+        });
+
+        out4_tim2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new OutDialog(PowerActivity.this).show();
+            }
+        });
 
     }
 
