@@ -91,7 +91,7 @@
                 <CheckBox
                     android:layout_width="70px"
                     android:layout_height="match_parent"
-                    android:id="@+id/out11_checkbox1"
+                    android:id="@+id/out11_checkbox"
                     android:clickable="true"
                     android:gravity="center"
                     android:layout_gravity="center"
@@ -105,7 +105,7 @@
                     android:layout_width="140px"
                     android:layout_height="match_parent"
                     android:text="11:15"
-                    android:id="@+id/out11_start1"
+                    android:id="@+id/out11_start"
                     android:textColor="#000"
                     android:gravity="center"
                     android:textSize="@dimen/out_settings_text_size" />
@@ -114,7 +114,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="11:15"
-                    android:id="@+id/out11_stop1"
+                    android:id="@+id/out11_stop"
                     android:textColor="#000"
                     android:gravity="center"
                     android:textSize="@dimen/out_settings_text_size" />
@@ -129,7 +129,7 @@
                 <CheckBox
                     android:layout_width="70px"
                     android:layout_height="match_parent"
-                    android:id="@+id/out11_checkbox2"
+                    android:id="@+id/out12_checkbox"
                     android:clickable="true"
                     android:gravity="center"
                     android:layout_gravity="center"
@@ -141,17 +141,17 @@
                 <TextView
                     android:layout_width="140px"
                     android:layout_height="match_parent"
-                    android:text="11:15"
-                    android:id="@+id/textView13"
+                    android:id="@+id/out12_start"
                     android:textColor="#000"
                     android:gravity="center"
-                    android:textSize="@dimen/out_settings_text_size" />
+                    android:textSize="@dimen/out_settings_text_size"
+                    android:text="11:15" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="11:15"
-                    android:id="@+id/out11_stop2"
+                    android:id="@+id/out12_stop"
                     android:textColor="#000"
                     android:gravity="center"
                     android:textSize="@dimen/out_settings_text_size" />
@@ -239,7 +239,7 @@
                 <CheckBox
                     android:layout_width="70px"
                     android:layout_height="match_parent"
-                    android:id="@+id/out12_checkbox1"
+                    android:id="@+id/out21_checkbox"
                     android:clickable="true"
                     android:gravity="center"
                     android:layout_gravity="center"
@@ -253,7 +253,7 @@
                     android:layout_width="140px"
                     android:layout_height="match_parent"
                     android:text="11:15"
-                    android:id="@+id/out12_start1"
+                    android:id="@+id/out21_start"
                     android:textColor="#000"
                     android:gravity="center"
                     android:textSize="@dimen/out_settings_text_size" />
@@ -262,7 +262,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="11:15"
-                    android:id="@+id/out12_stop1"
+                    android:id="@+id/out21_stop"
                     android:textColor="#000"
                     android:gravity="center"
                     android:textSize="@dimen/out_settings_text_size" />
@@ -277,7 +277,7 @@
                 <CheckBox
                     android:layout_width="70px"
                     android:layout_height="match_parent"
-                    android:id="@+id/out12_checkbox2"
+                    android:id="@+id/out22_checkbox"
                     android:clickable="true"
                     android:gravity="center"
                     android:layout_gravity="center"
@@ -290,7 +290,7 @@
                     android:layout_width="140px"
                     android:layout_height="match_parent"
                     android:text="11:15"
-                    android:id="@+id/out12_start2"
+                    android:id="@+id/out22_start"
                     android:textColor="#000"
                     android:gravity="center"
                     android:textSize="@dimen/out_settings_text_size" />
@@ -299,7 +299,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="11:15"
-                    android:id="@+id/out12_stop2"
+                    android:id="@+id/out22_stop"
                     android:textColor="#000"
                     android:gravity="center"
                     android:textSize="@dimen/out_settings_text_size" />
@@ -394,7 +394,7 @@
                 <CheckBox
                     android:layout_width="70px"
                     android:layout_height="match_parent"
-                    android:id="@+id/out13_checkbox1"
+                    android:id="@+id/out31_checkbox"
                     android:clickable="true"
                     android:gravity="center"
                     android:layout_gravity="center"
@@ -408,7 +408,7 @@
                     android:layout_width="140px"
                     android:layout_height="match_parent"
                     android:text="11:15"
-                    android:id="@+id/out13_start1"
+                    android:id="@+id/out31_start"
                     android:textColor="#000"
                     android:gravity="center"
                     android:textSize="@dimen/out_settings_text_size" />
@@ -417,7 +417,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="11:15"
-                    android:id="@+id/out13_stop1"
+                    android:id="@+id/out31_stop"
                     android:textColor="#000"
                     android:gravity="center"
                     android:textSize="@dimen/out_settings_text_size" />
@@ -432,7 +432,7 @@
                 <CheckBox
                     android:layout_width="70px"
                     android:layout_height="match_parent"
-                    android:id="@+id/out13_checkbox2"
+                    android:id="@+id/out32_checkbox"
                     android:clickable="true"
                     android:gravity="center"
                     android:layout_gravity="center"
@@ -445,7 +445,7 @@
                     android:layout_width="140px"
                     android:layout_height="match_parent"
                     android:text="11:15"
-                    android:id="@+id/out13_start2"
+                    android:id="@+id/out32_start"
                     android:textColor="#000"
                     android:gravity="center"
                     android:textSize="@dimen/out_settings_text_size" />
@@ -454,7 +454,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="11:15"
-                    android:id="@+id/out13_stop2"
+                    android:id="@+id/out32_stop"
                     android:textColor="#000"
                     android:gravity="center"
                     android:textSize="@dimen/out_settings_text_size" />
@@ -539,7 +539,7 @@
                 <CheckBox
                     android:layout_width="70px"
                     android:layout_height="match_parent"
-                    android:id="@+id/out14_checkbox1"
+                    android:id="@+id/out41_checkbox"
                     android:clickable="true"
                     android:gravity="center"
                     android:layout_gravity="center"
@@ -553,7 +553,7 @@
                     android:layout_width="140px"
                     android:layout_height="match_parent"
                     android:text="11:15"
-                    android:id="@+id/out14_start1"
+                    android:id="@+id/out41_start"
                     android:textColor="#000"
                     android:gravity="center"
                     android:textSize="@dimen/out_settings_text_size" />
@@ -562,7 +562,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="11:15"
-                    android:id="@+id/out14_stop1"
+                    android:id="@+id/out41_stop"
                     android:textColor="#000"
                     android:gravity="center"
                     android:textSize="@dimen/out_settings_text_size" />
@@ -577,7 +577,7 @@
                 <CheckBox
                     android:layout_width="70px"
                     android:layout_height="match_parent"
-                    android:id="@+id/out14_checkbox2"
+                    android:id="@+id/out42_checkbox"
                     android:clickable="true"
                     android:gravity="center"
                     android:layout_gravity="center"
@@ -590,7 +590,7 @@
                     android:layout_width="140px"
                     android:layout_height="match_parent"
                     android:text="11:15"
-                    android:id="@+id/out14_start2"
+                    android:id="@+id/out42_start"
                     android:textColor="#000"
                     android:gravity="center"
                     android:textSize="@dimen/out_settings_text_size" />
@@ -599,7 +599,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="11:15"
-                    android:id="@+id/out14_stop2"
+                    android:id="@+id/out42_stop"
                     android:textColor="#000"
                     android:gravity="center"
                     android:textSize="@dimen/out_settings_text_size" />

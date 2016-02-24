@@ -13,6 +13,8 @@
     <dimen name="co2_info_text_size">25px</dimen>
     <dimen name="main_info_text_padding">20px</dimen>
     <dimen name="connect_info_text_size">25px</dimen>
+    <dimen name="main_out_info_size">20px</dimen>
+    <dimen name="main_out_info_padding">2px</dimen>
 
     <!-- Calibration dialog -->
     <dimen name="calib_info_text_size">15px</dimen>

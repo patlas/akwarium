@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -50,56 +51,60 @@ public class PowerActivity extends AppCompatActivity
         out1_tim1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new OutDialog(PowerActivity.this).show();
+
+                new OutDialog(PowerActivity.this, 11).show();
+                int[] data = (int[]) UserSettings.getInstance().get("out_time");
+
+
             }
         });
 
         out1_tim2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new OutDialog(PowerActivity.this).show();
+                new OutDialog(PowerActivity.this, 12).show();
             }
         });
 
         out2_tim1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new OutDialog(PowerActivity.this).show();
+                new OutDialog(PowerActivity.this, 21).show();
             }
         });
 
         out2_tim2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new OutDialog(PowerActivity.this).show();
+                new OutDialog(PowerActivity.this, 22).show();
             }
         });
 
         out3_tim1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new OutDialog(PowerActivity.this).show();
+                new OutDialog(PowerActivity.this, 31).show();
             }
         });
 
         out3_tim2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new OutDialog(PowerActivity.this).show();
+                new OutDialog(PowerActivity.this, 32).show();
             }
         });
 
         out4_tim1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new OutDialog(PowerActivity.this).show();
+                new OutDialog(PowerActivity.this, 41).show();
             }
         });
 
         out4_tim2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new OutDialog(PowerActivity.this).show();
+                new OutDialog(PowerActivity.this, 42).show();
             }
         });
 

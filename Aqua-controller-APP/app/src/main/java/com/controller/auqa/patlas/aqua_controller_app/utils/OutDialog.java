@@ -5,11 +5,14 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.NumberPicker;
+import android.widget.TextView;
 
 import com.controller.auqa.patlas.aqua_controller_app.R;
 
@@ -18,19 +21,22 @@ import com.controller.auqa.patlas.aqua_controller_app.R;
  */
 public class OutDialog extends Dialog implements View.OnClickListener {
 
-    public Activity c;
+    public Activity parent_activity;
     public Dialog d;
     public Button save;
+
+    int id;
 
     NumberPicker h1;
     NumberPicker m1;
     NumberPicker h2;
     NumberPicker m2;
 
-    public OutDialog(Activity a) {
+    public OutDialog(Activity a, int id) {
         super(a);
-        this.c = a;
+        this.parent_activity = a;
         this.setTitle("OUTPUT TIME SETTINGS");
+        this.id = id;
     }
 
     @Override
@@ -53,6 +59,20 @@ public class OutDialog extends Dialog implements View.OnClickListener {
         m1.setMaxValue(59);
         m2.setMaxValue(59);
 
+        m1.setFormatter(new NumberPicker.Formatter() {
+            @Override
+            public String format(int i) {
+                return String.format("%02d", i);
+            }
+        });
+
+        m2.setFormatter(new NumberPicker.Formatter() {
+            @Override
+            public String format(int i) {
+                return String.format("%02d", i);
+            }
+        });
+
         save = (Button) findViewById(R.id.button);
         save.setOnClickListener(this);
     }
@@ -62,6 +82,14 @@ public class OutDialog extends Dialog implements View.OnClickListener {
 
         int data[] = {h1.getValue(),m1.getValue(),h2.getValue(),m2.getValue()};
         UserSettings.getInstance().save("out_time", data);
+
+        String[] str_name = {"out"+id+"_start", "out"+id+"_stop"};
+
+        int resID1 = parent_activity.getResources().getIdentifier(str_name[0], "id", parent_activity.getPackageName());
+        int resID2 = parent_activity.getResources().getIdentifier(str_name[1], "id", parent_activity.getPackageName());
+        ((TextView) parent_activity.findViewById(resID1)).setText("" + data[0] + ":" + String.format("%02d", data[1]));
+        ((TextView) parent_activity.findViewById(resID2)).setText("" + data[2] + ":" + String.format("%02d", data[3]));
+
         dismiss();
     }
 

@@ -6,6 +6,8 @@
     <string name="title_activity_temp">TempActivity</string>
     <string name="termo_dialog">SET TERMOSTAT TEMP VALUE [°C]:</string>
     <string name="ph_dialog">SET DESIRED pH VALUE:</string>
+    <string name="active">ACTIVE</string>
+    <string name="inactive">INACTIVE</string>
     <string name="calib_dialog">PROBE CALIBRATION</string>
     <string name="title_activity_out">PowerActivity</string>
     <string name="low_sol_info"><b>To properly calibrate pH probe follow instruction below: </b>\n\n

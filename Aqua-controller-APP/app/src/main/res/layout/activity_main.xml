@@ -129,6 +129,17 @@
             android:layout_height="@dimen/icon_height"
             android:background="@drawable/bg_led21"
             android:id="@+id/led1Layout">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/inactive"
+                android:id="@+id/textView13"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:paddingBottom="@dimen/main_out_info_padding"
+                android:textSize="@dimen/main_out_info_size"
+                android:textStyle="bold" />
         </RelativeLayout>
 
         <Space
@@ -140,6 +151,17 @@
             android:layout_height="@dimen/icon_height"
             android:background="@drawable/bg_led22"
             android:id="@+id/led2Layout">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/inactive"
+                android:id="@+id/textView22"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:paddingBottom="@dimen/main_out_info_padding"
+                android:textSize="@dimen/main_out_info_size"
+                android:textStyle="bold" />
         </RelativeLayout>
 
     </LinearLayout>
@@ -158,7 +180,19 @@
             android:layout_width="fill_parent"
             android:layout_height="@dimen/icon_height"
             android:background="@drawable/bg_moc1"
-            android:id="@+id/out1Layout"/>
+            android:id="@+id/out1Layout">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/inactive"
+                android:id="@+id/textView23"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:textStyle="bold"
+                android:textSize="@dimen/main_out_info_size"
+                android:paddingBottom="@dimen/main_out_info_padding" />
+        </RelativeLayout>
 
         <Space
             android:layout_width="fill_parent"
@@ -168,7 +202,19 @@
             android:layout_width="fill_parent"
             android:layout_height="@dimen/icon_height"
             android:background="@drawable/bg_moc3"
-            android:id="@+id/out3Layout"/>
+            android:id="@+id/out3Layout">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/inactive"
+                android:id="@+id/textView28"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:paddingBottom="@dimen/main_out_info_padding"
+                android:textSize="@dimen/main_out_info_size"
+                android:textStyle="bold" />
+        </RelativeLayout>
 
     </LinearLayout>
 
@@ -186,7 +232,19 @@
             android:layout_width="fill_parent"
             android:layout_height="@dimen/icon_height"
             android:background="@drawable/bg_moc2"
-            android:id="@+id/out2Layout"/>
+            android:id="@+id/out2Layout">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/inactive"
+                android:id="@+id/textView27"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:paddingBottom="@dimen/main_out_info_padding"
+                android:textSize="@dimen/main_out_info_size"
+                android:textStyle="bold" />
+        </RelativeLayout>
 
         <Space
             android:layout_width="fill_parent"
@@ -196,7 +254,19 @@
             android:layout_width="fill_parent"
             android:layout_height="@dimen/icon_height"
             android:background="@drawable/bg_moc4"
-            android:id="@+id/out4Layout"/>
+            android:id="@+id/out4Layout">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/inactive"
+                android:id="@+id/textView29"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:paddingBottom="@dimen/main_out_info_padding"
+                android:textSize="@dimen/main_out_info_size"
+                android:textStyle="bold" />
+        </RelativeLayout>
 
     </LinearLayout>
 

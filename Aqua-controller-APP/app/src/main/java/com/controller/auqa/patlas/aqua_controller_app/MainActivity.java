@@ -48,6 +48,11 @@ public class MainActivity extends AppCompatActivity
     private float set_temp = 0;
     private float set_ph = 0;
 
+    /**
+        1) EACH one min/10sec ask CPU about temp, ph, led and out status
+        2) if go into out/led setting load info from CPU about time and another
+     **/
+
     @Override
     public void onResume()
     {
@@ -86,6 +91,8 @@ public class MainActivity extends AppCompatActivity
             ((TextView)findViewById(R.id.auto_co2)).setTextColor(0x00);
         }
 
+
+
     }
 
     @Override
@@ -97,6 +104,7 @@ public class MainActivity extends AppCompatActivity
         UserSettings.getInstance().save("auto_co2", false);
         UserSettings.getInstance().save("s_temp", 22); // TODO - nie dziala tylko float inne ok!!!!
         UserSettings.getInstance().save("s_ph", 7);
+        UserSettings.getInstance().save("out_checkboxes", 255);
 
         ui_strings.put("connected", "C\nO\nN\nN\nE\nC\nT\nE\nD");
         ui_strings.put("disconnected", "D\nI\nS\nC\nO\nN\nN\nE\nC\nT\nE\nD");
