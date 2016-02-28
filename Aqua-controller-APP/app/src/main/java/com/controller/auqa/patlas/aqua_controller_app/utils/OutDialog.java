@@ -81,7 +81,7 @@ public class OutDialog extends Dialog implements View.OnClickListener {
     public void onClick(View view) {
 
         int data[] = {h1.getValue(),m1.getValue(),h2.getValue(),m2.getValue()};
-        UserSettings.getInstance().save("out_time", data);
+        UserSettings.getInstance().save("out_time_"+id, data);
 
         String[] str_name = {"out"+id+"_start", "out"+id+"_stop"};
 
@@ -92,5 +92,6 @@ public class OutDialog extends Dialog implements View.OnClickListener {
 
         dismiss();
     }
+
 
 }

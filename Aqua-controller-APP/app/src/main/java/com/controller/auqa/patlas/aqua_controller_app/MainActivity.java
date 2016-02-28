@@ -102,8 +102,8 @@ public class MainActivity extends AppCompatActivity
 
         UserSettings.getInstance().save("termo", false);
         UserSettings.getInstance().save("auto_co2", false);
-        UserSettings.getInstance().save("s_temp", 22); // TODO - nie dziala tylko float inne ok!!!!
-        UserSettings.getInstance().save("s_ph", 7);
+        UserSettings.getInstance().save("s_temp", 22.0); // TODO - nie dziala tylko float inne ok!!!!
+        UserSettings.getInstance().save("s_ph", 7.0);
         UserSettings.getInstance().save("out_checkboxes", 255);
 
         ui_strings.put("connected", "C\nO\nN\nN\nE\nC\nT\nE\nD");
