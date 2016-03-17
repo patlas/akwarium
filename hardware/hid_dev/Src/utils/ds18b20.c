@@ -1,27 +1,33 @@
 #include "ds18b20.h"
 
-#define pin1wire 1//PINB
+#define pin1wire GPIOC->IDR//PINB
 #define ddr1wire 1//DDRB
 #define input	0
-#define set1wire 1//ddr1wire &= ~_BV(input)
-#define clear1wire 1//ddr1wire |= _BV(input)
+#define set1wire 	 GPIOC->MODER &= ~(3 << (input*2))//ddr1wire &= ~_BV(input) //input pullup
+#define clear1wire GPIOC->MODER |= (1 << (input*2))//ddr1wire |= _BV(input) //output
 
 char temp[8];
+volatile unsigned char temp1;
+volatile unsigned char temp2;
 
-void _delay_us(int a)
+void ds18b20_init(void)
 {
-}
-
-void _delay_ms(int a)
-{
+	GPIO_InitTypeDef GPIO_InitStruct;
+	
+  __GPIOC_CLK_ENABLE();
+	GPIO_InitStruct.Pin = (1<<input);
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP; //GPIO_MODE_INPUT
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_LOW;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 }
 
 unsigned char ds18b20_resetPulse(void)
 {
 	clear1wire;
-	_delay_us(500);
+	DELAY_US(500);
 	set1wire;
-	_delay_us(500);
+	DELAY_US(500);
 	if(pin1wire & 1<<(input)) return 1;
 	else return 0;
 }
@@ -29,9 +35,9 @@ unsigned char ds18b20_resetPulse(void)
 void ds18b20_sendBit(char bit)
 {
 	clear1wire;
-	_delay_us(5);
+	DELAY_US(5);
 	if(bit) set1wire;
-	_delay_us(80);
+	DELAY_US(80);
 	set1wire;
 }
 
@@ -39,9 +45,9 @@ void ds18b20_sendBit(char bit)
 unsigned char ds18b20_receiveBit(void)
 {
 	clear1wire;
-	_delay_us(2);
+	DELAY_US(5); //2
 	set1wire;
-	_delay_us(15);
+	DELAY_US(15);
 	if(pin1wire & 1<<(input)) return 1;
 	else return 0;
 }
@@ -51,7 +57,7 @@ void ds18b20_sendByte(unsigned char data)
 {
 	char index;
 	for(index=0;index<8;index++) ds18b20_sendBit((data>>index) & 0x01);
-	_delay_us(100);
+	DELAY_US(100);
 }
 
 unsigned char ds18b20_receiveByte(void)
@@ -61,7 +67,7 @@ unsigned char ds18b20_receiveByte(void)
 	for(index=0; index<8; index++)
 	{
 		data |= (ds18b20_receiveBit()<<index);
-		_delay_us(15);
+		DELAY_US(15);
 	}
 	return data;
 }
@@ -75,7 +81,7 @@ void ds18b20_readTemp(void)
 	{
 		ds18b20_sendByte(0xCC);
 		ds18b20_sendByte(0x44);
-		_delay_ms(750);
+		DELAY_MS(750);
 		ds18b20_resetPulse();
 
 		ds18b20_sendByte(0xCC);

@@ -3,6 +3,8 @@
 #include "stm32f4xx.h"
 #include "stm32f4xx_it.h"
 
+#include "delay_timer.h"
+
 /* External variables --------------------------------------------------------*/
 extern PCD_HandleTypeDef hpcd_USB_OTG_FS;
 
@@ -34,8 +36,9 @@ void OTG_FS_IRQHandler(void)
   HAL_PCD_IRQHandler(&hpcd_USB_OTG_FS);
 }
 
-
 void TIM7_IRQHandler(void)
 {
-	//int a = 4;
+	tim7_inc_tick();
+	TIM7->SR &= ~TIM_SR_UIF;
+	NVIC_ClearPendingIRQ(TIM7_IRQn);
 }

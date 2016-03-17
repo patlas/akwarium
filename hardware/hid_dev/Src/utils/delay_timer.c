@@ -1,6 +1,7 @@
 #include "delay_timer.h"
 
 TIM_HandleTypeDef htim7;
+uint32_t TIM7_CoreClock; //containc timer core clock
 
 void MX_TIM7_Init(void){
 	
@@ -9,10 +10,10 @@ void MX_TIM7_Init(void){
 	__TIM7_CLK_ENABLE();
 	
 	htim7.Instance = TIM7;
-	htim7.Init.Prescaler = 40000;
-	htim7.Init.ClockDivision = TIM_CLOCKDIVISION_DIV4; //jak narazie 5MHz
+	htim7.Init.Prescaler = 84; // TIM7_CoreClock /(84 +1?) = 1MHz
+	htim7.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1; // TIM7_CoreClock
 	htim7.Init.CounterMode = TIM_COUNTERMODE_UP;
-	htim7.Init.Period = 100; // wartosc preloadu timera6
+	htim7.Init.Period = 5; // => 5us interrupt
 	//htim7.Channel = HAL_TIM_ACTIVE_CHANNEL_1;
 	
 	htim7.Instance->CR1 |= TIM_CR1_CEN;
@@ -28,6 +29,24 @@ void MX_TIM7_Init(void){
   HAL_TIMEx_MasterConfigSynchronization(&htim7, &sMasterConfig);
 	
 	NVIC_ClearPendingIRQ(TIM7_IRQn);
-	NVIC_SetPriority(TIM7_IRQn,4);
-	NVIC_EnableIRQ(TIM7_IRQn);
+	NVIC_SetPriority(TIM7_IRQn,1);
+	//NVIC_EnableIRQ(TIM7_IRQn);
 }
+
+static volatile uint32_t tim7_tick = 0;
+static uint32_t get_tim7_tick(void)
+{
+	return tim7_tick;
+}
+
+void tim7_inc_tick(void)
+{
+	tim7_tick++;
+}
+
+void tim7_delay(uint32_t _delay_us)
+{
+	tim7_tick=0;
+	while(tim7_tick < _delay_us/5);
+}
+

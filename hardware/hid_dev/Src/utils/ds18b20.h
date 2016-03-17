@@ -8,8 +8,18 @@
 #ifndef DS18B20_H_
 #define DS18B20_H_
 
-volatile unsigned char temp1;
-volatile unsigned char temp2;
+#include "stm32f4xx_hal.h"
+#include "delay_timer.h"
+#include "FreeRTOS.h"
+#include "task.h"
+
+#ifdef USE_RTOS
+	#define DELAY_MS(delay_ms) vTaskDelay(delay_ms)
+#else
+	#define DELAY_MS(delay_ms) tim7_delay(delay_ms*1000)
+#endif
+
+#define DELAY_US(delay_us) tim7_delay(delay_us)
 
 unsigned char ds18b20_resetPulse(void);
 void ds18b20_sendBit(char bit);

@@ -1,9 +1,5 @@
 #include "rtos_tasks.h"
 
-#include <stdint.h>
-#include "FreeRTOS.h"
-#include "task.h"
-
 void vApplicationStackOverflowHook(TaskHandle_t xTask, signed char *pcTaskName )
 {
 	//task stack overflow occured
@@ -24,7 +20,21 @@ void tBlink_led(void * pvParameters)
 	{
 		HAL_GPIO_WritePin(GPIOD, 1<<nr, GPIO_PIN_SET);
 		vTaskDelay(delay_ms);
+
 		HAL_GPIO_WritePin(GPIOD, 1<<nr, GPIO_PIN_RESET);
+
 		vTaskDelay(delay_ms);
 	}
 }
+
+extern char temp[8];
+void tRead_temp(void * pvParameters)
+{
+	for(;;)
+	{
+		ds18b20_readTemp();
+
+		vTaskDelay(1000);
+	}
+}
+

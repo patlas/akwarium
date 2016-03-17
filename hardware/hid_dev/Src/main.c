@@ -18,10 +18,14 @@
 void SystemClock_Config(void);
 
 extern USBD_HandleTypeDef  *hUsbDevice_0;
+extern uint32_t TIM7_CoreClock;
+uint16_t a[] = {15,500};
+uint16_t b[] = {14, 800}; 
+
 int main(void)
 {
 
-  HAL_Init();
+  //HAL_Init();
 
   SystemClock_Config();
 
@@ -29,15 +33,17 @@ int main(void)
   MX_GPIO_Init();
   //MX_USB_DEVICE_Init();
 	
-	uint16_t a[] = {15,500};
-	uint16_t b[] = {14, 800}; 
+
 	
 	
-	xTaskCreate( tBlink_led, "led1", configMINIMAL_STACK_SIZE, &a, 1, NULL );
-	xTaskCreate( tBlink_led, "led2", configMINIMAL_STACK_SIZE, &b, 1, NULL );
+	//xTaskCreate( tBlink_led, "led1", configMINIMAL_STACK_SIZE, &a, 1, NULL );
+	xTaskCreate( tBlink_led, "led2", configMINIMAL_STACK_SIZE, &b, 2, NULL );
+	xTaskCreate( tRead_temp, "temp", configMINIMAL_STACK_SIZE, NULL, 1, NULL );
 	
 	HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
-	//vTaskStartScheduler();
+	NVIC_EnableIRQ(TIM7_IRQn);
+	vTaskStartScheduler();
+	for(;;);
 
 //uint8_t testBuff[64] = {0,9,0,0,0,0,0,0,0,'p','a','t','l','a','s',',','5','\n'};
 //  while (1)
@@ -60,7 +66,7 @@ void SystemClock_Config(void)
 
   RCC_OscInitTypeDef RCC_OscInitStruct;
   RCC_ClkInitTypeDef RCC_ClkInitStruct;
-
+	
   __PWR_CLK_ENABLE();
 
   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
@@ -87,6 +93,12 @@ void SystemClock_Config(void)
 
   HAL_SYSTICK_CLKSourceConfig(SYSTICK_CLKSOURCE_HCLK);
 
+  /* Calculate TIM7 clock value */
+	TIM7_CoreClock = HAL_RCC_GetPCLK1Freq();
+	if(RCC_ClkInitStruct.APB1CLKDivider > RCC_HCLK_DIV1)
+		TIM7_CoreClock = HAL_RCC_GetPCLK1Freq()<<1;
+	 
+	 
   /* SysTick_IRQn interrupt configuration */
   HAL_NVIC_SetPriority(SysTick_IRQn, 0, 0);
 }
