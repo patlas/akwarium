@@ -6,9 +6,9 @@
 #define set1wire 	 GPIOC->MODER &= ~(3 << (input*2))//ddr1wire &= ~_BV(input) //input pullup
 #define clear1wire GPIOC->MODER |= (1 << (input*2))//ddr1wire |= _BV(input) //output
 
-char temp[8];
-volatile unsigned char temp1;
-volatile unsigned char temp2;
+uint8_t temp[8];
+volatile uint8_t temp1;
+volatile uint8_t temp2;
 
 void ds18b20_init(void)
 {
@@ -22,7 +22,7 @@ void ds18b20_init(void)
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 }
 
-unsigned char ds18b20_resetPulse(void)
+uint8_t ds18b20_resetPulse(void)
 {
 	clear1wire;
 	DELAY_US(500);
@@ -32,7 +32,7 @@ unsigned char ds18b20_resetPulse(void)
 	else return 0;
 }
 
-void ds18b20_sendBit(char bit)
+void ds18b20_sendBit(uint8_t bit)
 {
 	clear1wire;
 	DELAY_US(5);
@@ -42,7 +42,7 @@ void ds18b20_sendBit(char bit)
 }
 
 
-unsigned char ds18b20_receiveBit(void)
+uint8_t ds18b20_receiveBit(void)
 {
 	clear1wire;
 	DELAY_US(5); //2
@@ -53,17 +53,17 @@ unsigned char ds18b20_receiveBit(void)
 }
 
 
-void ds18b20_sendByte(unsigned char data)
+void ds18b20_sendByte(uint8_t data)
 {
-	char index;
+	int8_t index;
 	for(index=0;index<8;index++) ds18b20_sendBit((data>>index) & 0x01);
 	DELAY_US(100);
 }
 
-unsigned char ds18b20_receiveByte(void)
+uint8_t ds18b20_receiveByte(void)
 {
-	unsigned char data = 0;
-	char index;
+	uint8_t data = 0;
+	int8_t index;
 	for(index=0; index<8; index++)
 	{
 		data |= (ds18b20_receiveBit()<<index);
@@ -74,8 +74,8 @@ unsigned char ds18b20_receiveByte(void)
 
 void ds18b20_readTemp(void)
 {
-	unsigned char t1=0;
-	unsigned char t2=0;
+	uint8_t t1=0;
+	uint8_t t2=0;
 
 	if(ds18b20_resetPulse())
 	{

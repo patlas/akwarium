@@ -29,7 +29,7 @@ void MX_TIM7_Init(void){
   HAL_TIMEx_MasterConfigSynchronization(&htim7, &sMasterConfig);
 	
 	NVIC_ClearPendingIRQ(TIM7_IRQn);
-	NVIC_SetPriority(TIM7_IRQn,1);
+	NVIC_SetPriority(TIM7_IRQn,4);
 	//NVIC_EnableIRQ(TIM7_IRQn);
 }
 
@@ -48,5 +48,11 @@ void tim7_delay(uint32_t _delay_us)
 {
 	tim7_tick=0;
 	while(tim7_tick < _delay_us/5);
+}
+
+/* Override HAL_Delay to avoid SysTick implementation */
+void HAL_Delay(__IO uint32_t Delay)
+{
+	tim7_delay(Delay*1000);
 }
 

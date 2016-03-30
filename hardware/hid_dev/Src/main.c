@@ -13,6 +13,7 @@
 /* Custome indudes */
 #include "rtos_tasks.h"
 #include "delay_timer.h"
+#include "adc.h"
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
@@ -28,20 +29,22 @@ int main(void)
   //HAL_Init();
 
   SystemClock_Config();
+	HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
+	NVIC_EnableIRQ(TIM7_IRQn);
 
 	MX_TIM7_Init();
   MX_GPIO_Init();
-  //MX_USB_DEVICE_Init();
+  MX_USB_DEVICE_Init();
+	ADC_init();
 	
-
-	
+	ADC_startConv();//////////NVIC_DisableIRQ(SysTick_IRQn)
 	
 	//xTaskCreate( tBlink_led, "led1", configMINIMAL_STACK_SIZE, &a, 1, NULL );
-	xTaskCreate( tBlink_led, "led2", configMINIMAL_STACK_SIZE, &b, 2, NULL );
+	xTaskCreate( tBlink_led, "led2", configMINIMAL_STACK_SIZE, &b, 1, NULL );
 	xTaskCreate( tRead_temp, "temp", configMINIMAL_STACK_SIZE, NULL, 1, NULL );
+	xTaskCreate( tCalibrate_probe, "ph", configMINIMAL_STACK_SIZE, NULL, 2, NULL );
 	
-	HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
-	NVIC_EnableIRQ(TIM7_IRQn);
+	
 	vTaskStartScheduler();
 	for(;;);
 
@@ -89,10 +92,15 @@ void SystemClock_Config(void)
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
   HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_5);
 
-  HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/1000);
+  //HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/1000);
 
-  HAL_SYSTICK_CLKSourceConfig(SYSTICK_CLKSOURCE_HCLK);
+  //HAL_SYSTICK_CLKSourceConfig(SYSTICK_CLKSOURCE_HCLK);
 
+	//NVIC_DisableIRQ(SysTick_IRQn);
+	
+	/* Disable SysTick -> will be enabled by RTOS scheduler */
+	SysTick->CTRL = 0;
+	
   /* Calculate TIM7 clock value */
 	TIM7_CoreClock = HAL_RCC_GetPCLK1Freq();
 	if(RCC_ClkInitStruct.APB1CLKDivider > RCC_HCLK_DIV1)
@@ -100,7 +108,7 @@ void SystemClock_Config(void)
 	 
 	 
   /* SysTick_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(SysTick_IRQn, 0, 0);
+  //HAL_NVIC_SetPriority(SysTick_IRQn, 0, 0);
 }
 
 

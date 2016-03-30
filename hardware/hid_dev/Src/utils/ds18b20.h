@@ -21,11 +21,11 @@
 
 #define DELAY_US(delay_us) tim7_delay(delay_us)
 
-unsigned char ds18b20_resetPulse(void);
-void ds18b20_sendBit(char bit);
-unsigned char ds18b20_receiveBit(void);
-void ds18b20_sendByte(unsigned char data);
-unsigned char ds18b20_receiveByte(void);
+uint8_t ds18b20_resetPulse(void);
+void ds18b20_sendBit(uint8_t bit);
+uint8_t ds18b20_receiveBit(void);
+void ds18b20_sendByte(uint8_t data);
+uint8_t ds18b20_receiveByte(void);
 void ds18b20_readTemp(void);
 
 

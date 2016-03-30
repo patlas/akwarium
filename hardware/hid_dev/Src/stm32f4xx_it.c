@@ -40,5 +40,5 @@ void TIM7_IRQHandler(void)
 {
 	tim7_inc_tick();
 	TIM7->SR &= ~TIM_SR_UIF;
-	NVIC_ClearPendingIRQ(TIM7_IRQn);
+	//NVIC_ClearPendingIRQ(TIM7_IRQn);
 }
