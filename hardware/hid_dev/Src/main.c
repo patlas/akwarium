@@ -20,6 +20,7 @@ void SystemClock_Config(void);
 
 extern USBD_HandleTypeDef  *hUsbDevice_0;
 extern uint32_t TIM7_CoreClock;
+extern SemaphoreHandle_t semHighPower;
 uint16_t a[] = {15,500};
 uint16_t b[] = {14, 800}; 
 
@@ -39,6 +40,10 @@ int main(void)
 	
 	ADC_startConv();//////////NVIC_DisableIRQ(SysTick_IRQn)
 	
+	/* semaphore creation */
+	semHighPower = xSemaphoreCreateMutex();
+	
+	/* task creation */
 	//xTaskCreate( tBlink_led, "led1", configMINIMAL_STACK_SIZE, &a, 1, NULL );
 	xTaskCreate( tBlink_led, "led2", configMINIMAL_STACK_SIZE, &b, 1, NULL );
 	xTaskCreate( tRead_temp, "temp", configMINIMAL_STACK_SIZE, NULL, 1, NULL );
