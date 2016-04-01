@@ -138,6 +138,29 @@ void tHighPowerOutput(void * pvParameters)
 	}
 }
 
+/* task controlling behaviour of LED1 output */
+void tLED1(void * pvParameters)
+{
+	
+	for(;;)
+	{
+
+		vTaskDelay(60000); //execute task each 1min
+	}
+}
+
+/* task controlling behaviour of LED1 output */
+void tLED2(void * pvParameters)
+{
+	
+	for(;;)
+	{
+
+		vTaskDelay(60000); //execute task each 1min
+	}
+}
+
+
 /* by default task is suspended - woke up after user set auto temp controll */
 void tAutoTerm(void * pvParameters)
 {

@@ -196,22 +196,6 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>48</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134235006</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>../Src/main.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\hid_dev_Config\../Src/main.c\48</Expression>
-        </Bp>
-        <Bp>
-          <Number>1</Number>
-          <Type>0</Type>
           <LineNumber>36</LineNumber>
           <EnabledFlag>1</EnabledFlag>
           <Address>134218140</Address>
@@ -226,7 +210,7 @@
           <Expression>\\hid_dev_Config\../Src/utils/hard_fault.c\36</Expression>
         </Bp>
         <Bp>
-          <Number>2</Number>
+          <Number>1</Number>
           <Type>0</Type>
           <LineNumber>191</LineNumber>
           <EnabledFlag>1</EnabledFlag>
@@ -242,11 +226,11 @@
           <Expression>\\hid_dev_Config\../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_usb.c\191</Expression>
         </Bp>
         <Bp>
-          <Number>3</Number>
+          <Number>2</Number>
           <Type>0</Type>
           <LineNumber>32</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134234878</Address>
+          <Address>134234874</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -258,11 +242,11 @@
           <Expression>\\hid_dev_Config\../Src/main.c\32</Expression>
         </Bp>
         <Bp>
-          <Number>4</Number>
+          <Number>3</Number>
           <Type>0</Type>
-          <LineNumber>65</LineNumber>
+          <LineNumber>104</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134237788</Address>
+          <Address>134237826</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -271,23 +255,7 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>..\Src\utils\rtos_tasks.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\hid_dev_Config\../Src/utils/rtos_tasks.c\65</Expression>
-        </Bp>
-        <Bp>
-          <Number>5</Number>
-          <Type>0</Type>
-          <LineNumber>104</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>0</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>0</BreakIfRCount>
-          <Filename>..\Src\utils\rtos_tasks.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression></Expression>
+          <Expression>\\hid_dev_Config\../Src/utils/rtos_tasks.c\104</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
@@ -310,6 +278,11 @@
           <count>3</count>
           <WinNumber>1</WinNumber>
           <ItemText>tim7_tick,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>4</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>data[10]</ItemText>
         </Ww>
       </WatchWindow1>
       <MemoryWindow1>
@@ -580,7 +553,7 @@
       <GroupNumber>3</GroupNumber>
       <FileNumber>15</FileNumber>
       <FileType>1</FileType>
-      <tvExp>1</tvExp>
+      <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\Src\utils\rtos_tasks.c</PathWithFileName>
