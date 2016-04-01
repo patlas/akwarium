@@ -171,7 +171,8 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View w) {
                 Intent temp_act = new Intent(MainActivity.this, TempActivity.class);
-                startActivity(temp_act);
+                //startActivity(temp_act);
+                usbWriteRunnable.WriteUSB("temperatura", null);
             }
 
         });

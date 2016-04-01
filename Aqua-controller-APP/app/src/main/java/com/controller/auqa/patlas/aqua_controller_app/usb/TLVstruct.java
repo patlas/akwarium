@@ -9,8 +9,8 @@ import java.nio.ByteBuffer;
  */
 public class TLVstruct 
 {
-    public static int TLV_DATA_SIZE = 55;
-    public static int TLV_STRUCT_SIZE = 64;
+    public static int TLV_DATA_SIZE = 21;
+    public static int TLV_STRUCT_SIZE = 30;
     public static int TLV_DATA_OFFSET = 9;
     public byte type;
     public long length;

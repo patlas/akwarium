@@ -70,9 +70,10 @@ public class UsbWriteRunnable implements Runnable
 
         txData.add(commands);
 
-        for(Object obj : args)
-        {
-            txData.add(obj);
+        if(args != null) {
+            for (Object obj : args) {
+                txData.add(obj);
+            }
         }
 
         try

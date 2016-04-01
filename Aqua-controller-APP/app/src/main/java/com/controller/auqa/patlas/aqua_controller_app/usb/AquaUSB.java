@@ -153,12 +153,13 @@ public class AquaUSB
     {
         if (request.queue(buffer, bufsize) == true)
         {
-            if (connection.requestWait() == request)
-            {
-                //String result = new String(buffer.array());
-                //Log.i("GELEN DATA : ", new String(buffer.array()));
-                return true;
-            }
+            return true;
+//            if (connection.requestWait() == request)
+//            {
+//                //String result = new String(buffer.array());
+//                //Log.i("GELEN DATA : ", new String(buffer.array()));
+//                return true;
+//            }
         }
         return false;
     }
