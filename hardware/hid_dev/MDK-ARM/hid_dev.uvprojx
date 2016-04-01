@@ -481,6 +481,11 @@
               <FileType>1</FileType>
               <FilePath>..\Src\utils\debug.c</FilePath>
             </File>
+            <File>
+              <FileName>tlv.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\utils\tlv.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
