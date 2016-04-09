@@ -21,6 +21,7 @@ QueueHandle_t usbInQueue;
 void RtosDataInit(void)
 {
 	usbInQueue = xQueueCreate(USB_QUEUE_LENGTH , TLV_STRUCT_SIZE);
+	semHighPower = xSemaphoreCreateMutex();
 	
 	
 }
@@ -210,10 +211,41 @@ void tAutoCO2(void * pvParameters)
 
 void tController(void * pvParameters)
 {
-	
+	uint8_t dataBuff[TLV_STRUCT_SIZE];
+	tlv_t tlv;
 	for(;;)
 	{
+		if( pdTRUE != xQueueReceive(usbInQueue, dataBuff, 0)) continue;
+		printf("USB data received\n");
 		
+		ArrayToTLV(&tlv, dataBuff);
+		
+		switch(getTLVtype(&tlv))
+		{
+			case SET_TEMP:
+				break;
+			
+			case SET_PH:
+				break;
+			
+			case SET_OUT1:
+				break;
+			
+			case SET_OUT2:
+				break;
+			
+			case SET_OUT3:
+				break;
+			
+			case SET_OUT4:
+				break;
+			
+			case SET_LED1:
+				break;
+			
+			case SET_LED2:
+				break;
+		}
 		
 	}
 }

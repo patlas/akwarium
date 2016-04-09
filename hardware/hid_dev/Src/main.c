@@ -36,19 +36,20 @@ int main(void)
 	MX_TIM7_Init();
   MX_GPIO_Init();
   MX_USB_DEVICE_Init();
+	NVIC_SetPriority(OTG_FS_IRQn, 5); //set USB interrupt priority to deal with freeRTOS 
 	ADC_init();
 	
 	ADC_startConv();//////////NVIC_DisableIRQ(SysTick_IRQn)
 	
 	/* semaphore creation */
-	semHighPower = xSemaphoreCreateMutex();
-	
+	//semHighPower = xSemaphoreCreateMutex();
+	RtosDataInit();
 	/* task creation */
 	//xTaskCreate( tBlink_led, "led1", configMINIMAL_STACK_SIZE, &a, 1, NULL );
-	xTaskCreate( tBlink_led, "led2", configMINIMAL_STACK_SIZE, &b, 1, NULL );
+	xTaskCreate( tBlink_led, "led2", configMINIMAL_STACK_SIZE, &a, 1, NULL );
 	xTaskCreate( tRead_temp, "temp", configMINIMAL_STACK_SIZE, NULL, 1, NULL );
-	xTaskCreate( tCalibrate_probe, "ph", configMINIMAL_STACK_SIZE, NULL, 2, NULL );
-	
+	xTaskCreate( tCalibrate_probe, "ph", configMINIMAL_STACK_SIZE, NULL, 2, NULL ); 
+	xTaskCreate( tController, "controller", configMINIMAL_STACK_SIZE, NULL, 1, NULL );
 	
 	vTaskStartScheduler();
 	for(;;);

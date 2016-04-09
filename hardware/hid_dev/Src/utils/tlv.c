@@ -1,13 +1,6 @@
 #include "tlv.h"
 
-#pragma pack(push)
-#pragma pack(1)
-struct _tlv {
-	uint8_t type;
-	uint64_t length;
-	uint8_t value[TLV_DATA_SIZE];
-};
-#pragma pack(pop)
+
 
 void TLVtoArray(tlv_t *tlv, uint8_t *rawData)
 {
@@ -20,6 +13,11 @@ void TLVtoArray(tlv_t *tlv, uint8_t *rawData)
 void getTLVcommand(tlv_t *tlv, uint8_t *command)
 {
 	memcpy(command, tlv->value, tlv->length);
+}
+
+command_type_t getTLVtype(tlv_t *tlv)
+{
+	return (command_type_t)tlv->type;
 }
 
 void ArrayToTLV(tlv_t *tlv, uint8_t *rawData)
