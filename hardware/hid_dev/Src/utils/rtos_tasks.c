@@ -4,16 +4,26 @@
 /* data structs and semaphores */
 
 /* start and stop time hold as minutes = 60*hour[24-format]+mins */
-struct _high_power{
-  uint16_t mStart1;
-	uint16_t mStop1;
-	uint16_t mStart2;
-	uint16_t mStop2;
-};
+//struct _high_power{
+//  uint16_t mStart1;
+//	uint16_t mStop1;
+//	uint16_t mStart2;
+//	uint16_t mStop2;
+//};
 
 SemaphoreHandle_t semHighPower;
 	
+/* globals and queues */
+QueueHandle_t usbInQueue;
 
+
+/* RTOS data initializer and creator */
+void RtosDataInit(void)
+{
+	usbInQueue = xQueueCreate(USB_QUEUE_LENGTH , TLV_STRUCT_SIZE);
+	
+	
+}
 
 
 void vApplicationStackOverflowHook(TaskHandle_t xTask, signed char *pcTaskName )
@@ -78,7 +88,7 @@ void tRead_ph(void * pvParameters)
  * or only get stable value and send it to android to recalculate.
  * Android replay with proper calib value to start auto CO2 or measure pH - NOT THAT APPROCHE
  */
-
+//should have (almost?) highest priority
 void tCalibrate_probe(void * pvParameters)
 {
 	uint16_t average_val = 0;
@@ -185,4 +195,26 @@ void tAutoCO2(void * pvParameters)
 	
 }
 
+
+/* Avaliable TYPEs in TLV frame (first byte)
+	*
+	* 0x01 - SET_TEMP,	data: 0x03,0x02,0x04 //(each uint8_t); 32,4 [st.C]	(AUTO_TERM)
+	* 0x02 - SET_PH,		data: 0x00,0x07,0x08 //(each uint8_t); pH 7,8 			(AUTO_CO2)
+	* 0x03 - SET_OUT1,	data: 0x0000,0x0000,0x0000, 0x0000 //(each uint16_t - check endian); as in high_power_t -> make cast
+	* 0x04 - SET_OUT2,	data: 0x0000,0x0000,0x0000, 0x0000 //(each uint16_t - check endian); as in high_power_t -> make cast
+	* 0x05 - SET_OUT3,	data: 0x0000,0x0000,0x0000, 0x0000 //(each uint16_t - check endian); as in high_power_t -> make cast
+	* 0x06 - SET_OUT4,	data: 0x0000,0x0000,0x0000, 0x0000 //(each uint16_t - check endian); as in high_power_t -> make cast
+	* 0x07 - SET_LED1, TBD
+	* 0x08 - SET_LED2, TBD
+ */
+
+void tController(void * pvParameters)
+{
+	
+	for(;;)
+	{
+		
+		
+	}
+}
 

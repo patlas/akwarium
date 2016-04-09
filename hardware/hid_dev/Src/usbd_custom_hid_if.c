@@ -1,6 +1,13 @@
 /* Includes ------------------------------------------------------------------*/
 #include "usbd_custom_hid_if.h"
 
+#include "FreeRTOS.h"
+#include "task.h"
+#include "semphr.h"
+#include "queue.h"
+
+extern QueueHandle_t usbInQueue;
+
 __ALIGN_BEGIN static uint8_t CUSTOM_HID_ReportDesc_FS[USBD_CUSTOM_HID_REPORT_DESC_SIZE] __ALIGN_END =
 {
   0x00, 
@@ -77,6 +84,9 @@ static int8_t CUSTOM_HID_OutEvent_FS  (uint8_t event_idx, uint8_t state)
   */
 static int8_t CUSTOM_HID_RecvData_FS  (uint8_t *data)
 { 
+	// insert received data into queue
+	xQueueSendFromISR(usbInQueue, data, NULL);
+	
 	if(data[0] == 'a' || data[9] == 't')
 	{
 		HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_13);
