@@ -61,6 +61,8 @@ void tBlink_led(void * pvParameters)
 
 		HAL_GPIO_WritePin(GPIOD, 1<<nr, GPIO_PIN_RESET);
 
+		//uint8_t x,y;
+		//RTC_getTime(&x,&y);
 		vTaskDelay(delay_ms);
 	}
 }

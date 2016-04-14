@@ -12,6 +12,8 @@
 #include "tlv.h"
 #include "utils.h"
 
+#include "rtc.h"
+
 #define USB_QUEUE_LENGTH 10
 
 #define PRIORITY_BASIC 1

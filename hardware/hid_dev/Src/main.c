@@ -14,6 +14,7 @@
 #include "rtos_tasks.h"
 #include "delay_timer.h"
 #include "adc.h"
+#include "rtc.h"
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
@@ -38,7 +39,7 @@ int main(void)
   MX_USB_DEVICE_Init();
 	NVIC_SetPriority(OTG_FS_IRQn, 5); //set USB interrupt priority to deal with freeRTOS 
 	ADC_init();
-	
+	RTC_init();
 	ADC_startConv();//////////NVIC_DisableIRQ(SysTick_IRQn)
 	
 	/* semaphore creation */
@@ -50,6 +51,8 @@ int main(void)
 //	xTaskCreate( tRead_temp, "temp", configMINIMAL_STACK_SIZE, NULL, 1, NULL );
 //	xTaskCreate( tCalibrate_probe, "ph", configMINIMAL_STACK_SIZE, NULL, 2, NULL ); 
 //	xTaskCreate( tController, "controller", configMINIMAL_STACK_SIZE, NULL, 1, NULL );
+	RTC_setTime(18,20);
+
 	
 	vTaskStartScheduler();
 	for(;;);
@@ -80,7 +83,7 @@ void SystemClock_Config(void)
 
   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
 
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE | RCC_OSCILLATORTYPE_LSI;
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
@@ -88,6 +91,9 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.PLL.PLLN = 336;
   RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
   RCC_OscInitStruct.PLL.PLLQ = 7;
+	
+	RCC_OscInitStruct.LSEState = RCC_LSI_ON;
+	
   HAL_RCC_OscConfig(&RCC_OscInitStruct);
 
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_SYSCLK|RCC_CLOCKTYPE_PCLK1
@@ -97,6 +103,11 @@ void SystemClock_Config(void)
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV4;
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
   HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_5);
+	
+	RCC_PeriphCLKInitTypeDef PeriphClkInitStruct;
+	PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_RTC;
+  PeriphClkInitStruct.RTCClockSelection = RCC_RTCCLKSOURCE_LSI;
+  HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct);
 
   //HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/1000);
 
