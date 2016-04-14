@@ -18,11 +18,18 @@ QueueHandle_t usbInQueue;
 
 
 /* RTOS data initializer and creator */
-void RtosDataInit(void)
+static TaskHandle_t  tController_handle;
+static TaskHandle_t  tRead_temp_handle;
+static TaskHandle_t  tCalibrate_probe_handle;
+static TaskHandle_t	tAutoTerm_handle;
+void RtosDataAndTaskInit(void)
 {
 	usbInQueue = xQueueCreate(USB_QUEUE_LENGTH , TLV_STRUCT_SIZE);
 	semHighPower = xSemaphoreCreateMutex();
-	
+	xTaskCreate( tRead_temp, "temp", configMINIMAL_STACK_SIZE, NULL, 1, tRead_temp_handle );
+	xTaskCreate( tCalibrate_probe, "ph", configMINIMAL_STACK_SIZE, NULL, 2, tCalibrate_probe_handle ); 
+	xTaskCreate( tController, "controller", configMINIMAL_STACK_SIZE, NULL, 1, tController_handle );
+	xTaskCreate( tAutoTerm, "tAutoTerm", configMINIMAL_STACK_SIZE, NULL, 1, tAutoTerm_handle );
 	
 }
 
@@ -30,11 +37,15 @@ void RtosDataInit(void)
 void vApplicationStackOverflowHook(TaskHandle_t xTask, signed char *pcTaskName )
 {
 	//task stack overflow occured
+	printf("STACK OVERFLOW!!!");
+	for(;;);
 }
 
 void vApplicationMallocFailedHook( void )
 {
 	// memory allocation error occured - error in pvPortMalloc()
+	printf("MALLOC ERROR!!! - pvPortMalloc()");
+	for(;;);
 }
 
 
@@ -178,7 +189,9 @@ void tAutoTerm(void * pvParameters)
 	
 	for(;;)
 	{
-
+		// TODO - regular temp check (from global variable) if to low/high turn on/off heater
+		
+		
 		vTaskDelay(60000); //check temp each 1min
 	}
 }
@@ -213,6 +226,7 @@ void tController(void * pvParameters)
 {
 	uint8_t dataBuff[TLV_STRUCT_SIZE];
 	tlv_t tlv;
+	uint16_t temp;
 	for(;;)
 	{
 		if( pdTRUE != xQueueReceive(usbInQueue, dataBuff, 0)) continue;
@@ -223,6 +237,22 @@ void tController(void * pvParameters)
 		switch(getTLVtype(&tlv))
 		{
 			case SET_TEMP:
+				temp = parseTemp(tlv.value);
+				if(temp == 0xFFFF || temp == 0x0000)
+				{
+					//TODO - send info -> details in parseTemp method
+					//TODO - turn off temp task -> remember to disable heater!!!
+					vTaskSuspend(tAutoTerm_handle);
+					turnOnHeater(false);
+					printf("tController SET_TEMP: stop TERMOSTAT task.");
+				}
+				else
+				{
+					//TODO - turn on temp task -> turn on heater
+					//TODO - after task resume immediately check temp and react!
+					vTaskResume(tAutoTerm_handle);
+					printf("tController SET_TEMP: start TERMOSTAT task.");
+				}
 				break;
 			
 			case SET_PH:

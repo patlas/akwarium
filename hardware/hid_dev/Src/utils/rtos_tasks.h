@@ -10,6 +10,7 @@
 #include "ds18b20.h"
 #include "adc.h"
 #include "tlv.h"
+#include "utils.h"
 
 #define USB_QUEUE_LENGTH 10
 
@@ -28,10 +29,11 @@ typedef struct{
 
 
 
-void RtosDataInit(void);
+void RtosDataAndTaskInit(void);
 
 void tBlink_led(void * pvParameters); //uint8_t nr, uint16_t delay_ms)
 void tRead_temp(void * pvParameters);
 void tRead_ph(void * pvParameters);
 void tCalibrate_probe(void * pvParameters);
 void tController(void * pvParameters);
+void tAutoTerm(void * pvParameters);

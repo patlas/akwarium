@@ -43,13 +43,13 @@ int main(void)
 	
 	/* semaphore creation */
 	//semHighPower = xSemaphoreCreateMutex();
-	RtosDataInit();
+	RtosDataAndTaskInit();
 	/* task creation */
 	//xTaskCreate( tBlink_led, "led1", configMINIMAL_STACK_SIZE, &a, 1, NULL );
 	xTaskCreate( tBlink_led, "led2", configMINIMAL_STACK_SIZE, &a, 1, NULL );
-	xTaskCreate( tRead_temp, "temp", configMINIMAL_STACK_SIZE, NULL, 1, NULL );
-	xTaskCreate( tCalibrate_probe, "ph", configMINIMAL_STACK_SIZE, NULL, 2, NULL ); 
-	xTaskCreate( tController, "controller", configMINIMAL_STACK_SIZE, NULL, 1, NULL );
+//	xTaskCreate( tRead_temp, "temp", configMINIMAL_STACK_SIZE, NULL, 1, NULL );
+//	xTaskCreate( tCalibrate_probe, "ph", configMINIMAL_STACK_SIZE, NULL, 2, NULL ); 
+//	xTaskCreate( tController, "controller", configMINIMAL_STACK_SIZE, NULL, 1, NULL );
 	
 	vTaskStartScheduler();
 	for(;;);
