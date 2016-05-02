@@ -23,7 +23,7 @@ QueueHandle_t usbInQueue;
 static TaskHandle_t  	tController_handle;
 static TaskHandle_t  	tRead_temp_handle;
 static TaskHandle_t  	tRead_ph_handle;
-static TaskHandle_t  	tCalibrate_probe_handle;
+static TaskHandle_t  	tCalibrate_handle;
 static TaskHandle_t		tAutoTerm_handle;
 static TaskHandle_t		tAutoCO2_handle;
 
@@ -32,13 +32,13 @@ void RtosDataAndTaskInit(void)
 	usbInQueue = xQueueCreate(USB_QUEUE_LENGTH , TLV_STRUCT_SIZE);
 	semHighPower = xSemaphoreCreateMutex();
 
-	xTaskCreate( tCalibrate_probe, "Calibrate", configMINIMAL_STACK_SIZE, NULL, PRIORITY_MAX, tCalibrate_probe_handle ); // higher priority
+	xTaskCreate( tCalibrate_probe, "Calibrate", configMINIMAL_STACK_SIZE, NULL, PRIORITY_MAX, &tCalibrate_handle ); // higher priority
 	
-	xTaskCreate( tController, "MainController", configMINIMAL_STACK_SIZE, NULL, PRIORITY_MAX-1, tController_handle ); //higher priority -1 like all others
-	xTaskCreate( tRead_temp, "ReadTemp", configMINIMAL_STACK_SIZE, NULL, PRIORITY_MAX-1, tRead_temp_handle );	
-	xTaskCreate( tAutoTerm,	"tAutoTerm", configMINIMAL_STACK_SIZE, NULL, PRIORITY_MAX-1, tAutoTerm_handle ); 
-	xTaskCreate( tRead_ph, "ReadPH", configMINIMAL_STACK_SIZE, NULL, PRIORITY_MAX-1, tRead_ph_handle );	
-	xTaskCreate( tAutoCO2,	"tAutoCO2", configMINIMAL_STACK_SIZE, NULL, PRIORITY_MAX-1, tAutoCO2_handle ); 
+	xTaskCreate( tController, "MainController", configMINIMAL_STACK_SIZE, NULL, PRIORITY_MAX-1, &tController_handle ); //higher priority -1 like all others
+	xTaskCreate( tRead_temp, "ReadTemp", configMINIMAL_STACK_SIZE, NULL, PRIORITY_MAX-1, &tRead_temp_handle );	
+	xTaskCreate( tAutoTerm,	"tAutoTerm", configMINIMAL_STACK_SIZE, NULL, PRIORITY_MAX-1, &tAutoTerm_handle ); 
+	xTaskCreate( tRead_ph, "ReadPH", configMINIMAL_STACK_SIZE, NULL, PRIORITY_MAX-1, &tRead_ph_handle );	
+	xTaskCreate( tAutoCO2,	"tAutoCO2", configMINIMAL_STACK_SIZE, NULL, PRIORITY_MAX-1, &tAutoCO2_handle ); 
 }
 
 
@@ -141,8 +141,8 @@ void tCalibrate_probe(void * pvParameters)
 					{
 						//adc_read = 2;
 						//value stable - stop task, send info to android
-						calib_val.sol_val[(calibSol>>28)&0x01] = (uint8_t)calibSol;
-						calib_val.sol_adc[(calibSol>>28)&0x01] = (uint16_t)average_val;
+						calib_val.sol_val[(calibSol>>24)&0x01] = (uint8_t)calibSol;
+						calib_val.sol_adc[(calibSol>>24)&0x01] = (uint16_t)average_val;
 						
 						//check if both sol tested => calculate ph coefitient
 						if(calib_val.sol_val[0] != 0 && calib_val.sol_val[1] !=0)
@@ -272,7 +272,8 @@ void tController(void * pvParameters)
 	uint8_t dataBuff[TLV_STRUCT_SIZE];
 	tlv_t tlv;
 	uint16_t temp;
-	uint8_t ph;
+	uint8_t ph, sol;
+	uint32_t notify;
 	for(;;)
 	{
 		if( pdTRUE != xQueueReceive(usbInQueue, dataBuff, 0)) continue;
@@ -318,6 +319,25 @@ void tController(void * pvParameters)
 				}
 				break;
 			
+			case CALLIBRATE:
+				//calibSol -> 0x00xxxxxx (low) 0x01xxxxxx(high) latest 16b are calib Sol value multiplied x10 (e.g. 12.2 => 122)
+				ph = parsePH(tlv.value);
+				sol = tlv.value[0];
+				if((ph == 0xFF || ph == 0x00) && sol>1)
+				{
+					printf("tController CALLIBRATE: error - wrong pH value!");
+				}
+				else
+				{
+					notify = ((uint32_t)sol<<24)&0x03000000;
+					notify |= ph;
+					xTaskNotify( tCalibrate_handle, notify, eSetValueWithOverwrite );
+
+					printf("tController CALLIBRATE: notify=0x%x",notify);
+				}
+				break;
+				
+				
 			default:
 				printf("tController ANOTHER: %d",getTLVtype(&tlv));
 				break;

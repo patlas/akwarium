@@ -196,25 +196,25 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>36</LineNumber>
+          <LineNumber>47</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134218140</Address>
+          <Address>134236490</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\Src\utils\hard_fault.c</Filename>
+          <Filename>../Src/main.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\hid_dev_Config\../Src/utils/hard_fault.c\36</Expression>
+          <Expression>\\hid_dev_Config\../Src/main.c\47</Expression>
         </Bp>
         <Bp>
           <Number>1</Number>
           <Type>0</Type>
-          <LineNumber>126</LineNumber>
+          <LineNumber>150</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134238990</Address>
+          <Address>134239658</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -223,7 +223,23 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>..\Src\utils\rtos_tasks.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\hid_dev_Config\../Src/utils/rtos_tasks.c\126</Expression>
+          <Expression>\\hid_dev_Config\../Src/utils/rtos_tasks.c\150</Expression>
+        </Bp>
+        <Bp>
+          <Number>2</Number>
+          <Type>0</Type>
+          <LineNumber>148</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134239646</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>..\Src\utils\rtos_tasks.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\hid_dev_Config\../Src/utils/rtos_tasks.c\148</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
@@ -241,6 +257,31 @@
           <count>2</count>
           <WinNumber>1</WinNumber>
           <ItemText>y,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>3</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>ph,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>4</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>sol</ItemText>
+        </Ww>
+        <Ww>
+          <count>5</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>notify</ItemText>
+        </Ww>
+        <Ww>
+          <count>6</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>tCalibrate_handle</ItemText>
+        </Ww>
+        <Ww>
+          <count>7</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>calib_val</ItemText>
         </Ww>
       </WatchWindow1>
       <MemoryWindow1>
@@ -523,7 +564,7 @@
       <GroupNumber>3</GroupNumber>
       <FileNumber>15</FileNumber>
       <FileType>1</FileType>
-      <tvExp>1</tvExp>
+      <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\Src\utils\rtos_tasks.c</PathWithFileName>

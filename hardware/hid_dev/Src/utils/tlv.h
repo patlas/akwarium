@@ -24,6 +24,7 @@ typedef struct tlv_t {
 	* 0x06 - SET_OUT4,	data: 0x0000,0x0000,0x0000, 0x0000 //(each uint16_t - check endian); as in high_power_t -> make cast
 	* 0x07 - SET_LED1, TBD
 	* 0x08 - SET_LED2, TBD
+	* 0x09 - CALLIBRATE,data: 0x01,12,2 // first 0x00 (lowSol) 0x01(highSol), 0x7A=122->12,2pH
  */
 typedef enum command_type_t
 {
@@ -34,7 +35,8 @@ typedef enum command_type_t
 	SET_OUT3,
 	SET_OUT4,
 	SET_LED1,
-	SET_LED2
+	SET_LED2,
+	CALLIBRATE
 } command_type_t;
 
 

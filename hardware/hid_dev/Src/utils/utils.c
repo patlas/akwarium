@@ -33,15 +33,16 @@ uint8_t parsePH(uint8_t *value)
 	}
 	else if (ph == 0)
 	{
-		//TODO - user disable co2 -> send confirmation
+		//TODO - user disable co2 -> send confirmation in task!
 		return 0;
 	}
 	else
 	{
-		//TODO - correct pH - set co2 -> send confirmation
+		//TODO - correct pH - set co2 -> send confirmation in task!
 		return ph;
 	}
 }
+
 
 #include "stm32f4xx_hal.h" //TODO - unnecessary in the future?
 void turnOnHeater(bool on)

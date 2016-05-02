@@ -17,7 +17,7 @@
 #define USB_QUEUE_LENGTH 10
 
 #define PRIORITY_BASIC 1
-#define PRIORITY_MAX configMAX_PRIORITIES
+#define PRIORITY_MAX configMAX_PRIORITIES-1
 
 
 void RtosDataAndTaskInit(void);
