@@ -19,17 +19,6 @@
 #define PRIORITY_BASIC 1
 #define PRIORITY_MAX configMAX_PRIORITIES
 
-//typedef struct _high_power high_power_t;
-
-/* start and stop time hold as minutes = 60*hour[24-format]+mins */
-typedef struct{
-  uint16_t mStart1;
-	uint16_t mStop1;
-	uint16_t mStart2;
-	uint16_t mStop2;
-} high_power_t;
-
-
 
 void RtosDataAndTaskInit(void);
 
@@ -39,3 +28,4 @@ void tRead_ph(void * pvParameters);
 void tCalibrate_probe(void * pvParameters);
 void tController(void * pvParameters);
 void tAutoTerm(void * pvParameters);
+void tAutoCO2(void * pvParameters);

@@ -16,21 +16,29 @@ SemaphoreHandle_t semHighPower;
 /* globals and queues */
 QueueHandle_t usbInQueue;
 
+/* sol struct */
+
 
 /* RTOS data initializer and creator */
-static TaskHandle_t  tController_handle;
-static TaskHandle_t  tRead_temp_handle;
-static TaskHandle_t  tCalibrate_probe_handle;
-static TaskHandle_t	tAutoTerm_handle;
+static TaskHandle_t  	tController_handle;
+static TaskHandle_t  	tRead_temp_handle;
+static TaskHandle_t  	tRead_ph_handle;
+static TaskHandle_t  	tCalibrate_probe_handle;
+static TaskHandle_t		tAutoTerm_handle;
+static TaskHandle_t		tAutoCO2_handle;
+
 void RtosDataAndTaskInit(void)
 {
 	usbInQueue = xQueueCreate(USB_QUEUE_LENGTH , TLV_STRUCT_SIZE);
 	semHighPower = xSemaphoreCreateMutex();
-	xTaskCreate( tRead_temp, "temp", configMINIMAL_STACK_SIZE, NULL, 1, tRead_temp_handle );
-	xTaskCreate( tCalibrate_probe, "ph", configMINIMAL_STACK_SIZE, NULL, 2, tCalibrate_probe_handle ); 
-	xTaskCreate( tController, "controller", configMINIMAL_STACK_SIZE, NULL, 1, tController_handle );
-	xTaskCreate( tAutoTerm, "tAutoTerm", configMINIMAL_STACK_SIZE, NULL, 1, tAutoTerm_handle );
+
+	xTaskCreate( tCalibrate_probe, "Calibrate", configMINIMAL_STACK_SIZE, NULL, PRIORITY_MAX, tCalibrate_probe_handle ); // higher priority
 	
+	xTaskCreate( tController, "MainController", configMINIMAL_STACK_SIZE, NULL, PRIORITY_MAX-1, tController_handle ); //higher priority -1 like all others
+	xTaskCreate( tRead_temp, "ReadTemp", configMINIMAL_STACK_SIZE, NULL, PRIORITY_MAX-1, tRead_temp_handle );	
+	xTaskCreate( tAutoTerm,	"tAutoTerm", configMINIMAL_STACK_SIZE, NULL, PRIORITY_MAX-1, tAutoTerm_handle ); 
+	xTaskCreate( tRead_ph, "ReadPH", configMINIMAL_STACK_SIZE, NULL, PRIORITY_MAX-1, tRead_ph_handle );	
+	xTaskCreate( tAutoCO2,	"tAutoCO2", configMINIMAL_STACK_SIZE, NULL, PRIORITY_MAX-1, tAutoCO2_handle ); 
 }
 
 
@@ -68,17 +76,19 @@ void tBlink_led(void * pvParameters)
 }
 
 extern char temp[8];
+extern uint8_t temp1, temp2;
 void tRead_temp(void * pvParameters)
 {
 	for(;;)
 	{
 		ds18b20_readTemp();
-		// send val over USB
+		// send val over USB - NO! send only if ask
 		vTaskDelay(5000);
 	}
 }
 
 
+volatile uint8_t read_adc_ph = 0;
 void tRead_ph(void * pvParameters)
 {
 	uint8_t adc_read;
@@ -89,6 +99,7 @@ void tRead_ph(void * pvParameters)
 		{
 			// multiplied x10
 			adc_read = (uint8_t)(ADC1->DR*33/4096.0f);
+			read_adc_ph = adc_read;
 			//calculate pH using constans from calibraion
 			// if constans = 0 zend NONE
 			printf("pH = %d\r\n", adc_read);
@@ -103,17 +114,20 @@ void tRead_ph(void * pvParameters)
  * Android replay with proper calib value to start auto CO2 or measure pH - NOT THAT APPROCHE
  */
 //should have (almost?) highest priority
+
+static sol_t calib_val = {{0,0}, {0,0}, 0};
 void tCalibrate_probe(void * pvParameters)
 {
 	uint16_t average_val = 0;
 	uint16_t adc_read;
 	uint16_t stability_index = 0;
-	uint32_t calibSol = 0;
+	uint32_t calibSol = 0xFFFFFFFF;
 	
 	for(;;)
 	{
 		/* Block indefinitely, after receive notification with calibSol start task */
 		xTaskNotifyWait( 0x00, 0xffffffff, &calibSol, portMAX_DELAY );
+		//calibSol -> 0x00xxxxxx (low) 0x10xxxxxx(high) latest 16b are calib Sol value multiplied x10 (e.g. 12.2 => 122)
 		// write struct with sol -> val, sol->val used in another function to recalculate adc to pH val.
 		
 		for(;;)
@@ -125,8 +139,17 @@ void tCalibrate_probe(void * pvParameters)
 				{
 					if(stability_index++ > 1000) //need 5s stability => 1000 * 5ms delay
 					{
-						adc_read = 2;
+						//adc_read = 2;
 						//value stable - stop task, send info to android
+						calib_val.sol_val[(calibSol>>28)&0x01] = (uint8_t)calibSol;
+						calib_val.sol_adc[(calibSol>>28)&0x01] = (uint16_t)average_val;
+						
+						//check if both sol tested => calculate ph coefitient
+						if(calib_val.sol_val[0] != 0 && calib_val.sol_val[1] !=0)
+						{
+							recalc_ph_coef(&calib_val);
+						}
+						
 						break;
 					}
 				}
@@ -186,19 +209,28 @@ void tLED2(void * pvParameters)
 
 
 /* by default task is suspended - woke up after user set auto temp controll */
+volatile uint16_t termo_temp = 0; 
 void tAutoTerm(void * pvParameters)
 {
 	
 	for(;;)
 	{
 		// TODO - regular temp check (from global variable) if to low/high turn on/off heater
-		
+		if(termo_temp >= (temp1*10)+temp2)
+		{
+			turnOnHeater(false);
+		}
+		else
+		{
+			turnOnHeater(true);
+		}
 		
 		vTaskDelay(60000); //check temp each 1min
 	}
 }
 
 /* by default task is suspended - woke up after user set auto pH(Co2) controll */
+volatile uint8_t co2_ph = 0; //multiplied x10
 void tAutoCO2(void * pvParameters)
 {
 	
@@ -206,6 +238,15 @@ void tAutoCO2(void * pvParameters)
 	{
 		// check if callib structure (after callibration) is filled
 		// write method to read pH (median filtering?)
+		uint8_t ph = (uint8_t)(read_adc_ph/calib_val.ph_coef);
+		if(co2_ph <= ph)
+		{
+			turnOnCO2(false);
+		}
+		else
+		{
+			turnOnCO2(true);
+		}
 		vTaskDelay(10000); //check pH each 10s
 	}
 	
@@ -222,6 +263,8 @@ void tAutoCO2(void * pvParameters)
 	* 0x06 - SET_OUT4,	data: 0x0000,0x0000,0x0000, 0x0000 //(each uint16_t - check endian); as in high_power_t -> make cast
 	* 0x07 - SET_LED1, TBD
 	* 0x08 - SET_LED2, TBD
+	* get PH
+	* get temp
  */
 
 void tController(void * pvParameters)
@@ -229,6 +272,7 @@ void tController(void * pvParameters)
 	uint8_t dataBuff[TLV_STRUCT_SIZE];
 	tlv_t tlv;
 	uint16_t temp;
+	uint8_t ph;
 	for(;;)
 	{
 		if( pdTRUE != xQueueReceive(usbInQueue, dataBuff, 0)) continue;
@@ -252,15 +296,32 @@ void tController(void * pvParameters)
 				{
 					//TODO - turn on temp task -> turn on heater
 					//TODO - after task resume immediately check temp and react!
+					termo_temp = temp;
 					vTaskResume(tAutoTerm_handle);
 					printf("tController SET_TEMP: start TERMOSTAT task.");
 				}
 				break;
 			
 			case SET_PH:
+				ph = parsePH(tlv.value);
+				if(ph == 0xFF || ph == 0x00)
+				{
+					vTaskSuspend(tAutoCO2_handle);
+					turnOnCO2(false);
+					printf("tController SET_PH: stop AutoCO2 task.");
+				}
+				else
+				{
+					co2_ph = ph;
+					vTaskResume(tAutoCO2_handle);
+					printf("tController SET_PH: start AutoCO2 task.");
+				}
 				break;
 			
-			case SET_OUT1:
+			default:
+				printf("tController ANOTHER: %d",getTLVtype(&tlv));
+				break;
+		/*	case SET_OUT1:
 				break;
 			
 			case SET_OUT2:
@@ -276,7 +337,7 @@ void tController(void * pvParameters)
 				break;
 			
 			case SET_LED2:
-				break;
+				break;*/
 		}
 		
 	}
