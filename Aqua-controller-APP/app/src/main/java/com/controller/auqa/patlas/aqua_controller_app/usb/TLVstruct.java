@@ -34,5 +34,19 @@ public class TLVstruct
 
         return header;
     }
+
+    /*private*/ public byte[] buildTLVdataHeader(byte[] data, long length)
+    {
+        byte[] header = new byte[TLVstruct.TLV_STRUCT_SIZE];
+
+        header[0] = data[0];
+
+        byte[] len = ByteUtils.longToBytes(length);
+
+        System.arraycopy(len, 0, header, 1, len.length);
+        System.arraycopy(data, 1, header, 9, data.length-1);
+
+        return header;
+    }
    
 }

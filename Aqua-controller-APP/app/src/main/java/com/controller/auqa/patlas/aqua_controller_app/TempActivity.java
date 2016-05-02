@@ -24,6 +24,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.controller.auqa.patlas.aqua_controller_app.usb.UsbWriteRunnable;
 import com.controller.auqa.patlas.aqua_controller_app.utils.FloatPicker;
 import com.controller.auqa.patlas.aqua_controller_app.utils.UserSettings;
 
@@ -151,6 +152,11 @@ public class TempActivity extends AppCompatActivity
                 float calib_ph = Float.parseFloat(fp.getStringArray()[calib_picker.getValue()]);
                 UserSettings.getInstance().save("calib_ph", calib_ph);
 //                wysłać informacje do uC o kalibracji, wyswietlid dialog czekajacy na info z usb o koncu kalibracji
+                Log.e("Calibrating ...", "");
+//                float value = (float)UserSettings.getInstance().get("calib_ph");
+                boolean high = (boolean)UserSettings.getInstance().get("high_sol");
+                sendPH(true, high, (byte) (calib_ph * 10));
+
 
                 ArrayList<String> x;
 //                not poll but only check if proper one?? maby bool will be proper one
@@ -220,7 +226,9 @@ public class TempActivity extends AppCompatActivity
                 // low sol calibration liquid
                 TextView calib_tv = (TextView) npView_calib.findViewById(R.id.calib_info_tv);
                 calib_tv.setText(getString(R.string.low_sol_info));
+                UserSettings.getInstance().save("high_sol", false);
                 ad_calib.show();
+
             }
 
         });
@@ -232,7 +240,9 @@ public class TempActivity extends AppCompatActivity
                 // low sol calibration liquid
                 TextView calib_tv = (TextView) npView_calib.findViewById(R.id.calib_info_tv);
                 calib_tv.setText(getString(R.string.high_sol_info));
+                UserSettings.getInstance().save("high_sol", true);
                 ad_calib.show();
+
             }
 
         });
@@ -257,6 +267,25 @@ public class TempActivity extends AppCompatActivity
     {
         View decorView = getWindow().getDecorView();
         decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
+    }
+
+    private void sendPH(boolean calib, boolean hsol, byte value)
+    {
+        ArrayList<Object> args = new ArrayList<>();
+        UsbWriteRunnable writeUSBrunnable = (UsbWriteRunnable)UserSettings.getInstance().get("UsbWriteRunnable");//save("UsbWriteRunnable", usbWriteRunnable);
+        if(calib) {
+            args.add((byte)0x09); //TODO enum like command in CORTEX
+            if(hsol)
+                args.add((byte)0x01); //high sol
+            else
+                args.add((byte)0x00); //low sol
+        }
+        else
+            args.add((byte)0x02); //TODO enum like command in CORTEX
+
+        args.add((byte)(value/10));
+        args.add((byte)(value%10));
+        writeUSBrunnable.WriteUSB(null, args);
     }
 }
 

@@ -68,7 +68,8 @@ public class UsbWriteRunnable implements Runnable
     {
         ArrayList<Object> txData = new ArrayList<>();
 
-        txData.add(commands);
+        if(commands != null)
+            txData.add(commands);
 
         if(args != null) {
             for (Object obj : args) {
@@ -87,5 +88,6 @@ public class UsbWriteRunnable implements Runnable
 
         return true;
     }
+
 
 }
