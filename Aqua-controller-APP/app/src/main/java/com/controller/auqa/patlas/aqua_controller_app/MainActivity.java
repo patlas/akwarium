@@ -47,6 +47,9 @@ public class MainActivity extends AppCompatActivity
     private Hashtable<String, String> ui_strings= new Hashtable<String, String>();
     private float set_temp = 0;
     private float set_ph = 0;
+    AquaUSB aqUsb = new AquaUSB(this);
+    UsbDevice device;
+    UsbDeviceConnection communication;
 
     /**
         1) EACH one min/10sec ask CPU about temp, ph, led and out status
@@ -119,9 +122,9 @@ public class MainActivity extends AppCompatActivity
 
 
         bus.register(this);
-        AquaUSB aqUsb = new AquaUSB(this);
-        UsbDevice device;
-        UsbDeviceConnection communication;
+//        AquaUSB aqUsb = new AquaUSB(this);
+//        UsbDevice device;
+//        UsbDeviceConnection communication;
 
 
         Thread rxThread;
@@ -130,8 +133,8 @@ public class MainActivity extends AppCompatActivity
 
         try
         {
-            device = aqUsb.findDevice(this, 1155, 22352);
-            communication = aqUsb.openConnection(device, 0);
+            aqUsb.findDevice(this, 1155, 22352);
+            aqUsb.openConnection(0);
             UsbReadRunnable usbReadRunnable = new UsbReadRunnable(communication, receiver, aqUsb);
             usbWriteRunnable = new UsbWriteRunnable(communication, transmiter, aqUsb);
             UserSettings.getInstance().save("UsbWriteRunnable", usbWriteRunnable);

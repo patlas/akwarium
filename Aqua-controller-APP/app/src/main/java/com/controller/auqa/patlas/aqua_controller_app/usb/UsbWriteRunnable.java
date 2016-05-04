@@ -15,23 +15,21 @@ import de.greenrobot.event.EventBus;
  */
 public class UsbWriteRunnable implements Runnable
 {
-    UsbDeviceConnection connection;
-    UsbRequest request;
+
     AquaUSB aquaUSB;
     ByteBuffer buffer = ByteBuffer.allocate(AquaUSB.BUFFER_SIZE);
     private LinkedBlockingQueue<ArrayList<Object>> transmiter;
     private ArrayList<Object> txData = new ArrayList<>();
 
 
-    public UsbWriteRunnable(UsbDeviceConnection connection, LinkedBlockingQueue<ArrayList<Object>> transQueue, AquaUSB aquaUsb) //TODO - add read queue
+    public UsbWriteRunnable(LinkedBlockingQueue<ArrayList<Object>> transQueue, AquaUSB aquaUsb) //TODO - add read queue
     {
-        this.connection = connection;
         this.aquaUSB = aquaUsb;
         this.transmiter = transQueue;
 
         try
         {
-            request = aquaUsb.prepareWrite(connection);
+            aquaUsb.prepareWrite();
         } catch(Exception ex)
         {
             Log.e("ERROR", ex.getMessage());
@@ -51,7 +49,7 @@ public class UsbWriteRunnable implements Runnable
                 buffer.put(CommandParser.CmdToTLV(txData));
                 //transmit data
 
-                if(!aquaUSB.writeRawData(connection, request, buffer, AquaUSB.BUFFER_SIZE))
+                if(!aquaUSB.writeRawData(buffer, AquaUSB.BUFFER_SIZE))
                 {
                     Log.e("ERROR", "Send data error!");
                 }

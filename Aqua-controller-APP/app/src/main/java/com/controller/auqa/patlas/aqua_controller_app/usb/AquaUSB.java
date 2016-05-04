@@ -25,13 +25,17 @@ public class AquaUSB
     public static int BUFFER_SIZE = 64;
     private Context context = null;
     private UsbInterface usbInterface = null;
+    private UsbDevice device;
+    private UsbDeviceConnection connection;
+    public UsbRequest readRequest;
+    public UsbRequest writeRequest;
 
     public AquaUSB(Context context)
     {
         this.context = context;
     }
 
-    public UsbDevice findDevice(Context context, int vid, int pid) throws Exception
+    public void findDevice(Context context, int vid, int pid) throws Exception
     {
         UsbManager manager = (UsbManager) context.getSystemService(Context.USB_SERVICE);
         HashMap<String, UsbDevice> deviceList = manager.getDeviceList();
@@ -42,7 +46,7 @@ public class AquaUSB
         {
             device = deviceIterator.next();
             if (device.getProductId() == pid && device.getVendorId() == vid)
-                return device;
+                this.device = device;
         }
         throw new Exception("Device with VID: "+vid+" and PID: "+pid+" not found.");
     }
@@ -72,74 +76,69 @@ public class AquaUSB
         return endpointHash;
     }
 
-    public UsbDeviceConnection openConnection(UsbDevice device, int intefraceNr) throws Exception
+    public void openConnection(int intefraceNr) throws Exception
     {
         usbInterface = device.getInterface(intefraceNr);
         UsbManager manager = (UsbManager) context.getSystemService(Context.USB_SERVICE);
-        UsbDeviceConnection connection = manager.openDevice(device);
+        connection = manager.openDevice(device);
         if(connection == null)
             throw new Exception("Could not open device.");
 
         if(!connection.claimInterface(usbInterface, true))
             throw new Exception("Could not claim interface "+usbInterface.getId()+".");
 
-        return connection;
     }
 
-    public UsbRequest prepareRead(UsbDeviceConnection connection) throws Exception
+    public void prepareRead() throws Exception
     {
         UsbEndpoint endpoint;
-        UsbRequest request;
 
         try
         {
             endpoint = obtainEndpoints().get("epIN");
-            request = new UsbRequest();
+            readRequest = new UsbRequest();
         } catch(Exception ex)
         {
             throw new Exception(ex.getMessage());
         }
 
-        boolean initilzed = request.initialize(connection, endpoint);
+        boolean initilzed = readRequest.initialize(connection, endpoint);
 
         if (!initilzed)
         {
             throw new Exception("Could not initialize epIN request.");
         }
 
-        return request;
     }
 
-    public UsbRequest prepareWrite(UsbDeviceConnection connection) throws Exception
+    public void prepareWrite() throws Exception
     {
         UsbEndpoint endpoint;
-        UsbRequest request;
 
         try
         {
             endpoint = obtainEndpoints().get("epOUT");
-            request = new UsbRequest();
+            writeRequest = new UsbRequest();
         } catch(Exception ex)
         {
             throw new Exception(ex.getMessage());
         }
 
-        boolean initilzed = request.initialize(connection, endpoint);
+        boolean initilzed = writeRequest.initialize(connection, endpoint);
 
         if (!initilzed)
         {
             throw new Exception("Could not initialize epOUT request.");
         }
 
-        return request;
     }
 
 
-    public ByteBuffer readRawData(UsbDeviceConnection connection, UsbRequest request, ByteBuffer buffer, int bufsize)
+    public ByteBuffer readRawData( ByteBuffer buffer, int bufsize)
     {
-            if (request.queue(buffer, bufsize) == true)
+            if (readRequest.queue(buffer, bufsize) == true)
             {
-                if (connection.requestWait() == request)
+                if (connection.requestWait() == readRequest)
                 {
                     //String result = new String(buffer.array());
                     //Log.i("GELEN DATA : ", new String(buffer.array()));
@@ -149,9 +148,9 @@ public class AquaUSB
         return null;
     }
 
-    public boolean writeRawData(UsbDeviceConnection connection, UsbRequest request, ByteBuffer buffer, int bufsize)
+    public boolean writeRawData(ByteBuffer buffer, int bufsize)
     {
-        if (request.queue(buffer, bufsize) == true)
+        if (writeRequest.queue(buffer, bufsize) == true)
         {
             return true;
 //            if (connection.requestWait() == request)

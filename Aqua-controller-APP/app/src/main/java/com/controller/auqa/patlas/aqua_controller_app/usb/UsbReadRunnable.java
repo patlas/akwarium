@@ -15,23 +15,20 @@ import de.greenrobot.event.EventBus;
  */
 public class UsbReadRunnable implements Runnable
 {
-    UsbDeviceConnection connection;
-    UsbRequest request;
     AquaUSB aquaUSB;
     ByteBuffer buffer = ByteBuffer.allocate(AquaUSB.BUFFER_SIZE);
-    private LinkedBlockingQueue<ArrayList<String>> receiver;
+    private LinkedBlockingQueue<ArrayList<Object>> receiver;
 
     private EventBus bus = EventBus.getDefault();
 
-    public UsbReadRunnable(UsbDeviceConnection connection, LinkedBlockingQueue<ArrayList<String>> recQueue, AquaUSB aquaUsb) //TODO - add read queue
+    public UsbReadRunnable(LinkedBlockingQueue<ArrayList<Object>> recQueue, AquaUSB aquaUsb) //TODO - add read queue
     {
-        this.connection = connection;
         this.aquaUSB = aquaUsb;
         this.receiver = recQueue;
 
         try
         {
-            request = aquaUsb.prepareRead(connection);
+            aquaUsb.prepareRead();
         } catch(Exception ex)
         {
             Log.e("ERROR", ex.getMessage());
@@ -44,7 +41,7 @@ public class UsbReadRunnable implements Runnable
         while(true)
         {
             //TODO - add insertion to read queue
-            if (aquaUSB.readRawData(connection, request, buffer, AquaUSB.BUFFER_SIZE) != null)
+            if (aquaUSB.readRawData(buffer, AquaUSB.BUFFER_SIZE) != null)
             {
                 //data received
 // uncomment
