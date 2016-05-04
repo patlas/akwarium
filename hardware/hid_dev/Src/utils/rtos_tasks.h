@@ -29,3 +29,4 @@ void tCalibrate_probe(void * pvParameters);
 void tController(void * pvParameters);
 void tAutoTerm(void * pvParameters);
 void tAutoCO2(void * pvParameters);
+void tNotifier(void *pvParameters);

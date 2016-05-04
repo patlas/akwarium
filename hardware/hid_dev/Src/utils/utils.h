@@ -1,5 +1,10 @@
+#ifndef __UTILS_H__
+#define __UTILS_H__
+
 #include <stdint.h>
 #include <stdbool.h>
+
+#include "tlv.h"
 
 /* start and stop time hold as minutes = 60*hour[24-format]+mins */
 typedef struct{
@@ -20,4 +25,7 @@ uint8_t parsePH(uint8_t *value);
 void turnOnHeater(bool on);
 void turnOnCO2(bool on);
 void recalc_ph_coef(sol_t *calib_struct);
+bool usb_send_tlv(tlv_t *tlv);
+
+#endif
 

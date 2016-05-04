@@ -26,6 +26,7 @@ static TaskHandle_t  	tRead_ph_handle;
 static TaskHandle_t  	tCalibrate_handle;
 static TaskHandle_t		tAutoTerm_handle;
 static TaskHandle_t		tAutoCO2_handle;
+static TaskHandle_t		tNotifier_handle;
 
 void RtosDataAndTaskInit(void)
 {
@@ -33,6 +34,7 @@ void RtosDataAndTaskInit(void)
 	semHighPower = xSemaphoreCreateMutex();
 
 	xTaskCreate( tCalibrate_probe, "Calibrate", configMINIMAL_STACK_SIZE, NULL, PRIORITY_MAX, &tCalibrate_handle ); // higher priority
+	xTaskCreate( tNotifier, "Notifier", configMINIMAL_STACK_SIZE, NULL, PRIORITY_MAX, &tNotifier_handle ); // higher priority
 	
 	xTaskCreate( tController, "MainController", configMINIMAL_STACK_SIZE, NULL, PRIORITY_MAX-1, &tController_handle ); //higher priority -1 like all others
 	xTaskCreate( tRead_temp, "ReadTemp", configMINIMAL_STACK_SIZE, NULL, PRIORITY_MAX-1, &tRead_temp_handle );	
@@ -77,13 +79,18 @@ void tBlink_led(void * pvParameters)
 
 extern char temp[8];
 extern uint8_t temp1, temp2;
+#include "usbd_customhid.h"
+extern USBD_HandleTypeDef hUsbDeviceFS;//////////////////////
 void tRead_temp(void * pvParameters)
 {
 	for(;;)
 	{
 		ds18b20_readTemp();
 		// send val over USB - NO! send only if ask
-		vTaskDelay(5000);
+		vTaskDelay(10000);//5000
+uint8_t testBuff[64] = {0,9,0,0,0,0,0,0,0,'p','a','t','l','a','s',',','5','\n'};
+//////////////////////////
+//USBD_CUSTOM_HID_SendReport(&hUsbDeviceFS, testBuff, 11);
 	}
 }
 
@@ -149,7 +156,7 @@ void tCalibrate_probe(void * pvParameters)
 						{
 							recalc_ph_coef(&calib_val);
 						}
-						
+						xTaskNotify( tNotifier_handle, 0xAABBCCDD, eSetValueWithOverwrite );
 						break;
 					}
 				}
@@ -291,7 +298,7 @@ void tController(void * pvParameters)
 					//TODO - turn off temp task -> remember to disable heater!!!
 					vTaskSuspend(tAutoTerm_handle);
 					turnOnHeater(false);
-					printf("tController SET_TEMP: stop TERMOSTAT task.");
+					printf("tController SET_TEMP: stop TERMOSTAT task.\n");
 				}
 				else
 				{
@@ -299,7 +306,7 @@ void tController(void * pvParameters)
 					//TODO - after task resume immediately check temp and react!
 					termo_temp = temp;
 					vTaskResume(tAutoTerm_handle);
-					printf("tController SET_TEMP: start TERMOSTAT task.");
+					printf("tController SET_TEMP: start TERMOSTAT task.\n");
 				}
 				break;
 			
@@ -309,13 +316,13 @@ void tController(void * pvParameters)
 				{
 					vTaskSuspend(tAutoCO2_handle);
 					turnOnCO2(false);
-					printf("tController SET_PH: stop AutoCO2 task.");
+					printf("tController SET_PH: stop AutoCO2 task.\n");
 				}
 				else
 				{
 					co2_ph = ph;
 					vTaskResume(tAutoCO2_handle);
-					printf("tController SET_PH: start AutoCO2 task.");
+					printf("tController SET_PH: start AutoCO2 task.\n");
 				}
 				break;
 			
@@ -325,7 +332,7 @@ void tController(void * pvParameters)
 				sol = tlv.value[0];
 				if((ph == 0xFF || ph == 0x00) && sol>1)
 				{
-					printf("tController CALLIBRATE: error - wrong pH value!");
+					printf("tController CALLIBRATE: error - wrong pH value!\n");
 				}
 				else
 				{
@@ -333,13 +340,13 @@ void tController(void * pvParameters)
 					notify |= ph;
 					xTaskNotify( tCalibrate_handle, notify, eSetValueWithOverwrite );
 
-					printf("tController CALLIBRATE: notify=0x%x",notify);
+					printf("tController CALLIBRATE: notify=0x%x\n",notify);
 				}
 				break;
 				
 				
 			default:
-				printf("tController ANOTHER: %d",getTLVtype(&tlv));
+				printf("tController ANOTHER: %d\n",getTLVtype(&tlv));
 				break;
 		/*	case SET_OUT1:
 				break;
@@ -362,4 +369,28 @@ void tController(void * pvParameters)
 		
 	}
 }
+tlv_t tlv;
+void tNotifier(void * pvParameters)
+{
+	uint32_t notification = 0;
+	union
+	{
+		uint8_t data[4];
+		uint32_t notify;
+	}cmd;
+	for(;;)
+	{
+		xTaskNotifyWait( 0x00, 0xffffffff, &notification, portMAX_DELAY );
+		cmd.notify = notification;
+		buildTLVheader(&tlv, NOTIFY, cmd.data, 4);
+		//buildTLVheader(&tlv, 0, cmd.data, 4);
+		usb_send_tlv(&tlv);
+		
+		//USBD_CUSTOM_HID_SendReport(&hUsbDeviceFS, xxx, 11);
+	}
+}
+
+
+
+
 

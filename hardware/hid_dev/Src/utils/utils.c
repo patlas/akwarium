@@ -73,6 +73,8 @@ void turnOnCO2(bool on)
 	}
 }
 
+#include "usb_device.h"
+#include "usbd_customhid.h"
 void recalc_ph_coef(sol_t *calib_struct)
 {
 	//TODO - recalculate ph
@@ -80,3 +82,16 @@ void recalc_ph_coef(sol_t *calib_struct)
 	calib_struct->ph_coef=1;
 }
 
+extern USBD_HandleTypeDef hUsbDeviceFS;
+bool usb_send_tlv(tlv_t *tlv)
+{
+	uint8_t rawData[TLV_STRUCT_SIZE];
+	TLVtoArray(tlv, rawData);
+	for(int i=0; i<30; i++)
+		printf("%d\n",rawData[i]);
+	USBD_CUSTOM_HID_SendReport(&hUsbDeviceFS, rawData, TLV_STRUCT_SIZE);
+	printf("PO");
+	for(int i=0; i<30; i++)
+		printf("%d\n",rawData[i]);
+	return true;
+}

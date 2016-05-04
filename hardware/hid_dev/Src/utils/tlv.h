@@ -1,3 +1,6 @@
+#ifndef __TLV_H__
+#define __TLV_H__
+
 #include <stdint.h>
 #include <string.h>
 
@@ -25,6 +28,7 @@ typedef struct tlv_t {
 	* 0x07 - SET_LED1, TBD
 	* 0x08 - SET_LED2, TBD
 	* 0x09 - CALLIBRATE,data: 0x01,12,2 // first 0x00 (lowSol) 0x01(highSol), 0x7A=122->12,2pH
+	*	0x0A - NOTIFY, 		data: depend of notified type
  */
 typedef enum command_type_t
 {
@@ -36,7 +40,8 @@ typedef enum command_type_t
 	SET_OUT4,
 	SET_LED1,
 	SET_LED2,
-	CALLIBRATE
+	CALLIBRATE,
+	NOTIFY
 } command_type_t;
 
 
@@ -44,6 +49,8 @@ typedef enum command_type_t
 void TLVtoArray(tlv_t *tlv, uint8_t *rawData);
 void ArrayToTLV(tlv_t *tlv, uint8_t *rawData);
 command_type_t getTLVtype(tlv_t *tlv);
+void buildTLVheader(tlv_t *tlv, command_type_t type, uint8_t* cmd, uint64_t full_cmd_length);
 
 	
+#endif
 

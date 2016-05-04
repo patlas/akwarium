@@ -47,10 +47,10 @@ void ArrayToTLV(tlv_t *tlv, uint8_t *rawData)
 }
 
 //cmd string could not be longer than TLV_DATA_SIZE!
-void buildTLVheader(tlv_t *tlv, uint8_t* cmd, uint64_t full_cmd_length)
+void buildTLVheader(tlv_t *tlv, command_type_t type, uint8_t* cmd, uint64_t full_cmd_length)
 {
-	// TODO - this implementation supports only command header
-	tlv->type = 0;
+	tlv->type = type;
 	tlv->length = full_cmd_length;//cmd.length();
 	memcpy(tlv->value, cmd, full_cmd_length);
 }
+
