@@ -156,6 +156,7 @@ void tCalibrate_probe(void * pvParameters)
 						{
 							recalc_ph_coef(&calib_val);
 						}
+						stability_index = 0;
 						xTaskNotify( tNotifier_handle, 0xAABBCCDD, eSetValueWithOverwrite );
 						break;
 					}
@@ -383,10 +384,7 @@ void tNotifier(void * pvParameters)
 		xTaskNotifyWait( 0x00, 0xffffffff, &notification, portMAX_DELAY );
 		cmd.notify = notification;
 		buildTLVheader(&tlv, NOTIFY, cmd.data, 4);
-		//buildTLVheader(&tlv, 0, cmd.data, 4);
 		usb_send_tlv(&tlv);
-		
-		//USBD_CUSTOM_HID_SendReport(&hUsbDeviceFS, xxx, 11);
 	}
 }
 
