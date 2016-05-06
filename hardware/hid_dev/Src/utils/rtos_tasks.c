@@ -93,7 +93,7 @@ void tRead_temp(void * pvParameters)
 	{
 		ds18b20_readTemp();
 		// send val over USB - NO! send only if ask
-		vTaskDelay(10000);//5000
+		vTaskDelay(5000);//10000
 	}
 }
 

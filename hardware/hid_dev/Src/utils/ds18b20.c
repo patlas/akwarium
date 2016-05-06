@@ -90,7 +90,8 @@ void ds18b20_readTemp(void)
 		t2 = ds18b20_receiveByte();
 		ds18b20_resetPulse();
 		temp1=(t2<<4 | t1>>4);// /10;
-		temp2= (((t1&0x0F)*25)/4);  //// aby wyświetlicz to *25 i /4
+		///temp2= (((t1&0x0F)*25)/4);  //// aby wyświetlicz to *25 i /4
+		temp2= (((t1&0x0F)*5)/8);
 	}
 
 
