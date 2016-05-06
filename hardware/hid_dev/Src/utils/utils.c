@@ -87,11 +87,6 @@ bool usb_send_tlv(tlv_t *tlv)
 {
 	uint8_t rawData[TLV_STRUCT_SIZE];
 	TLVtoArray(tlv, rawData);
-	for(int i=0; i<30; i++)
-		printf("%d\n",rawData[i]);
 	USBD_CUSTOM_HID_SendReport(&hUsbDeviceFS, rawData, TLV_STRUCT_SIZE);
-	printf("PO");
-	for(int i=0; i<30; i++)
-		printf("%d\n",rawData[i]);
 	return true;
 }

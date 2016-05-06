@@ -29,6 +29,8 @@ typedef struct tlv_t {
 	* 0x08 - SET_LED2, TBD
 	* 0x09 - CALLIBRATE,data: 0x01,12,2 // first 0x00 (lowSol) 0x01(highSol), 0x7A=122->12,2pH
 	*	0x0A - NOTIFY, 		data: depend of notified type
+	* 0x0B - READ_TEMP, data: if received does not matter otherwise 0x03,0x02,0x04 //(each uint8_t); 32,4 [st.C]
+	* 0x0C - READ_PH, 	data: if received does not matter otherwise 0x07,0x05 //(each uint8_t); 7,5 [pH]
  */
 typedef enum command_type_t
 {
@@ -41,7 +43,9 @@ typedef enum command_type_t
 	SET_LED1,
 	SET_LED2,
 	CALLIBRATE,
-	NOTIFY
+	NOTIFY,
+	READ_TEMP,
+	READ_PH
 } command_type_t;
 
 

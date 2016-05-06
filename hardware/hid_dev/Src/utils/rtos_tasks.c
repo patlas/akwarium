@@ -15,6 +15,7 @@ SemaphoreHandle_t semHighPower;
 	
 /* globals and queues */
 QueueHandle_t usbInQueue;
+QueueHandle_t usbSenderQueue;
 
 /* sol struct */
 
@@ -27,10 +28,12 @@ static TaskHandle_t  	tCalibrate_handle;
 static TaskHandle_t		tAutoTerm_handle;
 static TaskHandle_t		tAutoCO2_handle;
 static TaskHandle_t		tNotifier_handle;
+static TaskHandle_t		tSender_handle;
 
 void RtosDataAndTaskInit(void)
 {
 	usbInQueue = xQueueCreate(USB_QUEUE_LENGTH , TLV_STRUCT_SIZE);
+	usbSenderQueue = xQueueCreate(USB_QUEUE_LENGTH , TLV_DATA_SIZE+1); // max data size + 1 for command type -> tSender build proper header
 	semHighPower = xSemaphoreCreateMutex();
 
 	xTaskCreate( tCalibrate_probe, "Calibrate", configMINIMAL_STACK_SIZE, NULL, PRIORITY_MAX, &tCalibrate_handle ); // higher priority
@@ -40,7 +43,8 @@ void RtosDataAndTaskInit(void)
 	xTaskCreate( tRead_temp, "ReadTemp", configMINIMAL_STACK_SIZE, NULL, PRIORITY_MAX-1, &tRead_temp_handle );	
 	xTaskCreate( tAutoTerm,	"tAutoTerm", configMINIMAL_STACK_SIZE, NULL, PRIORITY_MAX-1, &tAutoTerm_handle ); 
 	xTaskCreate( tRead_ph, "ReadPH", configMINIMAL_STACK_SIZE, NULL, PRIORITY_MAX-1, &tRead_ph_handle );	
-	xTaskCreate( tAutoCO2,	"tAutoCO2", configMINIMAL_STACK_SIZE, NULL, PRIORITY_MAX-1, &tAutoCO2_handle ); 
+	xTaskCreate( tAutoCO2, "tAutoCO2", configMINIMAL_STACK_SIZE, NULL, PRIORITY_MAX-1, &tAutoCO2_handle ); 
+	xTaskCreate( tSender,	"tSender", configMINIMAL_STACK_SIZE, NULL, PRIORITY_MAX-1, &tSender_handle ); 
 }
 
 
@@ -63,6 +67,7 @@ void tBlink_led(void * pvParameters)
 {
 	uint8_t nr = ((uint8_t*)pvParameters)[0];
 	uint16_t delay_ms = ((uint16_t*)pvParameters)[1];
+	uint8_t test[30]= {READ_TEMP};
 	
 	for(;;)
 	{
@@ -73,6 +78,7 @@ void tBlink_led(void * pvParameters)
 
 		//uint8_t x,y;
 		//RTC_getTime(&x,&y);
+		//xQueueSend(usbInQueue, test, NULL);
 		vTaskDelay(delay_ms);
 	}
 }
@@ -88,9 +94,6 @@ void tRead_temp(void * pvParameters)
 		ds18b20_readTemp();
 		// send val over USB - NO! send only if ask
 		vTaskDelay(10000);//5000
-uint8_t testBuff[64] = {0,9,0,0,0,0,0,0,0,'p','a','t','l','a','s',',','5','\n'};
-//////////////////////////
-//USBD_CUSTOM_HID_SendReport(&hUsbDeviceFS, testBuff, 11);
 	}
 }
 
@@ -345,6 +348,22 @@ void tController(void * pvParameters)
 				}
 				break;
 				
+			case READ_TEMP:
+				dataBuff[0] = READ_TEMP;
+				dataBuff[1] = temp1/10;
+				dataBuff[2] = temp1%10;
+				dataBuff[3] = temp2;
+				printf("tController READ_TEMP: %d.%d\n", temp1, temp2);
+				xQueueSend(usbSenderQueue, dataBuff, NULL);
+				break;
+			
+			case READ_PH: //TODO - do it 
+				dataBuff[0] = READ_PH;
+				dataBuff[1] = temp1/10;
+				dataBuff[2] = temp1%10;
+				//xQueueSend(usbSenderQueue, dataBuff, NULL);
+				break;
+				
 				
 			default:
 				printf("tController ANOTHER: %d\n",getTLVtype(&tlv));
@@ -370,6 +389,8 @@ void tController(void * pvParameters)
 		
 	}
 }
+
+//TODO - przemyslec czy nie bd jednego taska sender ktory bd wysylal odpowiednie notyfikacje?
 tlv_t tlv;
 void tNotifier(void * pvParameters)
 {
@@ -389,6 +410,19 @@ void tNotifier(void * pvParameters)
 }
 
 
+
+void tSender(void * pvParameters)
+{
+	tlv_t tlv;
+	uint8_t dataBuff[TLV_STRUCT_SIZE];
+	for(;;)
+	{
+		if( pdTRUE != xQueueReceive(usbSenderQueue, dataBuff, 0)) continue;
+		printf("USB data sending ...\n");
+		buildTLVheader(&tlv, dataBuff[0], &dataBuff[1], TLV_DATA_SIZE);
+		usb_send_tlv(&tlv);
+	}
+}
 
 
 
