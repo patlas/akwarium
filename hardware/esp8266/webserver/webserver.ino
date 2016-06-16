@@ -1,14 +1,16 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
+#include <WiFiClient.h>
 #include <SPI.h>
 #include <SD.h>
+#include "data_type.h"
 
 ESP8266WebServer server(80);
 const char* ssid = "AQUA";
 const char* password = "patlas1992";
 const int SD_CS = 4;
 
-void handleNotFound(){
+void handleNotFound2(){
   String message = "";
   message += "URI: ";
   message += server.uri();
@@ -23,6 +25,42 @@ void handleNotFound(){
   server.send(404, "text/plain", message);
   Serial.println(message);
 }
+
+void handleNotFound(){
+  String fname = server.uri();
+  fname = fname.substring(1);
+
+  Serial.println("Opening file: "+fname);
+  /*if(!SD.exists(fname.c_str()))
+  {
+    String message = "File "+ fname +" does not exists!";
+    server.send(404, "text/plain", message);
+    Serial.println(message);
+    return;
+  }*/
+
+  String type = getMIME(fname);
+  Serial.println("MIME type: "+type);
+  File fd = SD.open(fname.c_str());//, FILE_READ);
+  
+  //server.setContentLength(CONTENT_LENGTH_UNKNOWN);
+  //server.send(200, type, "");
+  //WiFiClient client = server.client();
+  //server.sendContent("[");
+
+  if(!fd)
+  {
+    Serial.println("Cannot open file!");
+    return;
+  }
+
+  /*if (server.streamFile(fd, type) != fd.size()) {
+    Serial.println("Sent less data than expected!");
+  }*/
+  fd.close();
+  
+}
+
 
 void startDefaultAP()
 {
@@ -105,7 +143,7 @@ void setup() {
  //pinMode(14,OUTPUT);
   Serial.begin(115200);
   startDefaultAP();
-
+/*
  server.on("/", [](){
   server.send(200, "text/html", "<html><head><title>TEST</title><link rel='stylesheet' href='a.css'></head><body>This is an index page.</body></html>");
   Serial.println("Dziala");
@@ -125,7 +163,7 @@ void setup() {
   Serial.println(server.header(0));
   //}
  });
-
+*/
 server.onNotFound(handleNotFound);
 Serial.println("Starting server");
 server.begin();

@@ -1,7 +1,6 @@
 #include "data_type.h"
 
-#include <string.h>
-#include <WString.h>
+
 
 static char *mime_str[] = {
 	"text/plain",
@@ -10,6 +9,7 @@ static char *mime_str[] = {
 	"text/css",
 	"text/javascript",
 	"image/jpeg",
+  "image/jpeg",
 	"image/bmp",
 	"image/png"
 };
@@ -28,15 +28,16 @@ enum f_ext {
 
 #define EX_TAB_SIZE	9
 static String file_ex[EX_TAB_SIZE] = { 
-	"js",
-	"css",
 	"dat",
 	"html",
-	"png", 
-	"bmp", 
-	"jpg", 
-	"jpeg", 
-	"gif"
+  "xml",
+	"css",
+	"js",
+	"jpeg",
+  "jpg",
+  "bmp",
+	"png"
+	//"gif"
 };
 
 #define FILE_DIR_SIZE	5
@@ -75,7 +76,12 @@ char *getDirByName(String fname)
 	}
 }
 
-char *getMIME(mime_t mime)
+String getMIME(String fname)
 {
-	return mime_str[mime];
+  for(int i=0; i<EX_TAB_SIZE; i++)
+  {
+    if(fname.endsWith(file_ex[i]))
+      return mime_str[i];
+  }
+	return mime_str[0];
 }

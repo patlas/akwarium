@@ -1,7 +1,8 @@
 #ifndef __DATA_TYPE__
 #define __DATA_TYPE__
 
-
+#include <string.h>
+#include <WString.h>
 
 typedef enum {
 	text_plain = 0,
@@ -16,7 +17,7 @@ typedef enum {
 
 
 char *getDirByName(char *fname);
-char *getMIME(mime_t mime);
+String getMIME(String fname);
 
 
 #endif
