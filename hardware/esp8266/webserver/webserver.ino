@@ -24,6 +24,17 @@ void setup() {
   delay(200);
  }
 */
+
+
+replay_server(...)
+{
+	//open file from uri
+	//ex = check extension
+	//size  = getFileSize
+	
+	
+}
+
  server.on("/", [](){
   server.send(200, "text/plain", "This is an index page.");
  });
