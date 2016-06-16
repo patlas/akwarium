@@ -3,7 +3,7 @@
 
 
 
-typdef enum {
+typedef enum {
 	text_plain = 0,
 	text_html,
 	text_xml,

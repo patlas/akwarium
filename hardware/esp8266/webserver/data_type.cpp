@@ -1,11 +1,12 @@
 #include "data_type.h"
 
 #include <string.h>
+#include <WString.h>
 
 static char *mime_str[] = {
 	"text/plain",
 	"text/html",
-	"text/xml","
+	"text/xml",
 	"text/css",
 	"text/javascript",
 	"image/jpeg",
@@ -16,7 +17,7 @@ static char *mime_str[] = {
 
 //organizacja katalogów: scripts, styles, images, data, other
 
-static enum f_ext {
+enum f_ext {
 	D_SCRIPT = 0,
 	D_STYLE,
 	D_DATA,
@@ -49,11 +50,11 @@ static char *file_dir[] = {
 
 char *getDirByName(String fname)
 {
-	fname = fname.toLowerCase();
+	fname.toLowerCase();
 	uint8_t index = 0;
 	for(index; index<fname.length(); index++)
 	{
-		if(fname.charAt(index) == ".")
+		if(fname.charAt(index) == '.')
 			break;
 	}
 	
