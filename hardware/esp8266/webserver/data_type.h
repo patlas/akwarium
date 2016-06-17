@@ -18,6 +18,7 @@ typedef enum {
 
 char *getDirByName(char *fname);
 String getMIME(String fname);
+String nameLongToShort(String long_name);
 
 
 #endif

@@ -49,17 +49,23 @@ static char *file_dir[] = {
 	"/other/"
 };
 
+
+String getFileExtensioen(String fname)
+{
+  fname.toLowerCase();
+  uint8_t index = 0;
+  for(index; index<fname.length(); index++)
+  {
+    if(fname.charAt(index) == '.')
+      break;
+  }
+  
+  return fname.substring(index+1);
+}
+
 char *getDirByName(String fname)
 {
-	fname.toLowerCase();
-	uint8_t index = 0;
-	for(index; index<fname.length(); index++)
-	{
-		if(fname.charAt(index) == '.')
-			break;
-	}
-	
-	String extension = fname.substring(index+1);
+	String extension = getFileExtensioen(fname);
 	
 	for(uint8_t i = 0; i<EX_TAB_SIZE; i++)
 	{
@@ -85,3 +91,28 @@ String getMIME(String fname)
   }
 	return mime_str[0];
 }
+
+
+String nameLongToShort(String long_name)
+{
+  String ex = getFileExtensioen(long_name);
+  ex.toUpperCase();
+  if(ex.length() > 2)
+    ex = ex.substring(0,3);
+  if(long_name.length() > 9)
+  {
+    long_name.toUpperCase();
+    String fname = long_name;
+    fname = fname.substring(0,5);
+    fname.trim();
+    fname += "~1.";
+    fname += ex;
+    return fname;
+  }
+  
+  long_name.toUpperCase();
+  return long_name;
+  
+}
+
+

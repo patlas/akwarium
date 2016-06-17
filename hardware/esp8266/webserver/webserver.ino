@@ -3,12 +3,17 @@
 #include <WiFiClient.h>
 #include <SPI.h>
 #include <SD.h>
+
+
 #include "data_type.h"
+
 
 ESP8266WebServer server(80);
 const char* ssid = "AQUA";
 const char* password = "patlas1992";
 const int SD_CS = 4;
+
+File root;
 
 void handleNotFound2(){
   String message = "";
@@ -26,6 +31,49 @@ void handleNotFound2(){
   Serial.println(message);
 }
 
+void printDirectory(File dir, int numTabs)
+{
+  while (true)
+  {
+    File entry = dir.openNextFile();
+    if (! entry)
+    {
+      if (numTabs == 0)
+        Serial.println("** Done **");
+      return;
+    }
+    for (uint8_t i = 0; i < numTabs; i++)
+      Serial.print('\t');
+    Serial.print(entry.name());
+    if (entry.isDirectory())
+    {
+      Serial.println("/");
+      printDirectory(entry, numTabs + 1);
+    }
+    else
+    {
+      Serial.print("\t\t");
+      Serial.println(entry.size(), DEC);
+    }
+    entry.close();
+  }
+}
+
+int sendFile(File fd, String type)
+{
+  char buff[512];
+  int s = 0;
+  server.setContentLength(CONTENT_LENGTH_UNKNOWN); //??
+  server.send(200, type, "");
+  //WiFiClient client = server.client();
+  //
+  do
+  {
+    s = fd.read(buff,512);
+    server.sendContent_P(buff, s);
+  } while(s>0);
+}
+
 void handleNotFound(){
   String fname = server.uri();
   fname = fname.substring(1);
@@ -41,23 +89,41 @@ void handleNotFound(){
 
   String type = getMIME(fname);
   Serial.println("MIME type: "+type);
-  File fd = SD.open(fname.c_str());//, FILE_READ);
+  //File fd = SD.open("INDEX.HTML");//fname.c_str());//, FILE_READ);
+  File fd;
+  root = SD.open("/");
+  if(!root)
+  {
+    Serial.println("Cannot open root!");
+    return;
+  }
+
+  printDirectory(root, 0);
+  root.close();
   
   //server.setContentLength(CONTENT_LENGTH_UNKNOWN);
   //server.send(200, type, "");
   //WiFiClient client = server.client();
   //server.sendContent("[");
-
+  String ofname = nameLongToShort(fname);
+  Serial.println(ofname);
+  fd =SD.open(ofname);
   if(!fd)
   {
     Serial.println("Cannot open file!");
     return;
   }
+  Serial.println(fd.name());
 
-  /*if (server.streamFile(fd, type) != fd.size()) {
-    Serial.println("Sent less data than expected!");
-  }*/
+  sendFile(fd, type);
+  Serial.println("File send");
+
   fd.close();
+
+
+
+
+
   
 }
 
