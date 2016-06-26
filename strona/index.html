@@ -1,0 +1,349 @@
+<html><head>
+    <meta name="keywords" content="">
+    <meta name="description" content="Your aqua controller">
+    <title>AQUARIUS</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="style.css" rel="stylesheet" type="text/css">
+  </head><body>
+    <div class="navbar navbar-default navbar-static-top bg-navibar">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-ex-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand logo" href="#testHide" data-toggle="collapse"><span style="color: white"><b>AQUARIUS</b></span></a>
+        </div>
+        <div class="collapse navbar-collapse" id="navbar-ex-collapse">
+          <ul class="nav navbar-nav navbar-right"></ul>
+          <p class="lead navbar-right navbar-text" id="date-tx">
+            <b>01-05-2016</b>
+          </p>
+          <p class="lead navbar-right navbar-text" id="hour_tx">
+            <b>11:30</b>
+          </p>
+          <p class="lead navbar-right navbar-text">
+            <b>CONTROLLER TIME:</b>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="section section-info text-justify bg-navibar">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 ">
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <h3 class="panel-title">
+                  <b>TEMPERATURE</b>
+                </h3>
+              </div>
+              <div class="panel-body">
+                <img src="img\thermometer.png" class="img-responsive pull-left">
+                <p id="temp_tx" class="lead text-center text-danger tx-temp">
+                  <b>25.0°C</b>
+                </p>
+                <p class="text-center text-primary tx-thermostat" id="termo_tx">
+                  <b>24.6°C</b>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 text-center">
+            <div class="panel panel-primary bg-creme">
+              <div class="panel-heading">
+                <h3 class="panel-title text-left">
+                  <b>ACIDITY PH</b>
+                </h3>
+              </div>
+              <div class="panel-body">
+                <img src="img\bg_ph.png" class="img-responsive pull-left">
+                <p class="text-primary tx-ph" id="ph_tx">
+                  <b>pH 7.5</b>
+                </p>
+                <p class="text-success tx-co2" id="co2_tx">
+                  <b>AUTO CO2</b>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="section section-info">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="panel panel-primary ">
+              <div class="panel-heading">
+                <h3 class="panel-title">
+                  <b>TERMOSTAT  SETTINGS</b>
+                </h3>
+              </div>
+              <div class="panel-body ">
+                <form class="col-md-12 form-horizontal" role="form">
+                  <div class="form-group ">
+                    <div class="col-md-2">
+                      <select class="form-control">
+                        <option>20</option>
+                        <option>21</option>
+                        <option>22</option>
+                        <option>23</option>
+                        <option>24</option>
+                        <option>25</option>
+                        <option>26</option>
+                        <option>27</option>
+                        <option>28</option>
+                        <option>29</option>
+                        <option>30</option>
+                        <option>31</option>
+                        <option>32</option>
+                        <option>33</option>
+                        <option>34</option>
+                        <option>35</option>
+                      </select>
+                    </div>
+                    <div class="col-md-2">
+                      <select class="form-control">
+                        <option>.0 °C</option>
+                        <option>.1 °C</option>
+                        <option>.2 °C</option>
+                        <option>.3 °C</option>
+                        <option>.4 °C</option>
+                        <option>.5 °C</option>
+                        <option>.6 °C</option>
+                        <option>.7 °C</option>
+                        <option>.8 °C</option>
+                        <option>.9 °C</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-md-2 col-md-2">
+                      <button type="submit" class="btn btn-block btn-lg btn-success">
+                        <i class="fa fa-fw fa-lg fa-save"></i>SAVE</button>
+                    </div>
+                    <div class="col-md-2">
+                      <select class="form-control checkbox-size">
+                        <option>ENABLE</option>
+                        <option>DISABLE</option>
+                      </select>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="section section-info">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="panel panel-primary ">
+              <div class="panel-heading">
+                <h3 class="panel-title" draggable="true">
+                  <b>CO2 &amp; PH SETTINGS</b>
+                </h3>
+              </div>
+              <div class="panel-body ">
+                <form class="col-md-12 form-horizontal" role="form">
+                  <div class="form-group ">
+                    <div class="col-md-2">
+                      <select class="form-control">
+                        <option>5</option>
+                        <option>6</option>
+                        <option>7</option>
+                        <option>8</option>
+                        <option>9</option>
+                      </select>
+                    </div>
+                    <div class="col-md-2">
+                      <select class="form-control">
+                        <option>.0</option>
+                        <option>.1</option>
+                        <option>.2</option>
+                        <option>.3</option>
+                        <option>.4</option>
+                        <option>.5</option>
+                        <option>.6</option>
+                        <option>.7</option>
+                        <option>.8</option>
+                        <option>.9</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-md-2 col-md-2">
+                      <button type="submit" class="btn btn-block btn-lg btn-success">
+                        <i class="fa fa-fw fa-lg fa-save"></i>SAVE</button>
+                    </div>
+                    <div class="col-md-2">
+                      <select class="form-control checkbox-size">
+                        <option>ENABLE</option>
+                        <option>DISABLE</option>
+                      </select>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="section section-info" id="power_out">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="panel panel-primary" id="power_out">
+              <div class="panel-heading">
+                <h3 class="panel-title">
+                  <b>POWER OUTPUTS</b>
+                </h3>
+              </div>
+              <div class="panel-body">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="row">
+                        <div class="col-md-4">
+                          <img src="img\settings2.png" class="img-responsive pull-left">
+                        </div>
+                        <div class="col-md-7">
+                          <p class="text-muted tx-out" id="out1_tx">
+                            <b>INACTIVE</b>
+                          </p>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-4">
+                          <img src="img\settings2.png" class="img-responsive pull-left">
+                        </div>
+                        <div class="col-md-7">
+                          <p class="text-muted tx-out" id="out2_tx">
+                            <b>ACTIVE</b>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="row">
+                        <div class="col-md-4">
+                          <img src="img\settings2.png" class="img-responsive pull-left">
+                        </div>
+                        <div class="col-md-7">
+                          <p class="text-muted tx-out" id="out3_tx">
+                            <b>ACTIVE</b>
+                          </p>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-4">
+                          <img src="img\settings2.png" class="img-responsive pull-left">
+                        </div>
+                        <div class="col-md-7">
+                          <p class="text-muted tx-out" id="out4_tx">
+                            <b>INACTIVE</b>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="section section-info text-justify">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="panel panel-primary" id="power_out">
+              <div class="panel-heading">
+                <h3 class="panel-title">
+                  <b>LED LIGHT</b>
+                </h3>
+              </div>
+              <div class="panel-body">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="row">
+                        <div class="col-md-5">
+                          <img src="img\led1.png" class="img-responsive pull-left">
+                        </div>
+                        <div class="col-md-6">
+                          <p class="text-left text-warning tx-led" id="led1_tx">
+                            <b>35%</b>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="row">
+                        <div class="col-md-5">
+                          <img src="img\led1.png" class="img-responsive pull-left">
+                        </div>
+                        <div class="col-md-5">
+                          <p class="text-left text-warning tx-led" id="led2_tx">
+                            <b>89%</b>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-3">
+            <i class="fa fa-5x fa-fw fa-mobile"></i>
+          </div>
+          <div class="col-md-3">
+            <ul class="list-group">
+              <li class="list-group-item">Cras justo odio</li>
+              <li class="list-group-item">Dapibus ac facilisis in</li>
+              <li class="list-group-item">Morbi leo risus</li>
+              <li class="list-group-item">Porta ac consectetur ac</li>
+              <li class="list-group-item">Vestibulum at eros</li>
+            </ul>
+          </div>
+          <div class="col-md-2"></div>
+          <div class="col-md-2">
+            <div class="jumbotron">
+              <h1>Hello, world!</h1>
+              <p>...</p>
+              <a class="btn btn-primary btn-large">Learn more</a>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="well">
+              <h2>Heading</h2>
+              <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus
+                ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo
+                sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed
+                odio dui.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+
+</body></html>
