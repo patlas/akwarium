@@ -3,6 +3,7 @@
 
 #include <string.h>
 #include <WString.h>
+#include "SdFat/SdFat.h"
 
 typedef enum {
 	text_plain = 0,
@@ -18,7 +19,7 @@ typedef enum {
 
 char *getDirByName(char *fname);
 String getMIME(String fname);
-String nameLongToShort(String long_name);
+int fileIDbyName(const char* dir, const char* fname);
 
 
 #endif
