@@ -10,6 +10,10 @@
     <!-- ClockPicker Stylesheet <link rel="stylesheet" type="text/css" href="clock/bootstrap.min.css">-->
     <link rel="stylesheet" type="text/css" href="bootstrap/bootstrap-clockpicker.min.css">
     <script type="text/javascript" src="bootstrap/bootstrap-clockpicker.min.js"></script>
+	<link href="slider/bootstrap-slider.css" rel="stylesheet">
+	<script type="text/javascript" src="slider/bootstrap-slider.js"></script>
+	
+	
     <link href="style.css" rel="stylesheet" type="text/css">
   </head><body>
     <div class="navbar navbar-default navbar-static-top bg-navibar">
@@ -403,6 +407,18 @@
           </div>
         </div>
       </div>
+	  
+	  
+	  <input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14"/>
+	  <script type="text/javascript ">
+	  var slider = new Slider('#ex1', {
+		formatter: function(value) {
+		return 'Current value: ' + value;
+		}
+		});
+	  </script>
+	  
+	  
       <script type="text/javascript ">
         $('.clockpicker').clockpicker();
       </script>
