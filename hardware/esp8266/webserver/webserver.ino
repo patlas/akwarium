@@ -38,16 +38,11 @@ void sendFile(SdFile &fd, String type)
   if(fd.fileSize() <=0 ) return;
   server.setContentLength(CONTENT_LENGTH_UNKNOWN); //??
   server.send(200, type, "");
-  Serial.println("File size and name");
-  Serial.println(fd.fileSize());
-  fd.printName(&Serial);
-  Serial.println();
-  Serial.println(fd.isOpen());
+
   do
   {
     s = fd.read(buff,512);
-    Serial.println(s);
-    //server.sendContent_P(buff, s);
+    server.sendContent_P(buff, s);
   } while(s>0);
   
 }
@@ -197,7 +192,7 @@ server.begin();
 Serial.println("SERVER BEGINED");
 
 
-if(sd.begin(SD_CS, SPI_HALF_SPEED))
+if(sd.begin(SD_CS))
 {
   Serial.println("SD communication OK!");
   int x = fileIDbyName("/", "index.html");
