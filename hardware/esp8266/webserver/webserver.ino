@@ -1,3 +1,4 @@
+
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
 #include <WiFiClient.h>
@@ -6,7 +7,7 @@
 #include "data_type.h"
 
 #include "SdFat/SdFat.h"
-SdFat SD;
+SdFat sd;
 SdFile file;
 SdFile dirFile;
 ESP8266WebServer server(80);
@@ -30,11 +31,32 @@ void handleNotFound2(){
   Serial.println(message);
 }
 
+void sendFile(SdFile &fd, String type)
+{
+  char buff[512];
+  int s = 0;
+  if(fd.fileSize() <=0 ) return;
+  server.setContentLength(CONTENT_LENGTH_UNKNOWN); //??
+  server.send(200, type, "");
+  Serial.println("File size and name");
+  Serial.println(fd.fileSize());
+  fd.printName(&Serial);
+  Serial.println();
+  Serial.println(fd.isOpen());
+  do
+  {
+    s = fd.read(buff,512);
+    Serial.println(s);
+    //server.sendContent_P(buff, s);
+  } while(s>0);
+  
+}
+
 void handleNotFound(){
   String fname = server.uri();
-  fname = fname.substring(1);
+  //fname = fname.substring(1);
 
-  Serial.println("Opening file: "+fname);
+  Serial.println("Trying to open file: "+fname);
   /*if(!SD.exists(fname.c_str()))
   {
     String message = "File "+ fname +" does not exists!";
@@ -45,7 +67,28 @@ void handleNotFound(){
 
   String type = getMIME(fname);
   Serial.println("MIME type: "+type);
-  //////////////File fd = SD.open(fname.c_str());//, FILE_READ);
+  
+  SdFile fd;
+  SdFile dir;
+
+
+  int findex = openFile(fd, fname);
+  if(findex < 0)
+  {
+    Serial.println("Cannot open file or not exists, received -1");
+    String message = "File "+ fname +" does not exists!";
+    server.send(404, "text/plain", message);
+    Serial.println(message);
+    return;
+  }
+
+  fd.printSFN(&Serial);
+  Serial.println();
+  sendFile(fd, type);
+  fd.close();
+  Serial.println("File sent");
+  
+
   
   //server.setContentLength(CONTENT_LENGTH_UNKNOWN);
   //server.send(200, type, "");
@@ -147,32 +190,14 @@ void setup() {
  //pinMode(14,OUTPUT);
   Serial.begin(115200);
   startDefaultAP();
-/*
- server.on("/", [](){
-  server.send(200, "text/html", "<html><head><title>TEST</title><link rel='stylesheet' href='a.css'></head><body>This is an index page.</body></html>");
-  Serial.println("Dziala");
-  String test = "TEST";
-  Serial.println(test);
-  Serial.println(server.uri());
- });
 
- //server.on("/",HTTP_GET,[](){
- server.on("/a.css",[](){
-  Serial.println("Ask for: \n");
-  Serial.println("args count:"+server.args());
-  Serial.println(server.arg(0));
-  //if(server.arg(0).equals("a.css"))
- // {
-    server.send(200,"text/css","body{background:red;}");
-  Serial.println(server.header(0));
-  //}
- });
-*/
 server.onNotFound(handleNotFound);
 Serial.println("Starting server");
 server.begin();
 Serial.println("SERVER BEGINED");
-if(SD.begin(SD_CS))
+
+
+if(sd.begin(SD_CS, SPI_HALF_SPEED))
 {
   Serial.println("SD communication OK!");
   int x = fileIDbyName("/", "index.html");
@@ -204,3 +229,13 @@ void loop() {
   server.handleClient();
 
 }
+
+
+
+
+
+
+
+
+
+

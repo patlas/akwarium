@@ -110,3 +110,49 @@ int fileIDbyName(const char* dir, const char* fname)
   return -2;
 }
 
+int fileByLongName(SdFile &fd, const char* dir, const char* fname)
+{
+  SdFile dirFile;
+  char lname[20];
+  Serial.println(dir);
+  Serial.println(fname);
+  if(!dirFile.open(dir, O_RDWR))
+  {
+    Serial.print("ERROR OPENING DIR: ");
+    Serial.println(dir);
+    return -1;
+  }
+  while(fd.openNext(&dirFile, O_RDWR))
+  {
+    fd.getName(lname,20);
+    if(strcmp(fname, lname) == 0)
+    {
+      dirFile.close();
+      return (int)(fd.dirIndex());
+    }
+    fd.close();
+  }
+  dirFile.close();
+  return -2;
+}
+
+
+String* getFileAndDir(String path)
+{
+  String *ret = new String[2];
+  int last_slash_index = path.lastIndexOf('/');
+  ret[0] = path.substring(last_slash_index+1);
+  ret[1] = path.substring(0, last_slash_index+1);
+
+  return ret;
+}
+
+int openFile(SdFile &fd, String path)
+{
+  String *addr;
+  addr = getFileAndDir(path);
+  return fileByLongName(fd, addr[1].c_str(), addr[0].c_str());
+}
+
+
+
