@@ -195,17 +195,19 @@ Serial.println("SERVER BEGINED");
 if(sd.begin(SD_CS))
 {
   Serial.println("SD communication OK!");
-  int x = fileIDbyName("/", "index.html");
-  if(x>0)
+
+if(!dirFile.open("/", O_READ))
   {
-    Serial.print("File index: ");
-    Serial.println(x);
+    Serial.print("ERROR OPENING DIR: ");
+    return;
   }
   else
   {
-    Serial.print("Open file error: ");
-    Serial.println(x);
+    Serial.println("LS");
+    dirFile.ls(&Serial);
+    Serial.println();
   }
+  
 }
 else
   Serial.println("SD ERROR");
