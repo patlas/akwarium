@@ -6,12 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script type="text/javascript" src="bootstrap/jquery.min.js"></script>
     <script type="text/javascript" src="bootstrap/bootstrap.min.js"></script>
-    <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="font-awesome.min.css" rel="stylesheet" type="text/css">
     <!-- ClockPicker Stylesheet <link rel="stylesheet" type="text/css" href="clock/bootstrap.min.css">-->
     <link rel="stylesheet" type="text/css" href="bootstrap/bootstrap-clockpicker.min.css">
     <script type="text/javascript" src="bootstrap/bootstrap-clockpicker.min.js"></script>
 	<link href="slider/bootstrap-slider.css" rel="stylesheet">
 	<script type="text/javascript" src="slider/bootstrap-slider.js"></script>
+	<script type="text/javascript" src="script.js"></script>
 	
 	
     <link href="style.css" rel="stylesheet" type="text/css">
@@ -54,10 +55,10 @@
               <div class="panel-body">
                 <img src="img\thermometer.png" class="img-responsive pull-left">
                 <p id="temp_tx" class="lead text-center text-danger tx-temp">
-                  <b>25.0°C</b>
+                  <b><span id="temp"></span>°C</b>
                 </p>
                 <p class="text-center text-primary tx-thermostat" id="termo_tx">
-                  <b>24.6°C</b>
+                  <b><span id="temp_term"></span>°C</b>
                 </p>
               </div>
             </div>
@@ -72,7 +73,7 @@
               <div class="panel-body">
                 <img src="img\bg_ph.png" class="img-responsive pull-left">
                 <p class="text-primary tx-ph" id="ph_tx">
-                  <b>pH 7.5</b>
+                  <b>pH <span id="ph"></span></b>
                 </p>
                 <p class="text-success tx-co2" id="co2_tx">
                   <b>AUTO CO2</b>
@@ -100,7 +101,7 @@
 				  <div class="col-md-6">
      
 					<div class="col-md-3">
-					  <select class="form-control">
+					  <select id="temp_h" class="form-control">
                         <option>20</option>
                         <option>21</option>
                         <option>22</option>
@@ -121,7 +122,7 @@
 					</div>
       
                     <div class="col-md-3">
-                      <select class="form-control">
+                      <select id="temp_l" class="form-control">
                         <option>.0 °C</option>
                         <option>.1 °C</option>
                         <option>.2 °C</option>
@@ -142,9 +143,9 @@
 				  <div class="col-md-6">
 
 					<div class="col-md-6">
-                      <select class="form-control">
-                        <option>ENABLE</option>
+                      <select id="temp_en" class="form-control">
                         <option>DISABLE</option>
+                        <option>ENABLE</option>
                       </select>
 					</div>
 				  </div>
@@ -187,7 +188,7 @@
 				  <div class="col-md-6">
 					
 					<div class="col-md-3">
-					  <select class="form-control">
+					  <select id="ph_h" class="form-control">
 						<option>5</option>
 						<option>6</option>
 						<option>7</option>
@@ -198,7 +199,7 @@
 					</div>
 					
 					<div class="col-md-3">
-                      <select class="form-control">
+                      <select id="ph_l" class="form-control">
                         <option>.0</option>
                         <option>.5</option>
                       </select>
@@ -211,9 +212,9 @@
 				  <div class="col-md-6">
 
 					<div class="col-md-6">
-                      <select class="form-control">
-                        <option>ENABLE</option>
+                      <select id="ph_en" class="form-control">
                         <option>DISABLE</option>
+                        <option>ENABLE</option>
                       </select>
 					</div>
 				  </div>
@@ -325,8 +326,8 @@
                 </div>
                 <div class="panel-body ">
                   <div class="container ">
+				  <div class="col-md-6">
                     <div class="row ">
-                      <div class="col-md-6 ">
                           <div class="col-md-5 ">
                             <div class="input-group clockpicker" data-placement="bottom" data-align="top" data-autoclose="true">
                               <span class="input-group-addon ">ON</span>
@@ -342,8 +343,112 @@
                               <span class="input-group-addon ">OFF</span>
                             </div>
                           </div>
-					  </div>
 					</div>
+					
+					<br />
+					<div class="row">
+						<div class="col-md-10 center-block">
+							<button type="submit" class="btn btn-block btn-lg btn-success">
+								<i class="fa fa-fw fa-md fa-save"></i>SAVE</button>
+						</div>
+					</div>
+					
+					<br />
+					<br />
+					<div class="row ">
+                          <div class="col-md-5 ">
+                            <div class="input-group clockpicker" data-placement="bottom" data-align="top" data-autoclose="true">
+                              <span class="input-group-addon ">ON</span>
+                              <input type="text " class="form-control text-center " value="00:00 "/>
+                              <span class="input-group-addon fa fa-2x fa-clock-o fa-fw text-primary "></span>
+                            </div>
+                          </div>
+
+                          <div class="col-md-5 ">
+                            <div class="input-group clockpicker" data-placement="bottom" data-align="top" data-autoclose="true">
+                              <span class="input-group-addon fa fa-2x fa-clock-o fa-fw text-primary"></span>
+                              <input type="text " class="form-control text-center " value="00:00 "/>
+                              <span class="input-group-addon ">OFF</span>
+                            </div>
+                          </div>
+					</div>
+					
+					<br />
+					<div class="row">
+						<div class="col-md-10 center-block">
+							<button type="submit" class="btn btn-block btn-lg btn-success">
+								<i class="fa fa-fw fa-md fa-save"></i>SAVE</button>
+						</div>
+					</div>
+					
+					</div>
+					
+					<div class="col-md-6">
+                    <div class="row ">
+                          <div class="col-md-5 ">
+                            <div class="input-group clockpicker" data-placement="bottom" data-align="top" data-autoclose="true">
+                              <span class="input-group-addon ">ON</span>
+                              <input type="text " class="form-control text-center " value="00:00 "/>
+                              <span class="input-group-addon fa fa-2x fa-clock-o fa-fw text-primary "></span>
+                            </div>
+                          </div>
+
+                          <div class="col-md-5 ">
+                            <div class="input-group clockpicker" data-placement="bottom" data-align="top" data-autoclose="true">
+                              <span class="input-group-addon fa fa-2x fa-clock-o fa-fw text-primary"></span>
+                              <input type="text " class="form-control text-center " value="00:00 "/>
+                              <span class="input-group-addon ">OFF</span>
+                            </div>
+                          </div>
+					</div>
+					
+					<br />
+					<div class="row">
+						<div class="col-md-10 center-block">
+							<button type="submit" class="btn btn-block btn-lg btn-success">
+								<i class="fa fa-fw fa-md fa-save"></i>SAVE</button>
+						</div>
+					</div>
+					
+					<br />
+					<br />
+					<div class="row ">
+                          <div class="col-md-5 ">
+                            <div class="input-group clockpicker" data-placement="bottom" data-align="top" data-autoclose="true">
+                              <span class="input-group-addon ">ON</span>
+                              <input type="text " class="form-control text-center " value="00:00 "/>
+                              <span class="input-group-addon fa fa-2x fa-clock-o fa-fw text-primary "></span>
+                            </div>
+                          </div>
+
+                          <div class="col-md-5 ">
+                            <div class="input-group clockpicker" data-placement="bottom" data-align="top" data-autoclose="true">
+                              <span class="input-group-addon fa fa-2x fa-clock-o fa-fw text-primary"></span>
+                              <input type="text " class="form-control text-center " value="00:00 "/>
+                              <span class="input-group-addon ">OFF</span>
+                            </div>
+                          </div>
+					</div>
+					
+					<br />
+					<div class="row">
+						<div class="col-md-10 center-block">
+							<button type="submit" class="btn btn-block btn-lg btn-success">
+								<i class="fa fa-fw fa-md fa-save"></i>SAVE</button>
+						</div>
+					</div>
+					
+					</div>
+					
+					
+					<div class="col-md-6">
+					adfadf
+					</div>
+					
+					
+					
+					
+					
 					
 					
 					<div class="row ">
@@ -423,6 +528,14 @@
         $('.clockpicker').clockpicker();
       </script>
     
+	  <script type="text/javascript">
+		updateValue("temp", httpGetAsync("?temp", null));
+		updateValue("temp_term", httpGetAsync("?temp_term", null));
+		updateValue("ph", httpGetAsync("?ph", null));
+		settingsTemp("23", 1);
+		settingsPh("7.6", 1);
+	  </script>
+	
   
 
 </body></html>
