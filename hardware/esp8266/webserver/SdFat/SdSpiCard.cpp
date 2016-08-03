@@ -20,10 +20,10 @@
 #include "SdSpiCard.h"
 #include "SdSpi.h"
 // debug trace macro
-//#define SD_TRACE(m, b)
- #define SD_TRACE(m, b) Serial.print(m);Serial.println(b);
-//#define SD_CS_DBG(m)
- #define SD_CS_DBG(m) Serial.println(F(m));
+#define SD_TRACE(m, b)
+ //#define SD_TRACE(m, b) Serial.print(m);Serial.println(b);
+#define SD_CS_DBG(m)
+ //#define SD_CS_DBG(m) Serial.println(F(m));
 //==============================================================================
 #if USE_SD_CRC
 // CRC functions

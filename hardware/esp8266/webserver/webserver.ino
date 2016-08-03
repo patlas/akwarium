@@ -35,14 +35,25 @@ void sendFile(SdFile &fd, String type)
 {
   char buff[512];
   int s = 0;
-  if(fd.fileSize() <=0 ) return;
-  server.setContentLength(CONTENT_LENGTH_UNKNOWN); //??
+  if(fd.fileSize() <=0 ) 
+  {
+    return;
+    fd.close();
+  }
+  server.setContentLength(CONTENT_LENGTH_UNKNOWN /*fd.fileSize()*/); //??
   server.send(200, type, "");
 
   do
   {
-    s = fd.read(buff,512);
-    server.sendContent_P(buff, s);
+    s = fd.read(&buff[0],512);
+    if(s<0)
+    {
+      Serial.println("Read error");
+      fd.close();
+      return;
+    }
+    //Serial.write(&buff[0],s);
+    server.sendContent_P(&buff[0], s);
   } while(s>0);
   
 }
@@ -66,8 +77,8 @@ void handleNotFound(){
   SdFile fd;
   SdFile dir;
 
-
-  int findex = openFile(fd, fname);
+  sd.vwd()->rewind();
+  int findex = openFile(sd, fd, fname);
   if(findex < 0)
   {
     Serial.println("Cannot open file or not exists, received -1");
@@ -77,8 +88,8 @@ void handleNotFound(){
     return;
   }
 
-  fd.printSFN(&Serial);
-  Serial.println();
+  //fd.printSFN(&Serial);
+  //Serial.println();
   sendFile(fd, type);
   fd.close();
   Serial.println("File sent");
@@ -184,6 +195,7 @@ void setup() {
   // put your setup code here, to run once:
  //pinMode(14,OUTPUT);
   Serial.begin(115200);
+  ESP.wdtDisable();
   startDefaultAP();
 
 server.onNotFound(handleNotFound);
@@ -192,10 +204,10 @@ server.begin();
 Serial.println("SERVER BEGINED");
 
 
-if(sd.begin(SD_CS))
+if(sd.begin(SD_CS/*, SPI_HALF_SPEED*/))
 {
   Serial.println("SD communication OK!");
-
+/*
 if(!dirFile.open("/", O_READ))
   {
     Serial.print("ERROR OPENING DIR: ");
@@ -203,10 +215,11 @@ if(!dirFile.open("/", O_READ))
   }
   else
   {
-    Serial.println("LS");
-    dirFile.ls(&Serial);
-    Serial.println();
-  }
+    //Serial.println("LS");
+    //dirFile.ls(&Serial);
+    //Serial.println();
+    dirFile.close();
+  }*/
   
 }
 else
@@ -221,7 +234,7 @@ uint8_t toggle = 0;
 void loop() {
   // put your main code here, to run repeatedly:
 //  digitalWrite(14, toggle);
-//  delay(200);
+  delay(200);
 //  toggle^=1;
   server.handleClient();
 

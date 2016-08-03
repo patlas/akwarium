@@ -110,11 +110,11 @@ int fileIDbyName(const char* dir, const char* fname)
   return -2;
 }
 
-int fileByLongName(SdFile &fd, const char* dir, const char* fname)
+int fileByLongName(SdFat &sd, SdFile &fd, const char* dir, const char* fname)
 {
   SdFile dirFile;
   fd.close();
-  char lname[40];
+  char lname[100];
   Serial.println(dir);
   Serial.println(fname);
   if(!dirFile.open(dir, O_READ))
@@ -123,18 +123,21 @@ int fileByLongName(SdFile &fd, const char* dir, const char* fname)
     Serial.println(dir);
     return -1;
   }
-  Serial.println("--------------------------");
-  dirFile.ls(&Serial);
-  Serial.println(dirFile.isOpen());
-  Serial.print("Finding file:");
+  //Serial.println("--------------------------");
+  //dirFile.ls(&Serial);
+  //Serial.println(dirFile.isOpen());
+  
+  //Serial.print("Finding file:");
+  //sd.vwd()->rewind();
+  dirFile.rewind();
   while(fd.openNext(&dirFile, O_READ))
   {
-    Serial.println("ENTER");
+    //Serial.println("ENTER");
     if (!fd.isSubDir() && !fd.isHidden())
     {
-      fd.getName(lname,40);
+      fd.getName(lname,100);
       
-      Serial.println(lname);
+      //Serial.println(lname);
       
       if(strcmp(fname, lname) == 0)
       {
@@ -159,12 +162,12 @@ String* getFileAndDir(String path)
   return ret;
 }
 
-int openFile(SdFile &fd, String path)
+int openFile(SdFat &sd, SdFile &fd, String path)
 {
   String *addr;
   addr = getFileAndDir(path);
-  Serial.println("openFile "+addr[0]+" "+addr[1]);
-  return fileByLongName(fd, addr[1].c_str(), addr[0].c_str());
+  //Serial.println("openFile "+addr[0]+" "+addr[1]);
+  return fileByLongName(sd, fd, addr[1].c_str(), addr[0].c_str());
 }
 
 

@@ -20,9 +20,9 @@ typedef enum {
 char *getDirByName(char *fname);
 String getMIME(String fname);
 int fileIDbyName(const char* dir, const char* fname);
-int fileByLongName(SdFile &fd, const char* dir, const char* fname);
+int fileByLongName(SdFat &sd, SdFile &fd, const char* dir, const char* fname);
 String *getFileAndDir(String path);
-int openFile(SdFile &fd, String path);
+int openFile(SdFat &sd, SdFile &fd, String path);
 
 
 
