@@ -21,9 +21,42 @@ function httpGetAsync(theUrl, callback)
 	return getDemo(str);
 }
 
+function send_get_time()
+{
+    var xhtml_request = new XMLHttpRequest();
+    xhtml_request.open("POST", "index.html", true);
+    xhtml_request.setRequestHeader("Content-type", "application/json");
+    var data = JSON.stringify({"type": "get", "method": "current_time", "args_count": 0}); //if args count>0 than list with args
+    xhtml_request.send(data);
+}
+
+
+
+function on_page_load()
+{
+    send_get_time();
+}
+
+//
+//var xhr = new XMLHttpRequest();
+//var url = "url";
+//xhr.open("POST", url, true);
+//xhr.setRequestHeader("Content-type", "application/json");
+//xhr.onreadystatechange = function () {
+//    if (xhr.readyState === 4 && xhr.status === 200) {
+//        var json = JSON.parse(xhr.responseText);
+//        console.log(json.email + ", " + json.password);
+//    }
+//};
+//var data = JSON.stringify({"email": "hey@mail.com", "password": "101010"});
+//xhr.send(data);
+
+
+
+
 function getDemo(parameter)
 {
-	txt = "<note><temp>27.7</temp> <temp_term>12.0</temp_term> <ph>6.5</ph></note>"
+	txt = "<note><temp>27.5</temp> <temp_term>12.0</temp_term> <ph>6.5</ph></note>"
 	parser = new DOMParser();
 	xmlDoc = parser.parseFromString(txt, "text/xml");
 	return xmlDoc.getElementsByTagName(parameter)[0].childNodes[0].nodeValue;

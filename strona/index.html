@@ -16,7 +16,8 @@
 	
 	
     <link href="style.css" rel="stylesheet" type="text/css">
-  </head><body>
+  </head>
+<body onload="on_page_load()">
     <div class="navbar navbar-default navbar-static-top bg-navibar">
       <div class="container">
         <div class="navbar-header">
@@ -31,10 +32,10 @@
         <div class="collapse navbar-collapse" id="navbar-ex-collapse">
           <ul class="nav navbar-nav navbar-right"></ul>
           <p class="lead navbar-right navbar-text" id="date-tx">
-            <b>01-05-2016</b>
+            <b id="ctl_date">01-05-2016</b>
           </p>
           <p class="lead navbar-right navbar-text" id="hour_tx">
-            <b>11:30</b>
+            <b id="ctl_time">11:30</b>
           </p>
           <p class="lead navbar-right navbar-text">
             <b>CONTROLLER TIME:</b>
@@ -155,7 +156,7 @@
                       <br />
                       <div class="row">
                           <div class="col-md-12">
-                            <button type="submit" class="btn btn-block btn-lg btn-success">
+                            <button type="submit" class="btn btn-block btn-lg btn-success" onclick="send_get_time()">
                             <i class="fa fa-fw fa-md fa-save"></i>SAVE</button>
                           </div>
                       </div>
