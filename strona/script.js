@@ -15,12 +15,15 @@ function _call_function(func_name, args_list, response_callback)
 		{
 			if(response_callback != null)
 			{
-				response_callback(response_callback.responseText); // add parser function
+//			    window.alert(xhtml_request.responseText);
+			    resp = JSON.parse(xhtml_request.responseText);
+//			    window.alert(resp.time);
+				response_callback(resp); // add parser function
 				return null;
 			}
 
-//			else
-//				return xmlHttp.responseText;
+			else
+				return null;
 		}
     }
 
@@ -30,11 +33,11 @@ function _call_function(func_name, args_list, response_callback)
 
 function send_get_time()
 {
-    var xhtml_request = new XMLHttpRequest();
-    xhtml_request.open("POST", "index.html", true);
-    xhtml_request.setRequestHeader("Content-type", "application/json");
-    var data = JSON.stringify({"method": "current_time", "args": ""}); //if args count>0 than list with args
-    xhtml_request.send(data);
+    _call_function("get_time", [], function(arg) {
+//        window.alert(arg.date);
+        document.getElementById("ctl_time").innerHTML = ""+arg.time;//arg.time;
+        document.getElementById("ctl_date").innerHTML = ""+arg.data;
+    })
 }
 
 
