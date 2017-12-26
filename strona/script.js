@@ -1,24 +1,31 @@
-function httpGetAsync(theUrl, callback)
+
+// server side function name with ist args
+function _call_function(func_name, args_list, response_callback)
 {
-    /*var xmlHttp = new XMLHttpRequest();
-    xmlHttp.onreadystatechange = function() { 
-        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+
+    var xhtml_request = new XMLHttpRequest();
+    xhtml_request.open("POST", "index.html", true);
+    xhtml_request.setRequestHeader("Content-type", "application/json");
+
+    var data = JSON.stringify({"method": func_name, "args": args_list}); //if args count>0 than list with args
+
+    xhtml_request.onreadystatechange = function() {
+
+        if (xhtml_request.readyState == 4 && xhtml_request.status == 200)
 		{
-			if(callback != null)
+			if(response_callback != null)
 			{
-				callback(xmlHttp.responseText);
+				response_callback(response_callback.responseText); // add parser function
 				return null;
 			}
-				
-			else
-				return xmlHttp.responseText;
+
+//			else
+//				return xmlHttp.responseText;
 		}
     }
-    xmlHttp.open("GET", theUrl, true); // true for asynchronous 
-    xmlHttp.send(null);*/
-	var str = theUrl;
-	str = str.replace('?','');
-	return getDemo(str);
+
+    xhtml_request.send(data);
+
 }
 
 function send_get_time()
@@ -26,7 +33,7 @@ function send_get_time()
     var xhtml_request = new XMLHttpRequest();
     xhtml_request.open("POST", "index.html", true);
     xhtml_request.setRequestHeader("Content-type", "application/json");
-    var data = JSON.stringify({"type": "get", "method": "current_time", "args_count": 0}); //if args count>0 than list with args
+    var data = JSON.stringify({"method": "current_time", "args": ""}); //if args count>0 than list with args
     xhtml_request.send(data);
 }
 
@@ -36,22 +43,6 @@ function on_page_load()
 {
     send_get_time();
 }
-
-//
-//var xhr = new XMLHttpRequest();
-//var url = "url";
-//xhr.open("POST", url, true);
-//xhr.setRequestHeader("Content-type", "application/json");
-//xhr.onreadystatechange = function () {
-//    if (xhr.readyState === 4 && xhr.status === 200) {
-//        var json = JSON.parse(xhr.responseText);
-//        console.log(json.email + ", " + json.password);
-//    }
-//};
-//var data = JSON.stringify({"email": "hey@mail.com", "password": "101010"});
-//xhr.send(data);
-
-
 
 
 function getDemo(parameter)
