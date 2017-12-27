@@ -1,3 +1,10 @@
+var hour;
+var mins;
+var secs;
+var day;
+var month;
+var year;
+
 
 // server side function name with ist args
 function _call_function(func_name, args_list, response_callback)
@@ -28,15 +35,32 @@ function _call_function(func_name, args_list, response_callback)
     }
 
     xhtml_request.send(data);
-
 }
+
+function updateValue(id, val)
+{
+	document.getElementById(id).innerHTML = val;
+}
+
 
 function send_get_time()
 {
     _call_function("get_time", [], function(arg) {
 //        window.alert(arg.date);
-        document.getElementById("ctl_time").innerHTML = ""+arg.time;//arg.time;
-        document.getElementById("ctl_date").innerHTML = ""+arg.data;
+
+        hour = arg.time['hour'];
+        mins = arg.time['mins'];
+        secs = arg.time['secs'];
+
+        day = arg.date['day'];
+        month = arg.date['month'];
+        year = arg.date['year'];
+
+//        updateValue("ctl_time", ""+hour+":"+mins+":"+secs);
+//        updateValue("ctl_date", ""+day+"-"+month+"-"+year);
+////
+//        document.getElementById("ctl_time").innerHTML = ""+arg.time['hour'];//arg.time;
+//        document.getElementById("ctl_date").innerHTML = ""+arg.data['year'];
     })
 }
 
@@ -63,10 +87,30 @@ function httpSetAsync(parameter, val)
     xmlHttp.send(null);
 }
 
-function updateValue(id, val)
+
+
+
+function date_time_refresher()
 {
-	document.getElementById(id).innerHTML = val;
+    secs++;
+    if(secs >= 60)
+    {
+        secs = 0;
+        mins++;
+    }
+
+    if(mins >= 60)
+    {
+        send_get_time();
+    }
+    var shour = ("0" + hour).slice(-2);
+    var smins = ("0" + mins).slice(-2);
+    var ssecs = ("0" + secs).slice(-2);
+
+    updateValue("ctl_time", ""+shour+":"+smins+":"+ssecs);
+    updateValue("ctl_date", ""+day+"-"+month+"-"+year);
 }
+
 
 
 function settingsTemp(temp,enable)
